@@ -1,0 +1,67 @@
+Note 1: jokhon ekta categorie click kora hobe tokhon onno ta automatic close hoye jabe, 
+	aita korate extra scroll use korte hobena.
+
+
+
+
+Categories
+
+
+Men's Fashion
+	T-shirt
+	shirts
+	Panjabi
+	Pants
+	Shoes
+	Accessories
+
+Women's Fashion
+	Saree
+	Traditional Clothing
+	Shalwar Kameez
+	Wemen's Bags
+	Shoes
+	Accessories
+	
+
+Furniture
+	Bedroom
+	Living Room
+	Home Office
+
+
+Health and Beauty
+	Bath & Body
+	Beauty Tools
+	Hair Care
+	Makeup
+	Men's Care
+	Skin Care
+	Medical Supplies
+		First Aid Supplies
+		Health Accessories
+		Health Monitors and Tests
+		Wheelchairs
+
+Electronic Devices
+	Mobiles
+	Tablets
+	Laptops
+	Cameras
+
+
+Food
+	Fruits & Vegetables
+	BreakFast
+	Beverages
+	Meat & Fish
+	Snaks
+	Bread & Bakery
+	
+
+
+
+Your Profile
+Your Orders
+Payment History
+Logout

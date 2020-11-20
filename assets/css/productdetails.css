@@ -1,0 +1,9 @@
+.navbar{
+    background-color: #00BFA6;
+}
+.navbar-nav li{
+    font-size: 1.6rem;
+}
+.productpicture img{
+    width: 50%;
+}
