@@ -64,25 +64,26 @@ $sub_cate = $product->sub_category;
     </nav>
 
     <!-- After bought product msg -->
-<div class="text-success">
-    <?php
+    <div class="text-success">
+        <?php
 
-        if(!empty($_SESSION['shopdone'])){
+        if (!empty($_SESSION['shopdone'])) {
             echo $_SESSION['shopdone'];
             $_SESSION['shopdone'] = "";
         }
-    ?>
-</div>
+        ?>
+    </div>
     <!-- Product -->
-    <div class="row col-12 p-5 ">
+    <div class="row col-12 p-5  bg-light">
         <div class="productpicture col-5 ml-auto">
-            <img src="assets/productsimg/<?php echo $_GET['clicked']; ?>.jpg" >
+            <img src="assets/productsimg/<?php echo $_GET['clicked']; ?>.jpg">
         </div>
         <div class="productpicture col-6 card">
             <?php
-            
+
             if ($row > 0) {
-                echo     "<div class='card-body '>
+                echo
+                    "<div class='card-body '>
 			<p class='card-title h3'> Name : " . $product->name . "</p>
 			<hr>
 			<p class='card-text h3'> Price : " . $product->price . " Tk</p>
