@@ -1,0 +1,23 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.navbar{
+    background-color: #00BFA6;
+}
+.navbar-nav li{
+    font-size: 1.6rem;
+}
+#demo p:hover{
+    cursor: pointer;
+}
+.card-img-top{
+    height: 150px;
+}
+.img img{
+  left: 0;
+  right: 0;
+  display: block;
+  margin: auto;
+}

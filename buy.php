@@ -17,13 +17,14 @@ if (!empty($_GET['clicked'])) {
         $pname = $row->name;
         $category = $row->category;
         $sub_category = $row->sub_category;
-        $price = $row->price;
-        $description = $row->descriptions;
+        $oprice = $row->price;
+        $description = $row->description;
+
+        //special offer 10%
+        $price = $row->price * .10;
+        $offerprice = $row->price - $price;
     }
 }
-?>
-
-<?php
 // checking user details
 if (isset($_POST['proceed'])) {
     $status = "Pending";
@@ -36,17 +37,20 @@ if (isset($_POST['proceed'])) {
     ];
 
 
+
+$price1 = intval($offerprice) * $data['qty'];
+
     if (!empty($data['name']) && !empty($data['email']) && !empty($data['phone']) && !empty($data['address']) && $data['qty'] !== '0') {
 
-        if (empty($_POST['size'])) {
-            if ($source->Query("INSERT INTO `order` (`uid`, `pname`, `qty`, `category`, `sub_category`, `price`, `name`, `email`, `phone`, `address`, `status`) VALUES (?,?,?,?,?,?,?,?,?,?,?)", [$_SESSION['id'], $pname, $data['qty'], $category, $sub_category, $price, $data['name'], $data['email'], $data['phone'], $data['address'], $status])) {
+        if (empty($_SESSION['size'])) {
+            if ($source->Query("INSERT INTO `order` (`pid`,`uid`, `pname`, `qty`, `category`, `sub_category`, `price`, `name`, `email`, `phone`, `address`, `status`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", [$_GET['clicked'],$_SESSION['id'], $pname, $data['qty'], $category, $sub_category, $price1, $data['name'], $data['email'], $data['phone'], $data['address'], $status])) {
 
                 $_SESSION['shoping'] = "Thank you for your shopping";
             } else {
                 $_SESSION['shoping'] = "Something Went Wrong";
             }
         } else {
-            if ($source->Query("INSERT INTO `order` (`uid`, `pname`, `qty`, `size`, `category`, `sub_category`, `price`, `name`, `email`, `phone`, `address`, `status`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", [$_SESSION['id'], $pname, $data['qty'],$_POST['size'], $category, $sub_category, $price, $data['name'], $data['email'], $data['phone'], $data['address'], $status])) {
+            if ($source->Query("INSERT INTO `order` (`pid`,`uid`, `pname`, `qty`, `size`, `category`, `sub_category`, `price`, `name`, `email`, `phone`, `address`, `status`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", [$_GET['clicked'], $_SESSION['id'], $pname, $data['qty'],$_SESSION['size'], $category, $sub_category, $price1, $data['name'], $data['email'], $data['phone'], $data['address'], $status])) {
 
                 $_SESSION['shoping'] = "Thank you for your shopping";
             } else {
@@ -94,13 +98,14 @@ if (isset($_POST['proceed'])) {
                         <a href="#" class="nav-link text-light">Food</a>
                     </li>
                     <li class="nav-item mr-3">
+                    <a href="order.php" class="nav-link text-light">Order</a>
+                </li>
+                    <li class="nav-item mr-3">
                         <button class="btn nav-link bg-primary mt-2 text-light" data-toggle="collapse" data-target="#demo"><?php
                                                                                                                             echo $_SESSION['login_success'];
                                                                                                                             ?></button>
                         <div id="demo" class="collapse mt-1">
                             <a href="profile.php" class="h5 text-light link-unstyled">Profile</a>
-
-                            <a href="#" class="h5 text-light link-unstyled">Order</a>
 
                             <a href="logout.php" class="h5 text-light text-decoration-none">Logout</a>
                         </div>
@@ -111,10 +116,6 @@ if (isset($_POST['proceed'])) {
     </nav>
 
     <!-- test part -->
-
-
-
-
     <div class="text-success">
 
         <?php
@@ -125,9 +126,6 @@ if (isset($_POST['proceed'])) {
         ?>
     </div>
 
-
-
-
     <?php
     //  product detials
     if (!empty($product->sub_category)) {
@@ -136,37 +134,57 @@ if (isset($_POST['proceed'])) {
     ?>
     <!-- show product -->
     <form action="" method="POST">
-        <div class="container-fluid mt-2">
-            <div class="row bg-light">
-                <div class="col-3">
-                    <img src="assets/productsimg/<?php echo $_GET['clicked']; ?>.jpg" style="width: 40%;">
-                </div>
-                <div class="col-2 m-auto">
-                    <b>Name</b> : <?php echo $pname; ?>
-                </div>
-                <div class="col-1 m-auto">
-                    <b>Price</b> : <?php echo $price . " TK"; ?>
-                </div>
-                <hr>
-                <div class="col-3 m-auto">
-                    <b>Description</b> : <?php echo $description; ?>
-                </div>
 
-                <div class="col-3 m-auto">
-                    <p> QTY : <input type="number" name="qty" required value="1"></p>
-                    <p>
-                        <?php
+
+    <div class="container-fluid">
+                <div class="container-fluid bg-light m-auto row mb-4">
+                    <div class="col-md-5 col-lg-2 col-xl-2">
+                      <div class="mb-3 mb-md-0">
+                          
+                        <img class="rounded w-50 m-1"
+                          src="assets/productsimg/<?php echo $_GET['clicked']; ?>.jpg" alt="Sample">
+                      </div>
+                    </div>
+
+                    
+                    <div class="col-md-4 col-lg-2 col-xl-2">
+                      <div>
+                        <div class="d-flex justify-content-between">
+                          <div>
+                            <h5 class="mb-4 text-secondary">Name : <?php echo $pname; ?></h5>
+                             
+                                <?php
                         if ($sub_category == '2' || $sub_category == '5' || $sub_category == '9') {
-                            echo "Size : <input type='text' placeholder='S , M , X , XL , XXL'  name='size' required>";
-                        }
-
-                        ?>
-                    </p>
-
-                </div>
-
+                            if(!empty($_SESSION['size'])){
+                                echo "<p class='mb-3 text-muted text-uppercase small'> Size : ";
+                                echo $_SESSION['size'];
+                            }}
+                        ?> 
+                            </p>
+                            <p class="mb-3 text-muted text-uppercase small"> QTY : <input type="number" name='qty' value="1" ></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-8 col-xl-4 bg-light">
+                       <table class="table m-4">
+                        <tr>
+                            <th>Original Price</th>
+                            <th>Special Price</th>
+                            <th>Disscount</th>
+                            <th>Save</th>
+                        </tr>
+                        <tr>
+                            <th class='text-secondary'><del>TK. <?php echo $oprice; ?></del></th>
+                            <th>TK. <?php echo intval($offerprice); ?></th>
+                            <th>TK. 10%</th>
+                            <th>TK. <?php echo intval($price); ?></th>
+                        </tr>
+                       </table>
+                            
+                    </div>
+                  </div>
             </div>
-
             <!-- User Address -->
 
             <div class="col-6 container-fluid mt-5 ">

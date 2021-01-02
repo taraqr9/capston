@@ -172,3 +172,13 @@
 #demo p:hover{
     cursor: pointer;
 }
+#demo li{
+    list-style: none;
+}
+.mainbody{
+    padding: 5px;
+}
+.card-img-top{
+    height: 250px;
+    width: 200px;
+}

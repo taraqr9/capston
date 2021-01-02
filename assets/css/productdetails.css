@@ -7,3 +7,10 @@
 .productpicture img{
     width: 50%;
 }
+.size input{
+    width: 50px;
+}
+.sizetitle{
+    font-size: 30px;
+    color: black;
+}
