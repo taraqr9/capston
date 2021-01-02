@@ -113,7 +113,8 @@ if (isset($_POST['pending'])) {
                 if(!empty($row->size)){
                   echo "<td>".$row->size."</td>";
                 }else{
-                  echo "<td class='text-danger'>Null</td>";
+                  echo "<td class='text-danger
+                  '>Null</td>";
                 }
                 echo "
                 <td>".$row->price."</td>
