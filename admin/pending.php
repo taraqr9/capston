@@ -1,5 +1,9 @@
 <?php
 include "../init.php";
+
+if(empty($_SESSION['email'])){
+  header("location:index.php");
+}
 if (isset($_POST['admin'])) {
     header("location:admin.php");
 }

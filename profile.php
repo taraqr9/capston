@@ -106,7 +106,7 @@ if (isset($_POST['update'])) {
 /*------------------------------upload profile picture ---------------------------------*/
 if (isset($_POST['uploadbtn'])) {
     if ($_FILES['image']['name'] != '') {
-        $allowed_ext = array("jpg","JPG", "png", "jpeg"); //allowed image extensions
+        $allowed_ext = array("jpg", "JPG", "png", "jpeg"); //allowed image extensions
         $extention = explode('.', $_FILES['image']['name']); //get uploaded file extension
         $ext = end($extention);
         if (in_array($ext, $allowed_ext)) {

@@ -1,5 +1,9 @@
 <?php
 include "../init.php";
+
+if(empty($_SESSION['email'])){
+    header("location:index.php");
+  }
 if (isset($_POST['admin'])) {
     header("location:admin.php");
 }
@@ -20,50 +24,50 @@ if(isset($_POST['adduser'])){
         'email' => $_POST['email'],
         'password' => $_POST['password'],
         'phone' => $_POST['phone'],
+        'address' => $_POST['address'],
+        'gender' => $_POST['gender'],
         'name_error' => '',
         'email_error' => '',
         'password_error' => '',
         'phone_error' => '',
     ];
-/* Checking validations-*/
-    if(empty($data['name'])){
-        $data['name_error'] = "*";
+// /* Checking validations-*/
+if($source->Query("SELECT * FROM userregistration where email = ?",[$data['email']])){
+    if($source->CountRows()>0){
+        $data['email_error'] = "Sorry, this email already exist";
     }
-
-    if(empty($data['email'])){
-        $data['email_error'] = "*"; 
-    }else{
-        if($source->Query("SELECT * FROM userregistration where email = ?",[$data['email']])){
-            if($source->CountRows()>0){
-                $data['email_error'] = "Sorry, this email already exist";
-            }
-        }
-    }
-
-    if(empty($data['password'])){
-        $data['password_error'] = "*";
-    }else if(strlen($data['password'])<5){
+}
+    if(strlen($data['password'])<5){
         $data['password_error'] = "Password is too short";
-    }
-    if(empty($data['phone'])){
-        $data['phone_error'] = "*";
     }
     
 
     // submitting form 
-    if(empty($data['name_error']) && empty($data['email_error']) && empty($data['password_error']) && empty($data['phone_error'])){
-        
-        $password = password_hash($data['password'],PASSWORD_DEFAULT);
-        if($source->Query("INSERT INTO `userregistration` (name,email,password,phone) VALUES (?,?,?,?)",
-        [$data['name'],$data['email'],$password,$data['phone']]
-        )){
-            $user_create = "User account created successfully";
+    // if(empty($data['name_error']) && empty($data['email_error']) && empty($data['password_error']) && empty($data['phone_error'])){
+        if(empty($data['password_error'])){
+            
+
+            if(empty($data['email_error'])){
+                $password = password_hash($data['password'],PASSWORD_DEFAULT);
+                if($source->Query("INSERT INTO `userregistration` (name,email,password,phone,address,gender) VALUES (?,?,?,?,?,?)",
+                [$data['name'],$data['email'],$password,$data['phone'],$data['address'],$_POST['gender']]
+                )){
+                    $user_create = "User account created successfully";
+                }else{
+                    $user_create = "Failed To create user";
+                }
+            }else{
+                $user_create = "This email already in user panel";
+            }
         }else{
-            $user_create = "Failed To create user";
+            $user_create = "Minimum 6 digit password required";
         }
-    }else{
-        $error = "Please full fill the form.";
-    }
+       
+        
+    //     }
+    // }else{
+    //     $error = "Please full fill the form.";
+    // }
 }
 ?>
 
@@ -119,48 +123,38 @@ if(isset($_POST['adduser'])){
         ?>
     </div>
 <!-- add users -->
-
+<form action="" method="POST">
 <?php
     if(!empty($_SESSION['admin_log'])){
         if($_SESSION['admin_log']==1){
             echo "
             <div class='container mt-3 w-100'>
         <form method='POST'>
-            <input type='text' class='form-control w-25 ml-auto' name='name' placeholder='Name'>
+            <input type='text' class='form-control w-25 ml-auto' name='name' placeholder='Name' required>
 
-            <input type='email' class='form-control w-25 mt-2 ml-auto' name='email' placeholder='Email'>
+            <input type='email' class='form-control w-25 mt-2 ml-auto' name='email' placeholder='Email' required>
 
-            <input type='password' class='form-control w-25 mt-2 ml-auto' name='password' placeholder='Password'>
+            <input type='password' class='form-control w-25 mt-2 ml-auto' name='password' placeholder='Password ( 6 digit )' required>
 
-            <input type='number' class='form-control w-25 ml-auto mt-2' name='phone' placeholder='Phone Number'>
+            <input type='number' class='form-control w-25 ml-auto mt-2' name='phone' placeholder='Phone Number' required>
 
-            <input type='submit' class='form-control w-25 mt-2 ml-auto btn btn-block btn-outline-info' name='adduser' value='Add User'>
+            <input type='text' class='form-control w-25 mt-2 ml-auto' name='address' placeholder='Address' required>
+
+            <div class='float-right '>
+                        <input type='radio' name='gender' value='male' checked class = 'mr-auto'> Male 
+                        <input type='radio' name='gender' value='female'> Female
+                    </div>
+
+
+            <input type='submit' class='form-control w-25 mt-4 ml-auto btn btn-block btn-outline-info' name='adduser' value='Add User'>
         </form>
     </div>
-            
-            
-            
+      
             ";
         }
     }
 ?>
-
-
-
-
-    <!-- <div class="container mt-3 w-100">
-        <form method="POST">
-            <input type="text" class="form-control w-25 ml-auto" name="name" placeholder="Name">
-
-            <input type="email" class="form-control w-25 mt-2 ml-auto" name="email" placeholder="Email">
-
-            <input type="password" class="form-control w-25 mt-2 ml-auto" name="password" placeholder="Password">
-
-            <input type="number" class="form-control w-25 ml-auto mt-2" name="phone" placeholder="Cell Number">
-
-            <input type="submit" class="form-control w-25 mt-2 ml-auto btn btn-block btn-outline-info" name="adduser" value="Add User">
-        </form>
-    </div> -->
+</form>
 
 <div class="text-success container display-4 ">
     <?php 

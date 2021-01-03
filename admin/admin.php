@@ -1,15 +1,19 @@
 <?php
 include "../init.php";
-if(isset($_POST['admin'])){
+
+if (empty($_SESSION['email'])) {
+  header("location:index.php");
+}
+if (isset($_POST['admin'])) {
   header("location:admin.php");
 }
-if(isset($_POST['users'])){
+if (isset($_POST['users'])) {
   header("location:users.php");
 }
-if(isset($_POST['approved'])){
+if (isset($_POST['approved'])) {
   header("location:approved.php");
 }
-if(isset($_POST['pending'])){
+if (isset($_POST['pending'])) {
   header("location:pending.php");
 }
 
@@ -32,22 +36,24 @@ if (isset($_POST['addadmin'])) {
     $data['password_error'] = "Password is required";
   }
   // submitting form 
-  if(empty($data['email_error']) && empty($data['password_error'])){
-        
-    $password = password_hash($data['password'],PASSWORD_DEFAULT);
-    if($source->Query("INSERT INTO admin (email,password) VALUES (?,?)",
-    [$data['email'],$password]
-    )){
-        $admin_create = "Admin account created successfully";
+  if (empty($data['email_error']) && empty($data['password_error'])) {
+
+    $password = password_hash($data['password'], PASSWORD_DEFAULT);
+    if ($source->Query(
+      "INSERT INTO admin (email,password) VALUES (?,?)",
+      [$data['email'], $password]
+    )) {
+      $admin_create = "Admin account created successfully";
     }
-}else{
+  } else {
     $error = "Something went wrong";
-}
+  }
 }
 ?>
 
 
 <html>
+
 <head>
   <title>Home</title>
   <meta name="viewpost" content="width=device-width, initial-scale=1.0" />
@@ -60,47 +66,65 @@ if (isset($_POST['addadmin'])) {
 </head>
 
 <body>
-<!-- navbar -->
+  <!-- navbar -->
   <div class="container-fluid sticky-top">
     <div class="row bg-light">
       <h1 class="text-info col-6 text-center m-auto">ADMIN PANEL</h1>
       <div class="col-6 text-center ml-auto mt-2">
         <form action="" method="POST">
-          <input type="submit" value="Admins" name="admin" class="btn btn-outline-info mr-2" />
+          
 
-          <input type="submit" value="Users" name="users" class="btn btn-outline-info mr-2" />
+          
 
-          <input type="submit" value="Approved" name="approved" class="btn btn-outline-info mr-2" />
+          <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Admin
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <button class="dropdown-item" type="button"><input type="submit" value="Admins" name="admin" class="btn btn-outline-info col-12" /></button>
+            <button class="dropdown-item" type="button"><input type="submit" value="Users" name="users" class="btn btn-outline-info col-12" /></button>
+          </div>
+          
+          <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Order
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <button class="dropdown-item" type="button"><input type="submit" value="Approved" name="approved" class="btn btn-outline-info col-12" /></button>
+            <button class="dropdown-item" type="button"><input type="submit" value="Pending" name="pending" class="btn btn-outline-info col-12" /></button>
+          </div>
+          
 
-          <input type="submit" value="Pending" name="pending" class="btn btn-outline-info mr-2" />
+          
 
           <a href="logout.php" class="btn btn-outline-info mr-2">Logout</a>
+
+
+          
         </form>
       </div>
     </div>
   </div>
-<!-- success or error message -->
+  <!-- success or error message -->
   <div class="container text-success m-auto">
-        <?php
-        if (!empty($admin_create)) {
-            echo $admin_create;
-            $admin_create = "";
-        }
-        ?>
-    </div>
-    <div class="text-danger m-auto">
-        <?php
-        if (!empty($error)) {
-            echo $error;
-            $error = "";
-        }
-        ?>
-    </div>
-<!-- add admin -->
+    <?php
+    if (!empty($admin_create)) {
+      echo $admin_create;
+      $admin_create = "";
+    }
+    ?>
+  </div>
+  <div class="text-danger m-auto">
+    <?php
+    if (!empty($error)) {
+      echo $error;
+      $error = "";
+    }
+    ?>
+  </div>
+  <!-- add admin -->
 
-<?php
-  if(!empty($_SESSION['admin_log'])){
-    if($_SESSION['admin_log']=='1'){
+  <?php
+  if (!empty($_SESSION['admin_log'])) {
+    if ($_SESSION['admin_log'] == '1') {
       echo "
       <div class='container mt-3 mb-3 w-100'>
     <form method='POST'>
@@ -115,10 +139,10 @@ if (isset($_POST['addadmin'])) {
       ";
     }
   }
-?>
+  ?>
 
-<!-- show admins -->
-<div class="container-fluid">
+  <!-- show admins -->
+  <div class="container-fluid">
     <div class="container">
       <table class="table table-hover">
         <thead>
@@ -130,22 +154,22 @@ if (isset($_POST['addadmin'])) {
         </thead>
         <tbody>
           <?php
-            $query = $source->Query("SELECT * FROM admin");
-            $details = $source->FetchAll();
-            $numrow = $source->CountRows();
-            
-            if($numrow>0){
-              foreach($details as $row):
-             
-                echo "
+          $query = $source->Query("SELECT * FROM admin");
+          $details = $source->FetchAll();
+          $numrow = $source->CountRows();
+
+          if ($numrow > 0) {
+            foreach ($details as $row) :
+
+              echo "
                 <tr>
-                <td>".$row->id."</td>
-                <td>".$row->email."</td>
-                <td>".$row->password."</td>
+                <td>" . $row->id . "</td>
+                <td>" . $row->email . "</td>
+                <td>" . $row->password . "</td>
                 </tr>";
 
-              endforeach;
-            }   
+            endforeach;
+          }
           ?>
         </tbody>
       </table>
