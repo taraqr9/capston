@@ -70,20 +70,25 @@ if (isset($_POST['addadmin'])) {
   <div class="container-fluid sticky-top">
     <div class="row bg-light">
       <h1 class="text-info col-6 text-center m-auto">ADMIN PANEL</h1>
-      <div class="col-6 text-center ml-auto mt-2">
+      <div class="col-6  mt-3">
         <form action="" method="POST">
           
 
           
-
-          <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="row ml-5">
+        <div class="mr-2">
+        <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Admin
           </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
             <button class="dropdown-item" type="button"><input type="submit" value="Admins" name="admin" class="btn btn-outline-info col-12" /></button>
             <button class="dropdown-item" type="button"><input type="submit" value="Users" name="users" class="btn btn-outline-info col-12" /></button>
           </div>
-          
+          </div>
+
+
+
+          <div class="mr-2">
           <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Order
           </button>
@@ -92,10 +97,13 @@ if (isset($_POST['addadmin'])) {
             <button class="dropdown-item" type="button"><input type="submit" value="Pending" name="pending" class="btn btn-outline-info col-12" /></button>
           </div>
           
-
+          </div>
+          <a href="logout.php" class="btn btn-outline-info mr-2">Logout</a>
+        </div>
+         
           
 
-          <a href="logout.php" class="btn btn-outline-info mr-2">Logout</a>
+          
 
 
           
