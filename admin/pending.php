@@ -66,33 +66,31 @@ if (isset($_POST['pending'])) {
         <thead>
           <tr>
           
-            <th class="col-1">Title</th>
-            <th class="col-1">Date To</th>
-            <th class="col-1">Date Form</th>
-            <th class="col-1">Time To</th>
-            <th class="col-1">Time Form</th>
-            <th class="col-1">Decoration</th>
-            <th class="col-1">Chair</th>
-            <th class="col-1">Food</th>
-            <th class="col-1">Food Platter</th>
+          <th class="col-1">Order Id</th>
+            <th class="col-1">Product Id</th>
+            <th class="col-1">User Id</th>
+            <th class="col-1">QTY</th>
+            <th class="col-1">Size</th>
+            <th class="col-1">Price</th>
+            <th class="col-1">Name</th>
             <th class="col-1">Address</th>
-            <th class="col-1">Mobile</th>
+            <th class="col-1">Phone</th>
             <th class="col-1">Email</th>
             <th class="col-1">Approval</th>
           </tr>
         </thead>
         <tbody>
           <?php
-            $query = $source->Query("SELECT * FROM event where approval='pending'");
+            $query = $source->Query("SELECT * FROM `order` where status='pending'");
             $details = $source->FetchAll();
             $numrow = $source->CountRows();
             if($numrow>0){
               foreach($details as $row):
                 
-            if($row->approval==='Pending'){
-              $app = "<a href='delete.php?delete=".$row->id."' class='btn btn-outline-danger mt-2'> Delete</a>";
+            if($row->status==='Pending'){
+              $app = "<a href='delete.php?deleteorder=".$row->oid."' class='btn btn-outline-danger mt-2'> Delete</a>";
               $approval_text="class = text-warning";
-            }elseif($row->approval==='Canceled'){
+            }elseif($row->status==='Canceled'){
                 $approval_text="class = text-danger";
             }else{
               $app = "";
@@ -104,20 +102,24 @@ if (isset($_POST['pending'])) {
                 echo "
                 <tr>
                 
-                <td>".$row->title."</td>
-                <td>".$row->dateto."</td>
-                <td>".$row->dateform."</td>
-                <td>".$row->timeto."</td>
-                <td>".$row->timeform."</td>
-                <td>".$row->decoration."</td>
-                <td>".$row->chair."</td>
-                <td>".$row->food."</td>
-                <td>".$row->foodplatter."</td>
+                <td class='border-right'>".$row->oid."</td>
+                <td>".$row->pid."</td>
+                <td>".$row->uid."</td>
+                <td>".$row->qty."</td>";
+                if(!empty($row->size)){
+                  echo "<td>".$row->size."</td>";
+                }else{
+                  echo "<td class='text-danger
+                  '>Null</td>";
+                }
+                echo "
+                <td>".$row->price."</td>
+                <td>".$row->name."</td>
                 <td>".$row->address."</td>
-                <td>".$row->mobile."</td>
+                <td>".$row->phone."</td>
                 <td>".$row->email."</td>
-                <td ".$approval_text.">".$row->approval."</td>
-                <td>"."<a href='approvedsql.php?approval=".$row->id."' class='btn btn-outline-success mt-2'> Approve</a>".$app." </td>
+                <td ".$approval_text.">".$row->status."</td>
+                <td>"."<a href='approvedsql.php?approval=".$row->oid."' class='btn btn-outline-success mt-2'> Approve</a>".$app." </td>
                 </tr>";
 
               endforeach;

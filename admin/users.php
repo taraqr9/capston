@@ -54,10 +54,12 @@ if(isset($_POST['adduser'])){
     if(empty($data['name_error']) && empty($data['email_error']) && empty($data['password_error']) && empty($data['phone_error'])){
         
         $password = password_hash($data['password'],PASSWORD_DEFAULT);
-        if($source->Query("INSERT INTO user (name,email,password,phone) VALUES (?,?,?,?)",
+        if($source->Query("INSERT INTO `userregistration` (name,email,password,phone) VALUES (?,?,?,?)",
         [$data['name'],$data['email'],$password,$data['phone']]
         )){
             $user_create = "User account created successfully";
+        }else{
+            $user_create = "Failed To create user";
         }
     }else{
         $error = "Please full fill the form.";
@@ -130,7 +132,7 @@ if(isset($_POST['adduser'])){
 
             <input type='password' class='form-control w-25 mt-2 ml-auto' name='password' placeholder='Password'>
 
-            <input type='number' class='form-control w-25 ml-auto mt-2' name='phone' placeholder='Cell Number'>
+            <input type='number' class='form-control w-25 ml-auto mt-2' name='phone' placeholder='Phone Number'>
 
             <input type='submit' class='form-control w-25 mt-2 ml-auto btn btn-block btn-outline-info' name='adduser' value='Add User'>
         </form>
@@ -160,7 +162,7 @@ if(isset($_POST['adduser'])){
         </form>
     </div> -->
 
-<div class="text-primary">
+<div class="text-success container display-4 ">
     <?php 
         if(!empty($_SESSION['delete_user'])){
             echo $_SESSION['delete_user'];
@@ -193,7 +195,7 @@ if(isset($_POST['adduser'])){
 
                 if(!empty($_SESSION['admin_log'])){
                     if($_SESSION['admin_log']==1){
-                        $delete = "<td> <a href='delete.php?delete=".$row->id."' class='btn btn-outline-danger mt-2'> Delete</a> </td>";
+                        $delete = "<td> <a href='delete.php?deleteuser=".$row->id."' class='btn btn-outline-danger mt-2'> Delete</a> </td>";
                     }else{
                         $delete = "";
                     }

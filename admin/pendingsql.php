@@ -2,7 +2,7 @@
 include("../init.php");
 
 $approval = "Pending";
-$query = $source->Query("UPDATE event SET approval=? where id=?",[$approval,$_GET['pending']]);
+$query = $source->Query("UPDATE `order` SET status=? where oid=?",[$approval,$_GET['pending']]);
 if($query){
     $_SESSION['pending_user'] = "User Pending Successfully";
     header("location:pending.php");

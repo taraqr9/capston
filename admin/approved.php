@@ -123,7 +123,7 @@ if (isset($_POST['pending'])) {
                 <td>".$row->phone."</td>
                 <td>".$row->email."</td>
                 <td ".$approval_text.">".$row->status."</td>
-                <td>"."<a href='pendingsql.php?pending=".$row->oid."' class='btn btn-outline-warning text-warning mt-2'> Pending</a>".$app." </td>
+                <td>"."<a href='pendingsql.php?pending=".$row->oid."' class=' btn btn-outline-warning text-dark mt-2'> Pending</a>".$app." </td>
                 </tr>";
 
               endforeach;
