@@ -11,6 +11,7 @@ if (isset($_POST['profile'])) {
 
 <?php
 
+
 if (!empty($_GET['clicked'])) {
     if ($source->Query("SELECT * FROM products WHERE id=?", [$_GET['clicked']])) {
         $row = $source->SingleRow();
@@ -36,25 +37,33 @@ if (isset($_POST['proceed'])) {
         'qty' => $_POST['qty']
     ];
 
-
-
-$price1 = intval($offerprice) * $data['qty'];
-
-    if (!empty($data['name']) && !empty($data['email']) && !empty($data['phone']) && !empty($data['address']) && $data['qty'] !== '0') {
-
-        if (empty($_SESSION['size'])) {
-            if ($source->Query("INSERT INTO `order` (`pid`,`uid`, `pname`, `qty`, `category`, `sub_category`, `price`, `name`, `email`, `phone`, `address`, `status`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", [$_GET['clicked'],$_SESSION['id'], $pname, $data['qty'], $category, $sub_category, $price1, $data['name'], $data['email'], $data['phone'], $data['address'], $status])) {
-
-                $_SESSION['shoping'] = "Thank you for your shopping";
-            } else {
-                $_SESSION['shoping'] = "Something Went Wrong";
-            }
+    if (!empty($_GET['qty'])) {
+        $pqty = $_GET['qty'];
+        if ($pqty >= $data['qty']) {
+            $uqty = $pqty - $data['qty'];
         } else {
-            if ($source->Query("INSERT INTO `order` (`pid`,`uid`, `pname`, `qty`, `size`, `category`, `sub_category`, `price`, `name`, `email`, `phone`, `address`, `status`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", [$_GET['clicked'], $_SESSION['id'], $pname, $data['qty'],$_SESSION['size'], $category, $sub_category, $price1, $data['name'], $data['email'], $data['phone'], $data['address'], $status])) {
+            $qty_error = "We dont have sufficiant quantity that you want";
+        }
+    }
 
-                $_SESSION['shoping'] = "Thank you for your shopping";
+
+    $price1 = intval($offerprice) * $data['qty'];
+    if (empty($qty_error)) {
+        if (!empty($data['name']) && !empty($data['email']) && !empty($data['phone']) && !empty($data['address']) && $data['qty'] !== '0') {
+            if (empty($_SESSION['size'])) {
+                if ($source->Query("INSERT INTO `order` (`pid`,`uid`, `pname`, `qty`, `category`, `sub_category`, `price`, `name`, `email`, `phone`, `address`, `status`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", [$_GET['clicked'], $_SESSION['id'], $pname, $data['qty'], $category, $sub_category, $price1, $data['name'], $data['email'], $data['phone'], $data['address'], $status])) {
+                    $source->Query("UPDATE `products` set qty = ? where id = ?", [$uqty, $_GET['clicked']]);
+                    $_SESSION['shoping'] = "Thank you for your shopping";
+                } else {
+                    $_SESSION['shoping'] = "Something Went Wrong1";
+                }
             } else {
-                $_SESSION['shoping'] = "Something Went Wrong";
+                if ($source->Query("INSERT INTO `order` (`pid`,`uid`, `pname`, `qty`, `size`, `category`, `sub_category`, `price`, `name`, `email`, `phone`, `address`, `status`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", [$_GET['clicked'], $_SESSION['id'], $pname, $data['qty'], $_SESSION['size'], $category, $sub_category, $price1, $data['name'], $data['email'], $data['phone'], $data['address'], $status])) {
+                    $source->Query("UPDATE `products` set qty = ? where id = ?", [$uqty, $_GET['clicked']]);
+                    $_SESSION['shoping'] = "Thank you for your shopping";
+                } else {
+                    $_SESSION['shoping'] = "Something Went Wrong2";
+                }
             }
         }
     }
@@ -98,8 +107,8 @@ $price1 = intval($offerprice) * $data['qty'];
                         <a href="#" class="nav-link text-light">Food</a>
                     </li>
                     <li class="nav-item mr-3">
-                    <a href="order.php" class="nav-link text-light">Order</a>
-                </li>
+                        <a href="order.php" class="nav-link text-light">Order</a>
+                    </li>
                     <li class="nav-item mr-3">
                         <button class="btn nav-link bg-primary mt-2 text-light" data-toggle="collapse" data-target="#demo"><?php
                                                                                                                             echo $_SESSION['login_success'];
@@ -117,11 +126,18 @@ $price1 = intval($offerprice) * $data['qty'];
 
     <!-- test part -->
     <div class="text-success">
-
         <?php
         if (!empty($_SESSION['shoping'])) {
             echo $_SESSION['shoping'];
             $_SESSION['shoping'] = "";
+        }
+        ?>
+    </div>
+    <div class="text-warning">
+        <?php
+        if (!empty($qty_error)) {
+            echo $qty_error;
+            $qty_error = "";
         }
         ?>
     </div>
@@ -136,38 +152,38 @@ $price1 = intval($offerprice) * $data['qty'];
     <form action="" method="POST">
 
 
-    <div class="container-fluid">
-                <div class="container-fluid bg-light m-auto row mb-4">
-                    <div class="col-md-5 col-lg-2 col-xl-2">
-                      <div class="mb-3 mb-md-0">
-                          
-                        <img class="rounded w-50 m-1"
-                          src="assets/productsimg/<?php echo $_GET['clicked']; ?>.jpg" alt="Sample">
-                      </div>
-                    </div>
+        <div class="container-fluid">
+            <div class="container-fluid bg-light m-auto row mb-4">
+                <div class="col-md-5 col-lg-2 col-xl-2">
+                    <div class="mb-3 mb-md-0">
 
-                    
-                    <div class="col-md-4 col-lg-2 col-xl-2">
-                      <div>
-                        <div class="d-flex justify-content-between">
-                          <div>
-                            <h5 class="mb-4 text-secondary">Name : <?php echo $pname; ?></h5>
-                             
-                                <?php
-                        if ($sub_category == '2' || $sub_category == '5' || $sub_category == '9') {
-                            if(!empty($_SESSION['size'])){
-                                echo "<p class='mb-3 text-muted text-uppercase small'> Size : ";
-                                echo $_SESSION['size'];
-                            }}
-                        ?> 
-                            </p>
-                            <p class="mb-3 text-muted text-uppercase small"> QTY : <input type="number" name='qty' value="1" ></p>
-                          </div>
-                        </div>
-                      </div>
+                        <img class="rounded w-50 m-1" src="assets/productsimg/<?php echo $_GET['clicked']; ?>.jpg" alt="Sample">
                     </div>
-                    <div class="col-lg-8 col-xl-4 bg-light">
-                       <table class="table m-4">
+                </div>
+
+
+                <div class="col-md-4 col-lg-2 col-xl-2">
+                    <div>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h5 class="mb-4 text-secondary">Name : <?php echo $pname; ?></h5>
+
+                                <?php
+                                if ($sub_category == '2' || $sub_category == '5' || $sub_category == '9') {
+                                    if (!empty($_SESSION['size'])) {
+                                        echo "<p class='mb-3 text-muted text-uppercase small'> Size : ";
+                                        echo $_SESSION['size'];
+                                    }
+                                }
+                                ?>
+                                </p>
+                                <p class="mb-3 text-muted text-uppercase small"> QTY : <input type="number" name='qty' value="1"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-xl-4 bg-light">
+                    <table class="table m-4">
                         <tr>
                             <th>Original Price</th>
                             <th>Special Price</th>
@@ -180,31 +196,31 @@ $price1 = intval($offerprice) * $data['qty'];
                             <th>TK. 10%</th>
                             <th>TK. <?php echo intval($price); ?></th>
                         </tr>
-                       </table>
-                            
-                    </div>
-                  </div>
-            </div>
-            <!-- User Address -->
+                    </table>
 
-            <div class="col-6 container-fluid mt-5 ">
-                <div class="entertaiment">
-                    <input type="text" name="name" class="form-control col-5" placeholder="Name" required>
-                    <input type="email" name="email" class="form-control col-5 mt-2" placeholder="Email" required>
-                    <input type="phone" name="phone" class="form-control col-5 mt-2" placeholder="Phone Number" required>
-                    <input type="text" name="address" class="form-control col-5 mt-2" placeholder="Address" required>
-                    <div class="row container m-center mt-5">
-                        <p><input type="checkbox" checked> Cash On Delivery</p>
-                    </div>
-                    <hr class="bg-success">
                 </div>
             </div>
+        </div>
+        <!-- User Address -->
 
-            <div class="container mt-5 text-left">
-                <a href="#" style="text-decoration:none; color: black; margin-left:90px;">
-                    <input type="submit" name="proceed" value="Proceed To Buy" class="btn btn-outline-success col-3">
-                </a>
+        <div class="col-6 container-fluid mt-5 ">
+            <div class="entertaiment">
+                <input type="text" name="name" class="form-control col-5" placeholder="Name" required>
+                <input type="email" name="email" class="form-control col-5 mt-2" placeholder="Email" required>
+                <input type="phone" name="phone" class="form-control col-5 mt-2" placeholder="Phone Number" required>
+                <input type="text" name="address" class="form-control col-5 mt-2" placeholder="Address" required>
+                <div class="row container m-center mt-5">
+                    <p><input type="checkbox" checked> Cash On Delivery</p>
+                </div>
+                <hr class="bg-success">
             </div>
+        </div>
+
+        <div class="container mt-5 text-left">
+            <a href="#" style="text-decoration:none; color: black; margin-left:90px;">
+                <input type="submit" name="proceed" value="Proceed To Buy" class="btn btn-outline-success col-3">
+            </a>
+        </div>
 
     </form>
 

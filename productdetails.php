@@ -12,6 +12,7 @@ if (!empty($_GET['clicked'])) {
     $query = $source->Query("SELECT * FROM products WHERE id=?", [$_GET['clicked']]);
     $product = $source->SingleRow();
     $row = $source->CountRows();
+    $qty = $product->qty;
     $img = $product->image;
     $sub_cate = $product->sub_category;
     $category = $product->category;
@@ -19,6 +20,7 @@ if (!empty($_GET['clicked'])) {
     $query = $source->Query("SELECT * FROM products WHERE id=?", [$_SESSION['pid']]);
     $product = $source->SingleRow();
     $row = $source->CountRows();
+    $qty = $product->qty;
     $img = $product->image;
     $sub_cate = $product->sub_category;
     $category = $product->category;
@@ -105,11 +107,6 @@ $offerprice = $product->price - $price;
             </div>
         </div>
     </nav>
-
-    <!-- test -->
-
-
-
     <!-- After bought product msg -->
     <div class="text-success bg-light h3">
         <?php
@@ -170,15 +167,19 @@ $offerprice = $product->price - $price;
                 <input type='submit' name='xl' value='XL' class='btn btn-outline-secondary ml-2 p-1'>               
                 <input type='submit' name='xxl' value='XXL' class='btn btn-outline-secondary ml-2 p-1'> </p>
                 ";
+                    }else{
+                        $_SESSION['size'] = '';
                     }
 
                     echo "
-                    
+                
+                <hr>
+                <p class='h5 font-weight-normal text-dark '>Product Left : <span class='text-dark'>" . $qty . "</span></p>
                 <hr>
                 <h4>Description : </h4>
                 <p class='text-justify'>" . $product->description . "</p>
                 <div class='row ml-0 mb-2'>
-                <a href='buy.php?clicked=" . $product->id . "' class='btn btn-outline-success'>Buy Now</a>
+                <a href='buy.php?clicked=" . $product->id . "&qty=".$qty."' class='btn btn-outline-success'>Buy Now</a>
                 <a href='php/addtocart.php?addtocart=" . $product->id . "' class='btn text-light bg-primary ml-2'>Add to Cart </a>
                 </div>
                 ";

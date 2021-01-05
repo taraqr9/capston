@@ -25,7 +25,7 @@ else{
         $price = $product->price;
         $sub_cate = $product->sub_category;
         $category = $product->category;
-        // ekhane sub cate dekhe size ta db te add korte hobe
+        
         if ($sub_cate == '2' || $sub_cate == '5' || $sub_cate == '9'){
             if ($source->Query("INSERT INTO `cart` (`pid`, `uid`,`pname`,`size`,`category`,`sub_category`,`price`) VALUES (?,?,?,?,?,?,?)", [$_GET['addtocart'],$_SESSION['id'],$pname,$size,$category,$sub_cate,$price])){
                 
