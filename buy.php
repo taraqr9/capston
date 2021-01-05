@@ -124,7 +124,7 @@ if (isset($_POST['proceed'])) {
         </div>
     </nav>
 
-    <!-- test part -->
+    <!-- Notification Bar -->
     <div class="text-success">
         <?php
         if (!empty($_SESSION['shoping'])) {
