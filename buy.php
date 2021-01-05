@@ -42,7 +42,7 @@ if (isset($_POST['proceed'])) {
         if ($pqty >= $data['qty']) {
             $uqty = $pqty - $data['qty'];
         } else {
-            $qty_error = "We dont have sufficiant quantity that you want";
+            $qty_error = "<div class='text-danger'>We dont have sufficiant quantity that you want</div>";
         }
     }
 
@@ -52,17 +52,21 @@ if (isset($_POST['proceed'])) {
         if (!empty($data['name']) && !empty($data['email']) && !empty($data['phone']) && !empty($data['address']) && $data['qty'] !== '0') {
             if (empty($_SESSION['size'])) {
                 if ($source->Query("INSERT INTO `order` (`pid`,`uid`, `pname`, `qty`, `category`, `sub_category`, `price`, `name`, `email`, `phone`, `address`, `status`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", [$_GET['clicked'], $_SESSION['id'], $pname, $data['qty'], $category, $sub_category, $price1, $data['name'], $data['email'], $data['phone'], $data['address'], $status])) {
+
                     $source->Query("UPDATE `products` set qty = ? where id = ?", [$uqty, $_GET['clicked']]);
-                    $_SESSION['shoping'] = "Thank you for your shopping";
+
+                    $_SESSION['shoping'] = "<div class='text-success'>Thank you for your shopping</div>";
                 } else {
-                    $_SESSION['shoping'] = "Something Went Wrong1";
+                    $_SESSION['shoping'] = "<div class='text-danger'>Something Went Wrong</div>";
                 }
             } else {
                 if ($source->Query("INSERT INTO `order` (`pid`,`uid`, `pname`, `qty`, `size`, `category`, `sub_category`, `price`, `name`, `email`, `phone`, `address`, `status`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", [$_GET['clicked'], $_SESSION['id'], $pname, $data['qty'], $_SESSION['size'], $category, $sub_category, $price1, $data['name'], $data['email'], $data['phone'], $data['address'], $status])) {
+
                     $source->Query("UPDATE `products` set qty = ? where id = ?", [$uqty, $_GET['clicked']]);
-                    $_SESSION['shoping'] = "Thank you for your shopping";
+
+                    $_SESSION['shoping'] = "<div class='text-success'>Thank you for your shopping</div>";
                 } else {
-                    $_SESSION['shoping'] = "Something Went Wrong2";
+                    $_SESSION['shoping'] = "<div class='text-danger'>Something Went Wrong</div>";
                 }
             }
         }
@@ -125,22 +129,16 @@ if (isset($_POST['proceed'])) {
     </nav>
 
     <!-- Notification Bar -->
-    <div class="text-success">
         <?php
         if (!empty($_SESSION['shoping'])) {
             echo $_SESSION['shoping'];
             $_SESSION['shoping'] = "";
         }
-        ?>
-    </div>
-    <div class="text-warning">
-        <?php
         if (!empty($qty_error)) {
             echo $qty_error;
             $qty_error = "";
         }
         ?>
-    </div>
 
     <?php
     //  product detials
