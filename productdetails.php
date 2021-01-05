@@ -1,3 +1,5 @@
+<!-- //Some changes will happen -->
+
 <?php include "init.php";
 if (isset($_POST['profile'])) {
     header('location:prfile.php');
