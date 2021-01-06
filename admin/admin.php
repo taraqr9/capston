@@ -10,8 +10,8 @@ if (isset($_POST['admin'])) {
 if (isset($_POST['users'])) {
   header("location:users.php");
 }
-if (isset($_POST['approved'])) {
-  header("location:approved.php");
+if (isset($_POST['product'])) {
+  header("location:product/product.php");
 }
 if (isset($_POST['pending'])) {
   header("location:pending.php");
@@ -93,7 +93,7 @@ if (isset($_POST['addadmin'])) {
             Product
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-            <button class="dropdown-item" type="button"><input type="submit" value="Products" name="approved" class="btn btn-outline-info col-12" /></button>
+            <button class="dropdown-item" type="button"><input type="submit" value="Products" name="product" class="btn btn-outline-info col-12" /></button>
             <button class="dropdown-item" type="button"><input type="submit" value="Add Products" name="pending" class="btn btn-outline-info col-12" /></button>
           </div>
           </div>
