@@ -187,6 +187,12 @@ if (isset($_POST['1'])) {
                     <!-- Submit Form -->
                     <input type="submit" name="addproduct" value="Add Product" class="form-control col-3 mt-3 btn btn-outline-info">
                 </div>
+
+                <?php 
+                    if($_POST['addproduct']){
+                        echo $_SESSION['cate']."<br>".$_SESSION['sub_cate'];
+                    }
+                ?>
             </div>
         </div>
     </form>
