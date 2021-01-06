@@ -217,9 +217,10 @@ echo $filename = $_FILES['image']['name'];
             <div class="userinfo">
                 <div class="input">
                     <h4>Full Name</h4> <input type="text" name="full_name" value="<?php echo $name; ?>">
-                    <h5 class="error"> <?php if (!empty($data['name_error'])) {
-                                            echo $data['name_error'];
-                                        } ?></h5>
+                    <h5 class="error">
+                        <?php if (!empty($data['name_error'])) {
+                            echo $data['name_error'];
+                        } ?></h5>
                 </div>
                 <div class="input">
                     <h4>Email</h4> <input type="email" name="email" value="<?php echo $email; ?>">

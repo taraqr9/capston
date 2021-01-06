@@ -241,7 +241,7 @@ if (isset($_POST['addadmin'])) {
             echo "
                     <div class='container mt-3 mb-3 w-100'>
                     <form method='POST'>
-                    <input type='submit' class='form-control col-3 mt-2 ml-auto btn btn-block btn-outline-info' name='addproduct' value='Add Product'>
+                    <a href='addproducts.php' class='form-control col-3 mt-2 ml-auto btn btn-block btn-outline-info'>Add Product</a>
                     </form>
                     </div>";
         }

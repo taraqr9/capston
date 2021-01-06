@@ -31,8 +31,6 @@ if (isset($_POST['1'])) {
     $_SESSION['cate'] = 19;
 } else if (isset($_POST['24'])) {
     $_SESSION['cate'] = 24;
-} else {
-    $_SESSION['cate'] = "None";
 }
 // Sub Category
 if (isset($_POST['1'])) {
@@ -45,8 +43,45 @@ if (isset($_POST['1'])) {
     $_SESSION['cate'] = 19;
 } else if (isset($_POST['24'])) {
     $_SESSION['cate'] = 24;
-} else {
-    $_SESSION['cate'] = "None";
+}
+
+if(isset($_POST['addproducts'])){
+    $row = $source->Query("SELECT * FROM products");
+    $fetch = $source->FetchAll();
+    $numrow = $source->CountRows()+1+"jpg";
+    
+
+    if ($_FILES['image']['name'] != '') {
+        $allowed_ext = array("jpg"); //allowed image extensions
+        $extention = explode('.', $_FILES['image']['name']); //get uploaded file extension
+        $ext = end($extention);
+        if (in_array($ext, $allowed_ext)) {
+            if ($_FILES['image']['size'] < 2097152) {
+                $img_name = $numrow . '.' . $ext; //rename the file name
+                $path = "assets/productsimg/" . $img_name; //file upload loaction
+                $image = $_FILES['image']['name'];
+                move_uploaded_file($_FILES['image']['tmp_name'], $path);
+                header("location:profile.php?file-name=" . $img_name . "");
+            } else {
+                $imageError = 'File is too big';
+            }
+        } else {
+            $imageError = 'Only JPG image file';
+        }
+    } else {
+        $imageError = 'Please select a image file';
+    }
+
+    if (isset($_POST['uploadbtn'])) {
+
+        //checking validation.....
+        if(!empty($_POST['productname']) && !empty($_POST['price']) && !empty($_POST['qty']) && !empty($_POST['description']) && !empty($_SESSION['cate']) && !empty($_SESSION['sub_cate'])){
+            if($source->Query("INSERT INTO `products` (name,price,qty,description,image,category,sub_category) VALUES (?,?,?,?,?,?,?)",$_POST['productname'],$_POST['price'],$_POST['qty'],$_POST['description'],$numrow,$_SESSION['cate'],$_SESSION['sub_cate'])){
+                $_SESSION['addproduct'] = "<div class='text-success'>Product Added Successfully</div>";
+            }
+        }
+        
+    }
 }
 ?>
 
@@ -114,7 +149,13 @@ if (isset($_POST['1'])) {
             </div>
         </div>
     </div>
-
+    <!-- Afte added success or failed message  -->
+    <?php
+        if(!empty($_SESSION['addproduct'])){
+            echo $_SESSION['addproduct'];
+            $_SESSION['addproduct'];
+        }
+    ?>
     <!-- Product details  -->
     <form action="" method="POST">
         <div class="div container">
@@ -137,13 +178,13 @@ if (isset($_POST['1'])) {
 
                 <!-- product details -->
                 <div class="col-8">
-                    <input type="text" placeholder="Product Name" class="form-control col-5">
+                    <input type="text" name="productname" placeholder="Product Name" class="form-control col-5">
 
                     <div class="row col-6 mr-auto mt-2">
-                        <input type="number" placeholder="Price" class="form-control col-5">
-                        <input type="number" placeholder="Quantity" class="form-control col-5 ml-4">
+                        <input type="number" name="price" placeholder="Price" class="form-control col-5">
+                        <input type="number" name="qty" placeholder="Quantity" class="form-control col-5 ml-4">
                     </div>
-                    <input type="text" placeholder="Description" class="form-control col-5 h-100 mt-2">
+                    <input type="text" name="description" placeholder="Description" class="form-control col-5 h-100 mt-2">
 
 
                     <!-- Category and sub category -->
@@ -187,12 +228,6 @@ if (isset($_POST['1'])) {
                     <!-- Submit Form -->
                     <input type="submit" name="addproduct" value="Add Product" class="form-control col-3 mt-3 btn btn-outline-info">
                 </div>
-
-                <?php 
-                    if($_POST['addproduct']){
-                        echo $_SESSION['cate']."<br>".$_SESSION['sub_cate'];
-                    }
-                ?>
             </div>
         </div>
     </form>
