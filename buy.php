@@ -57,7 +57,9 @@ if (isset($_POST['proceed'])) {
 
                     $_SESSION['shoping'] = "<div class='text-success'>Thank you for your shopping</div>";
                 } else {
-                    $_SESSION['shoping'] = "<div class='text-danger'>Something Went Wrong</div>";
+                    $_SESSION['shoping'] = "<div class='text-danger'>Something Went Wrong 1</div>
+                    
+                    ".error_reporting(E_ALL);
                 }
             } else {
                 if ($source->Query("INSERT INTO `order` (`pid`,`uid`, `pname`, `qty`, `size`, `category`, `sub_category`, `price`, `name`, `email`, `phone`, `address`, `status`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", [$_GET['clicked'], $_SESSION['id'], $pname, $data['qty'], $_SESSION['size'], $category, $sub_category, $price1, $data['name'], $data['email'], $data['phone'], $data['address'], $status])) {
@@ -66,7 +68,7 @@ if (isset($_POST['proceed'])) {
 
                     $_SESSION['shoping'] = "<div class='text-success'>Thank you for your shopping</div>";
                 } else {
-                    $_SESSION['shoping'] = "<div class='text-danger'>Something Went Wrong</div>";
+                    $_SESSION['shoping'] = "<div class='text-danger'>Something Went Wrong</div>".error_reporting(E_ALL);
                 }
             }
         }
