@@ -90,13 +90,22 @@ if (isset($_POST['addadmin'])) {
 
           <div class="mr-2">
           <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Product
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <button class="dropdown-item" type="button"><input type="submit" value="Products" name="approved" class="btn btn-outline-info col-12" /></button>
+            <button class="dropdown-item" type="button"><input type="submit" value="Add Products" name="pending" class="btn btn-outline-info col-12" /></button>
+          </div>
+          </div>
+
+          <div class="mr-2">
+          <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Order
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
             <button class="dropdown-item" type="button"><input type="submit" value="Approved" name="approved" class="btn btn-outline-info col-12" /></button>
             <button class="dropdown-item" type="button"><input type="submit" value="Pending" name="pending" class="btn btn-outline-info col-12" /></button>
           </div>
-          
           </div>
           <a href="logout.php" class="btn btn-outline-info mr-2">Logout</a>
         </div>
