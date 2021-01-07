@@ -1,22 +1,6 @@
 <?php
 include "../init.php";
-
-if(empty($_SESSION['email'])){
-  header("location:index.php");
-}
-if (isset($_POST['admin'])) {
-    header("location:admin.php");
-}
-if (isset($_POST['users'])) {
-    header("location:users.php");
-}
-if (isset($_POST['approved'])) {
-    header("location:approved.php");
-}
-if (isset($_POST['pending'])) {
-    header("location:pending.php");
-}
-
+include "headerfile.php";
 ?>
 
 
@@ -36,24 +20,7 @@ if (isset($_POST['pending'])) {
 
 <body>
 <!-- navbar -->
-    <div class="container-fluid sticky-top">
-        <div class="row bg-light">
-            <h1 class="text-info col-6 text-center m-auto">ADMIN PANEL</h1>
-            <div class="col-6 text-center ml-auto mt-2">
-                <form action="" method="POST">
-                    <input type="submit" value="Admins" name="admin" class="btn btn-outline-info mr-2" />
-
-                    <input type="submit" value="Users" name="users" class="btn btn-outline-info mr-2" />
-
-                    <input type="submit" value="Approved" name="approved" class="btn btn-outline-info mr-2" />
-
-                    <input type="submit" value="Pending" name="pending" class="btn btn-outline-info mr-2" />
-
-                    <a href="logout.php" class="btn btn-outline-info mr-2">Logout</a>
-                </form>
-            </div>
-        </div>
-    </div>
+<?php include 'splitfile/navbar.php' ?>
 
 <div class="container text-success">
     <?php 
