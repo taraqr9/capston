@@ -1,6 +1,6 @@
 <?php
 include "../../init.php";
-include "headerfile.php";
+include "splitfile/headerfile.php";
 
 if (empty($_SESSION['email'])) {
     header("location:index.php");
@@ -95,7 +95,7 @@ if (isset($_POST['addproduct'])) {
 
 <body>
     <!-- navbar -->
-    <?php include 'splitfile/navbar.php' ?>
+    <?php include '../splitfile/navbar.php' ?>
     <!-- Afte added success or failed message  -->
     <?php
     if (!empty($_SESSION['addproduct'])) {

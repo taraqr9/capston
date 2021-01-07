@@ -1,6 +1,6 @@
 <?php
 include "../../init.php";
-include "headerfile.php";
+include "splitfile/headerfile.php";
 if (empty($_SESSION['email'])) {
     header("location:index.php");
 }
@@ -52,7 +52,7 @@ if (isset($_POST['addadmin'])) {
 
 <body>
     <!-- navbar -->
-    <?php include 'splitfile/navbar.php' ?>
+    <?php include '../splitfile/navbar.php' ?>
 
     <!-- products dropdown lists -->
     <div class="container">
@@ -67,7 +67,7 @@ if (isset($_POST['addadmin'])) {
                                 <a href="endfile/category.php?all=999" class="btn btn-outline-info col-12">All</a>
                                 
                             </div>
-
+                            <!-- men -->
                             <div class="mr-2">
                                 <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Man
@@ -87,7 +87,7 @@ if (isset($_POST['addadmin'])) {
 
                                 </div>
                             </div>
-
+                            <!-- Women -->
                             <div class="mr-2">
                                 <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Women
@@ -107,7 +107,7 @@ if (isset($_POST['addadmin'])) {
 
                                 </div>
                             </div>
-
+                            <!-- Health and Beauty -->
                             <div class="mr-2">
                                 <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Health & Beauty
@@ -127,7 +127,7 @@ if (isset($_POST['addadmin'])) {
 
                                 </div>
                             </div>
-
+                            <!-- Electronic -->
                             <div class="mr-2">
                                 <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Electronic
@@ -145,7 +145,7 @@ if (isset($_POST['addadmin'])) {
 
                                 </div>
                             </div>
-
+                            <!-- Food -->
                             <div class="mr-2">
                                 <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Food
@@ -160,12 +160,10 @@ if (isset($_POST['addadmin'])) {
                     </div>
 
                     <!-- Search Bar -->
-                    <form action="endfile/search.php" method="post">
                         <div class="row col-lg-12 col-xl-4 ml-lg-auto">
-                            <input type="text" class="form-control col-6 m-2 " placeholder="Search..." name="textsearch">
+                            <input type="text" class="form-control col-6 m-2 " placeholder="Search..." name="search">
                             <input type="submit" name="searchbtn" value="Search" class="btn btn-outline-info col-3 m-2 " />
                         </div>
-                    </form>
                 </div>
             </div>
         </form>
@@ -187,24 +185,26 @@ if (isset($_POST['addadmin'])) {
 
     <!-- show admins -->
     <div class="container-fluid">
-        <div class="container">
-            <table class="table table-hover">
+        <div class="container ">
+            <table class="table table-hover ">
                 <thead>
                     <tr>
-                        <th class="col-1"></th>
-                        <th class="col-1">ID</th>
-                        <th class="col-1">Name</th>
-                        <th class="col-1">Price</th>
-                        <th class="col-1">Qty</th>
-                        <th class="col-1">Category</th>
-                        <th class="col-1">Sub Category</th>
-                        <th class="col-1"></th>
+                        <th class="col-1 border-left border-right"></th>
+                        <th class="col-1 border-right">ID</th>
+                        <th class="col-1 border-right">Name</th>
+                        <th class="col-1 border-right">Price</th>
+                        <th class="col-1 border-right">Qty</th>
+                        <th class="col-1 border-right">Category</th>
+                        <th class="col-1 border-right">Sub Category</th>
+                        <th class="col-1 border-right"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    if(!empty($_SESSION['category'])){
 
+                    if(isset($_POST['searchbtn']) && !empty($_POST['search'])){
+                        $query = $source->Query("SELECT * FROM products WHERE name like '%" . $_POST['search'] ."%'");
+                    }else if(!empty($_SESSION['category'])){
                         $cate = $_SESSION['category'];
                         $query = $source->Query("SELECT * FROM products where sub_category=?",[$cate]);
                         $_SESSION['category'] = "";
@@ -228,16 +228,16 @@ if (isset($_POST['addadmin'])) {
 
                             echo "
                 <tr>
-                <td class='col-1'> <img class='rounded m-1' style='height:60px;' src='../../assets/productsimg/".$row->image."' alt='Sample'></td>
-                <td class='col-1'>" . $row->id . "</td>
-                <td class='col-1'>" . $row->name . "</td>
-                <td class='col-1'>" . $row->price . "</td>
-                <td class='col-1'>" . $row->qty . "</td>
-                <td class='col-1'>" . $row->category . "</td>
-                <td class='col-1'>" . $row->sub_category . "</td>";
+                <td class='col-1 border-left border-right'> <img class='rounded m-1' style='height:60px;' src='../../assets/productsimg/".$row->image."' alt='Sample'></td>
+                <td class='col-1 border-right'>" . $row->id . "</td>
+                <td class='col-1 border-right'>" . $row->name . "</td>
+                <td class='col-1 border-right'>" . $row->price . "</td>
+                <td class='col-1 border-right'>" . $row->qty . "</td>
+                <td class='col-1 border-right'>" . $row->category . "</td>
+                <td class='col-1 border-right'>" . $row->sub_category . "</td>";
                 if (!empty($_SESSION['admin_log'])) {
                     if ($_SESSION['admin_log'] == '1') {
-                        echo "<td class='col-1'><a href='edit.php?approval=".$row->id."' class='btn btn-outline-info m-auto'> Edit</a>
+                        echo "<td class='col-1 border-right'><a href='edit.php?approval=".$row->id."' class='btn btn-outline-info m-auto'> Edit</a>
                         </td>";
                     }
                 }

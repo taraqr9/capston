@@ -5,6 +5,9 @@ if (empty($_SESSION['email'])) {
   if (isset($_POST['admin'])) {
     header("location:admin.php");
   }
+  if (isset($_POST['allsell'])) {
+    header("location:product/allsell.php");
+  }
   if (isset($_POST['users'])) {
     header("location:users.php");
   }

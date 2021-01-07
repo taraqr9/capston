@@ -28,7 +28,9 @@
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                 <button class="dropdown-item" type="button"><input type="submit" value="Products" name="product" class="btn btn-outline-info col-12" /></button>
+                <button class="dropdown-item" type="button"><input type="submit" value="All Sell" name="allsell" class="btn btn-outline-info col-12" /></button>
                 <button class="dropdown-item" type="button"><input type="submit" value="Add Products" name="addproduct" class="btn btn-outline-info col-12" /></button>
+                
               </div>
             </div>
 

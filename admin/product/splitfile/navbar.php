@@ -1,7 +1,7 @@
 <!-- navbar -->
 <div class="container-fluid sticky-top">
     <div class="row bg-light">
-      <div class=" col-6 text-center m-auto"><a href="../../admin.php" class="btn">
+      <div class=" col-6 text-center m-auto"><a href="admin.php" class="btn">
           <h1 class="text-info">ADMIN PANEL</h1>
         </a> </div>
       <div class="col-6  mt-3">
@@ -28,7 +28,9 @@
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                 <button class="dropdown-item" type="button"><input type="submit" value="Products" name="product" class="btn btn-outline-info col-12" /></button>
+                <button class="dropdown-item" type="button"><input type="submit" value="All Sell" name="allsell" class="btn btn-outline-info col-12" /></button>
                 <button class="dropdown-item" type="button"><input type="submit" value="Add Products" name="addproduct" class="btn btn-outline-info col-12" /></button>
+                
               </div>
             </div>
 
