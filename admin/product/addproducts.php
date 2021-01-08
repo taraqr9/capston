@@ -95,7 +95,7 @@ if (isset($_POST['addproduct'])) {
 
 <body>
     <!-- navbar -->
-    <?php include '../splitfile/navbar.php' ?>
+    <?php include 'splitfile/navbar.php' ?>
     <!-- Afte added success or failed message  -->
     <?php
     if (!empty($_SESSION['addproduct'])) {
@@ -108,6 +108,7 @@ if (isset($_POST['addproduct'])) {
 
     ?>
     <!-- Product details  -->
+    <form method='POST' enctype="multipart/form-data">
     <div class="container mt-5 bg-secondary p-5 rounded">
         <input type="text" name="productname" placeholder="Product Name" class="form-control col-5 m-auto" <?php if (!empty($_SESSION['pname'])) {
                                                                                                                 echo "value='" . $_SESSION['pname'] . "'";
@@ -136,6 +137,7 @@ if (isset($_POST['addproduct'])) {
         <div class="row col-6 m-auto ">
             <div class="m-auto">
                 <button class="btn btn-outline-white dropdown-toggle mt-3" type="button" id="dropdownMenu2" data-toggle="dropdown">
+                
                     <?php if (!empty($_SESSION['cate'])) {
                         if ($_SESSION['cate'] == 1) {
                             echo "Man";
@@ -168,7 +170,18 @@ if (isset($_POST['addproduct'])) {
             </div>
             <div class="m-auto">
                 <button class="btn btn-outline-white dropdown-toggle mt-3" type="button" id="dropdownMenu2" data-toggle="dropdown">
-                    Sub Category
+                
+                <?php
+                    if(!empty($_SESSION['sub_cate'])){
+                        $query = $source->Query("SELECT * FROM `product_categories` WHERE id = ?", [$_SESSION['sub_cate']]);
+                        $row = $source->SingleRow();
+
+                        echo $row->categories;
+                    }else{
+                        echo "Sub Category";
+                    }
+                ?>
+                    
                 </button>
                 <div class="dropdown-menu m-auto">
                     <?php

@@ -52,7 +52,7 @@ if (isset($_POST['addadmin'])) {
 
 <body>
     <!-- navbar -->
-    <?php include '../splitfile/navbar.php' ?>
+    <?php include 'splitfile/navbar.php' ?>
 
     <!-- products dropdown lists -->
     <div class="container">
@@ -64,7 +64,7 @@ if (isset($_POST['addadmin'])) {
                         <!-- category product Dropdownlist -->
                         <div class="row">
                         <div class="mr-2">
-                                <a href="endfile/category.php?all=999" class="btn btn-outline-info col-12">All</a>
+                                <a href="#" class="btn btn-outline-info col-12">All</a>
                                 
                             </div>
                             <!-- men -->
@@ -183,7 +183,7 @@ if (isset($_POST['addadmin'])) {
     }
     ?>
 
-    <!-- show admins -->
+    <!-- show Products -->
     <div class="container-fluid">
         <div class="container ">
             <table class="table table-hover ">

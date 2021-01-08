@@ -1,7 +1,7 @@
 <!-- navbar -->
 <div class="container-fluid sticky-top">
     <div class="row bg-light">
-      <div class=" col-6 text-center m-auto"><a href="admin.php" class="btn">
+      <div class=" col-6 text-center m-auto"><a href="../admin.php" class="btn">
           <h1 class="text-info">ADMIN PANEL</h1>
         </a> </div>
       <div class="col-6  mt-3">
@@ -43,7 +43,7 @@
                 <button class="dropdown-item" type="button"><input type="submit" value="Pending" name="pending" class="btn btn-outline-info col-12" /></button>
               </div>
             </div>
-            <a href="logout.php" class="btn btn-outline-info mr-2">Logout</a>
+            <a href="../logout.php" class="btn btn-outline-info mr-2">Logout</a>
           </div>
 
         </form>
