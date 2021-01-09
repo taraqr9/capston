@@ -63,50 +63,62 @@ include 'splitfile/headerfile.php' ?>
                     <tr>
                         <th class="col-1 border-left border-right"></th>
                         <th class="col-1 border-right">ID</th>
+                        <th class="col-1 border-right">PID</th>
+                        <th class="col-1 border-right">UID</th>
                         <th class="col-1 border-right">Date</th>
                         <th class="col-1 border-right">Name</th>
-                        <th class="col-1 border-right">Price</th>
                         <th class="col-1 border-right">Qty</th>
+                        <th class="col-1 border-right">Price</th>
                         <th class="col-1 border-right">Category</th>
                         <th class="col-1 border-right">Sub Category</th>
                         <th class="col-1 border-right"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-
-                   if (isset($_POST['allsell'])) {
-                        $query = $source->Query("SELECT * from `order`");
-                        $details = $source->SingleRow();
+                <?php
+                    $b = "";
+                    
+                        // for all order
+                        $query = $source->Query("SELECT * FROM `order`  order by pid asc");
+                        $details = $source->FetchAll();
                         $numrow = $source->CountRows();
                         
                         if ($numrow > 0) {
                             foreach ($details as $row) :
-    
+
+                            // same product counting one time
+                              $query = $source->Query("SELECT DISTINCT(pid),oid,uid,time,pname,sum(qty) as qtyy,price,category,sub_category  FROM `order` where pid = ?",[$row->pid]);
+                              $db = $source->SingleRow();
+                              $check = $row->pid;
+
+                              if($check !== $b){
                                 echo "
                     <tr>
                     <td class='col-1 border-left border-right'> <img class='rounded m-1' style='height:60px;' src='../../assets/productsimg/" . $row->pid . ".jpg' alt='Sample'></td>
-                    <td class='col-1 border-right'>" . $row->id . "</td>
-                    <td class='col-1 border-right'>" . $row->name . "</td>
+                    <td class='col-1 border-right'>" . $row->oid . "</td>
+                    <td class='col-1 border-right'>" . $row->pid . "</td>
+                    <td class='col-1 border-right'>" . $row->uid . "</td>
+                    <td class='col-1 border-right'>" . $row->time . "</td>
+                    <td class='col-1 border-right'>" . $row->pname . "</td>
+                    <td class='col-1 border-right'>" . $db->qtyy . "</td>
                     <td class='col-1 border-right'>" . $row->price . "</td>
-                    <td class='col-1 border-right'>" . $row->qty . "</td>
                     <td class='col-1 border-right'>" . $row->category . "</td>
                     <td class='col-1 border-right'>" . $row->sub_category . "</td>";
                                 if (!empty($_SESSION['admin_log'])) {
                                     if ($_SESSION['admin_log'] == '1') {
-                                        echo "<td class='col-1 border-right'><a href='edit.php?approval=" . $row->id . "' class='btn btn-outline-info m-auto'> Edit</a>
+                                        echo "<td class='col-1 border-right'><a href='edit.php?approval=" . $row->oid . "' class='btn btn-outline-info m-auto'> Edit</a>
                             </td>";
                                     }
                                 }
     
                                 echo "
                     </tr>";
-    
+                  
+                  }
+                  $b=$check;
                             endforeach;
                         }
-                    }else{
-                        echo "nothing";
-                    }
+                    
                     ?>
                 </tbody>
             </table>
