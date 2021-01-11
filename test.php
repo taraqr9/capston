@@ -151,16 +151,17 @@ include 'init.php';
                     <?php
                     if (isset($_POST['allsell'])) {
                         // for all order
-                        $query = $source->Query("SELECT * FROM `order`  order by pid asc");
+                        $allpid = [];
+                        $query = $source->Query("SELECT * FROM `order`");
                         $details = $source->FetchAll();
                         $numrow = $source->CountRows();
                         if ($numrow > 0) {
                             $b = "";
                             foreach ($details as $row) :
-                                $query = $source->Query("SELECT DISTINCT(pid),oid,uid,time,pname,sum(qty) as qtyy,price,category,sub_category  FROM `order` where pid = ?", [$row->pid]);
+                                $query = $source->Query("SELECT pid,oid,uid,time,pname,sum(qty) as qtyy,price,category,sub_category  FROM `order` where pid = ? order by qty desc", [$row->pid]);
                                 $db = $source->SingleRow();
                                 $check = $row->pid;
-                                if ($check !== $b) {
+                                if (!in_array($check,$allpid)) {
                                     echo "
                                             <tr>
                                             <td class='col-1 border-left border-right'> <img class='rounded m-1' style='height:60px;' src='assets/productsimg/" . $row->pid . ".jpg' alt='Sample'></td>
@@ -182,25 +183,28 @@ include 'init.php';
 
                                     echo "</tr>";
                                 }
-                                $b = $check;
+                                $allpid[] = $check; 
                             endforeach;
-                            $b = "";
                         }
                         
                     }
+                    
                     if (isset($_POST['mostsold'])) {
                         // for all order
-                        $query = $source->Query("SELECT * FROM `order` ORDER BY ");
+                        $allpid = [];
+                        $query = $source->Query("SELECT * FROM `order` order by qty desc");
                         $details = $source->FetchAll();
                         $numrow = $source->CountRows();
+                        
 
                         if ($numrow > 0) {
                             $b = "";
                             foreach ($details as $row) :
-                                $query = $source->Query("SELECT DISTINCT(pid),oid,uid,time,pname,sum(qty) as qtyy,price,category,sub_category  FROM `order` where pid = ?", [$row->pid]);
+                                $query = $source->Query("SELECT pid,oid,uid,time,pname,sum(qty) as qtyy,price,category,sub_category  FROM `order` where pid = ?", [$row->pid]);
                                 $db = $source->SingleRow();
                                 $check = $row->pid;
-                                if ($check !== $b) {
+                                
+                                if (!in_array($check,$allpid)) {
                                     echo "
                                         <tr>
                                         <td class='col-1 border-left border-right'> <img class='rounded m-1' style='height:60px;' src='assets/productsimg/" . $row->pid . ".jpg' alt='Sample'></td>
@@ -221,7 +225,9 @@ include 'init.php';
 
                                     echo "</tr>";
                                 }
-                                $b = $check;
+                                $allpid[] = $check;
+
+                                
                             endforeach;
                         }
                     }
