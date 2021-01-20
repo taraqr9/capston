@@ -11,7 +11,7 @@ include 'init.php';
 //     if ($numrow > 0) {
 //         $b = "";
 //         foreach ($details as $row) :
-//             $query = $source->Query("SELECT DISTINCT(pid),oid,uid,time,pname,sum(qty) as qtyy,price,category,sub_category  FROM `order` where pid = ?", [$row->pid]);
+//             $query = $source->Query("SELECT DISTINCT(pid),oid,uid,date,pname,sum(qty) as qtyy,price,category,sub_category  FROM `order` where pid = ?", [$row->pid]);
 //             $db = $source->SingleRow();
 //             $check = $row->pid;
 //             if ($check !== $b) {
@@ -21,7 +21,7 @@ include 'init.php';
 //                     <td class='col-1 border-right'>" . $row->oid . "</td>
 //                     <td class='col-1 border-right'>" . $row->pid . "</td>
 //                     <td class='col-1 border-right'>" . $row->uid . "</td>
-//                     <td class='col-1 border-right'>" . $row->time . "</td>
+//                     <td class='col-1 border-right'>" . $row->date . "</td>
 //                     <td class='col-1 border-right'>" . $row->pname . "</td>
 //                     <td class='col-1 border-right'>" . $db->qtyy . "</td>
 //                     <td class='col-1 border-right'>" . $row->price . "</td>
@@ -50,7 +50,7 @@ include 'init.php';
 //     if ($numrow > 0) {
 //         $b = "";
 //         foreach ($details as $row) :
-//             $query = $source->Query("SELECT DISTINCT(pid),oid,uid,time,pname,sum(qty) as qtyy,price,category,sub_category  FROM `order` where pid = ?", [$row->pid]);
+//             $query = $source->Query("SELECT DISTINCT(pid),oid,uid,date,pname,sum(qty) as qtyy,price,category,sub_category  FROM `order` where pid = ?", [$row->pid]);
 //             $db = $source->SingleRow();
 //             $check = $row->pid;
 //             if ($check !== $b) {
@@ -60,7 +60,7 @@ include 'init.php';
 //                     <td class='col-1 border-right'>" . $row->oid . "</td>
 //                     <td class='col-1 border-right'>" . $row->pid . "</td>
 //                     <td class='col-1 border-right'>" . $row->uid . "</td>
-//                     <td class='col-1 border-right'>" . $row->time . "</td>
+//                     <td class='col-1 border-right'>" . $row->date . "</td>
 //                     <td class='col-1 border-right'>" . $row->pname . "</td>
 //                     <td class='col-1 border-right'>" . $db->qtyy . "</td>
 //                     <td class='col-1 border-right'>" . $row->price . "</td>
@@ -148,43 +148,7 @@ include 'init.php';
                 </thead>
                 <tbody>
                     <?php
-                    if (isset($_POST['allsell'])) {
-                        // for all order
-                        $allpid = [];
-                        $query = $source->Query("SELECT * FROM `order`");
-                        $details = $source->FetchAll();
-                        $numrow = $source->CountRows();
-                        if ($numrow > 0) {
-                            $b = "";
-                            foreach ($details as $row) :
-                                $query = $source->Query("SELECT pid,oid,uid,time,pname,sum(qty) as qtyy,price,category,sub_category  FROM `order` where pid = ? order by qty desc", [$row->pid]);
-                                $db = $source->SingleRow();
-                                $check = $row->pid;
-                                if (!in_array($check, $allpid)) {
-                                    echo "
-                                            <tr>
-                                            <td class='col-1 border-left border-right'> <img class='rounded m-1' style='height:60px;' src='assets/productsimg/" . $row->pid . ".jpg' alt='Sample'></td>
-                                            <td class='col-1 border-right'>" . $row->oid . "</td>
-                                            <td class='col-1 border-right'>" . $row->pid . "</td>
-                                            <td class='col-1 border-right'>" . $row->time . "</td>
-                                            <td class='col-1 border-right'>" . $row->pname . "</td>
-                                            <td class='col-1 border-right'>" . $db->qtyy . "</td>
-                                            <td class='col-1 border-right'>" . $row->price . "</td>
-                                            <td class='col-1 border-right'>" . $row->category . "</td>
-                                            <td class='col-1 border-right'>" . $row->sub_category . "</td>";
-                                    if (!empty($_SESSION['admin_log'])) {
-                                        if ($_SESSION['admin_log'] == '1') {
-                                            echo "<td class='col-1 border-right'><a href='edit.php?approval=" . $row->oid . "' class='btn btn-outline-info m-auto'> Edit</a>
-                                                                    </td>";
-                                        }
-                                    }
 
-                                    echo "</tr>";
-                                }
-                                $allpid[] = $check;
-                            endforeach;
-                        }
-                    }
 
                     // Most sold
                     if (isset($_POST['mostsold'])) {
@@ -198,7 +162,7 @@ include 'init.php';
                         if ($numrow > 0) {
                             $b = "";
                             foreach ($details as $row) :
-                                $query = $source->Query("SELECT pid,oid,uid,time,pname,sum(qty) as qtyy,price,category,sub_category  FROM `order` where pid = ?", [$row->pid]);
+                                $query = $source->Query("SELECT pid,oid,uid,date,pname,sum(qty) as qtyy,price,category,sub_category  FROM `order` where pid = ?", [$row->pid]);
                                 $db = $source->SingleRow();
                                 $check = $row->pid;
                                 if (!in_array($check, $allpid)) {
@@ -212,7 +176,7 @@ include 'init.php';
                                     //     <td class='col-1 border-right'>" . $row->oid . "</td>
                                     //     <td class='col-1 border-right'>" . $row->pid . "</td>
                                     //     <td class='col-1 border-right'>" . $row->uid . "</td>
-                                    //     <td class='col-1 border-right'>" . $row->time . "</td>
+                                    //     <td class='col-1 border-right'>" . $row->date . "</td>
                                     //     <td class='col-1 border-right'>" . $row->pname . "</td>
                                     //     <td class='col-1 border-right'>" . $db->qtyy . "</td>
                                     //     <td class='col-1 border-right'>" . $row->price . "</td>
@@ -240,27 +204,75 @@ include 'init.php';
 
                         foreach (array_reverse($pidqty) as $item) {
                             // echo $item['0'] . ', ' . $item['1'] . "<br>";
-                                $query = $source->Query("SELECT * from `order` where pid = ? ",[$item[0]]);
-                                $db = $source->SingleRow();
+                            $query = $source->Query("SELECT * from `order` where pid = ? ", [$item[0]]);
+                            $db = $source->SingleRow();
 
                             echo "
                                         <tr>
                                         <td class='col-1 border-left border-right'> <img class='rounded m-1' style='height:60px;' src='assets/productsimg/" . $db->pid . ".jpg' alt='Sample'></td>
                                         <td class='col-1 border-right'>" . $i++ . "</td>
                                         <td class='col-1 border-right'>" . $item['0'] . "</td>
-                                        <td class='col-1 border-right'>" . $db->time . "</td>
+                                        <td class='col-1 border-right'>" . $db->date . "</td>
                                         <td class='col-1 border-right'>" . $db->pname . "</td>
                                         <td class='col-1 border-right'>" . $item['1'] . "</td>
                                         <td class='col-1 border-right'>" . $db->price . "</td>
                                         <td class='col-1 border-right'>" . $db->category . "</td>
                                         <td class='col-1 border-right'>" . $db->sub_category . "</td>";
+                            if (!empty($_SESSION['admin_log'])) {
+                                if ($_SESSION['admin_log'] == '1') {
+                                    echo "<td class='col-1 border-right'><a href='edit.php?approval=" . $row->oid . "' class='btn btn-outline-info m-auto'> Edit</a> </td>";
+                                }
+                            }
+
+                            echo "</tr>";
+                        }
+                    } elseif (isset($_POST['notsold'])) {
+                        $products = $source->Query("SELECT * FROM `products`");
+                        $products = $source->FetchAll();
+                        $numrow = $source->CountRows();
+
+                        $order = $source->Query("SELECT * FROM `order`");
+                        $order = $source->FetchAll();
+                        $numrow = $source->CountRows();
+                        
+                        foreach($products as $product):
+
+                        endforeach;
+                    } else {
+                        // for all order
+                        $allpid = [];
+                        $query = $source->Query("SELECT * FROM `order`");
+                        $details = $source->FetchAll();
+                        $numrow = $source->CountRows();
+                        if ($numrow > 0) {
+                            $b = "";
+                            foreach ($details as $row) :
+                                $query = $source->Query("SELECT pid,oid,uid,date,pname,sum(qty) as qtyy,price,category,sub_category  FROM `order` where pid = ? order by qty desc", [$row->pid]);
+                                $db = $source->SingleRow();
+                                $check = $row->pid;
+                                if (!in_array($check, $allpid)) {
+                                    echo "
+                                            <tr>
+                                            <td class='col-1 border-left border-right'> <img class='rounded m-1' style='height:60px;' src='assets/productsimg/" . $row->pid . ".jpg' alt='Sample'></td>
+                                            <td class='col-1 border-right'>" . $row->oid . "</td>
+                                            <td class='col-1 border-right'>" . $row->pid . "</td>
+                                            <td class='col-1 border-right'>" . $row->date . "</td>
+                                            <td class='col-1 border-right'>" . $row->pname . "</td>
+                                            <td class='col-1 border-right'>" . $db->qtyy . "</td>
+                                            <td class='col-1 border-right'>" . $row->price . "</td>
+                                            <td class='col-1 border-right'>" . $row->category . "</td>
+                                            <td class='col-1 border-right'>" . $row->sub_category . "</td>";
                                     if (!empty($_SESSION['admin_log'])) {
                                         if ($_SESSION['admin_log'] == '1') {
-                                            echo "<td class='col-1 border-right'><a href='edit.php?approval=" . $row->oid . "' class='btn btn-outline-info m-auto'> Edit</a> </td>";
+                                            echo "<td class='col-1 border-right'><a href='edit.php?approval=" . $row->oid . "' class='btn btn-outline-info m-auto'> Edit</a>
+                                                                    </td>";
                                         }
                                     }
 
                                     echo "</tr>";
+                                }
+                                $allpid[] = $check;
+                            endforeach;
                         }
                     }
                     ?>
