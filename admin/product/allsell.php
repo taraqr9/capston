@@ -154,7 +154,6 @@ include 'splitfile/headerfile.php' ?>
                 }
                 //Low Quintaty
                 elseif (isset($_POST['lowquintaty'])) {
-                    //Low Quentity
                     echo "
                     <thead>
                     <tr>
@@ -168,8 +167,7 @@ include 'splitfile/headerfile.php' ?>
                         <th class='col-1 border-right'>Sub Category</th>
                         <th class='col-1 border-right'></th>
                     </tr>
-                </thead>
-                    ";
+                </thead>";
 
                     $allpid = [];
                     $pidqty = [];
@@ -224,6 +222,7 @@ include 'splitfile/headerfile.php' ?>
                         <th class='col-1 border-right'>S.ID</th>
                         <th class='col-1 border-right'>PID</th>
                         <th class='col-1 border-right'>Name</th>
+                        <th class='col-1 border-right'>Last Sell</th>
                         <th class='col-1 border-right'>Qty</th>
                         <th class='col-1 border-right'>Price</th>
                         <th class='col-1 border-right'>Category</th>
@@ -235,55 +234,60 @@ include 'splitfile/headerfile.php' ?>
                     ";
 
 
-            
-            $products = $source->Query("SELECT * FROM `products`");
-            $products = $source->FetchAll();
-            $numrow = $source->CountRows();
 
-            $order = $source->Query("SELECT * FROM `order`");
-            $order = $source->FetchAll();
-            $proid = [];
-            $checkone = [];
-            $numrow1 = $source->CountRows();
-            $i = 1;
+                    $products = $source->Query("SELECT * FROM `products`");
+                    $products = $source->FetchAll();
+                    $numrow = $source->CountRows();
 
-            
-            foreach ($order as $or) {
-                $proid[] = $or->pid;
-            }
-            
-            foreach ($products as $product) :
+                    $order = $source->Query("SELECT * FROM `order`");
+                    $order = $source->FetchAll();
+                    $proid = [];
+                    $checkone = [];
+                    $numrow1 = $source->CountRows();
+                    $i = 1;
 
-            //cate name
-            $query = $source->Query("SELECT * FROM `product_categories` where id =  $product->category");
-            $cate = $source->SingleRow();
-            $catename = $cate->categories;
-            //sub cate name
-            $squery = $source->Query("SELECT * FROM `product_categories` where id =  $product->sub_category");
-            $sub_cate = $source->SingleRow();
 
-                if (in_array($product->id, $proid) && !in_array($product->id, $checkone)) {
-                    $query = $source->Query("SELECT pname,min(DATEDIFF(CURDATE(),date)) as dayy from `order` where pid = ?",[$product->id]);
-                    $date = $source->SingleRow();
-
-                    
-                    echo "
-                        <tr>
-                        <td class='col-1 border-left border-right'> <img class='rounded m-1' style='height:60px;' src='../../assets/productsimg/" . $product->image . "' alt='Sample'></td>
-                        <td class='col-1 border-right'>" . $i++ . "</td>
-                        <td class='col-1 border-right'>" . $product->id . "</td>
-                        <td class='col-1 border-right'>" . $product->name . "</td>
-                        <td class='col-1 border-right bg-primary text-white'>" . $product->qty . "</td>
-                        <td class='col-1 border-right'>" . $product->price . "</td>
-                        <td class='col-1 border-right'>" . $catename . "</td>
-                        <td class='col-1 border-right'>" . $sub_cate->categories . "</td>";
-                if (!empty($_SESSION['admin_log'])) {
-                    if ($_SESSION['admin_log'] == '1') {
-                        echo "<td class='col-1 border-right'><a href='#?approval=" . $product->id . "' class='btn btn-outline-info m-auto'> Edit</a> </td>";
+                    foreach ($order as $or) {
+                        $proid[] = $or->pid;
                     }
-                }
-                }
-            endforeach;
+
+                    foreach ($products as $product) :
+
+                        //cate name
+                        $query = $source->Query("SELECT * FROM `product_categories` where id =  $product->category");
+                        $cate = $source->SingleRow();
+                        $catename = $cate->categories;
+                        //sub cate name
+                        $squery = $source->Query("SELECT * FROM `product_categories` where id =  $product->sub_category");
+                        $sub_cate = $source->SingleRow();
+
+                        if (in_array($product->id, $proid) && !in_array($product->id, $checkone)) {
+                            $query = $source->Query("SELECT pname,min(DATEDIFF(CURDATE(),date)) as dayy from `order` where pid = ?", [$product->id]);
+                            $date = $source->SingleRow();
+
+                            //Number of day you want show from
+                            if($date->dayy>=10){
+                                echo "
+                                <tr>
+                                <td class='col-1 border-left border-right'> <img class='rounded m-1' style='height:60px;' src='../../assets/productsimg/" . $product->image . "' alt='Sample'></td>
+                                <td class='col-1 border-right'>" . $i++ . "</td>
+                                <td class='col-1 border-right'>" . $product->id . "</td>
+                                <td class='col-1 border-right'>" . $product->name . "</td>
+                                <td class='col-1 border-right'>" . $date->dayy . " - Days Ago</td>
+                                <td class='col-1 border-right bg-primary text-white'>" . $product->qty . "</td>
+                                <td class='col-1 border-right'>" . $product->price . " - TK</td>
+                                <td class='col-1 border-right'>" . $catename . "</td>
+                                <td class='col-1 border-right'>" . $sub_cate->categories . "</td>";
+                                    if (!empty($_SESSION['admin_log'])) {
+                                        if ($_SESSION['admin_log'] == '1') {
+                                            echo "<td class='col-1 border-right'><a href='#?approval=" . $product->id . "' class='btn btn-outline-info m-auto'> Edit</a> </td>";
+                                        }
+                                    }
+                            }
+
+                            
+                        }
+                    endforeach;
                 }
                 //All sell
                 else {
@@ -333,6 +337,8 @@ include 'splitfile/headerfile.php' ?>
                         endforeach;
                     }
                 }
+
+
                 ?>
                 </tbody>
             </table>
