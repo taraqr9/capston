@@ -27,7 +27,7 @@ include 'splitfile/headerfile.php' ?>
             color: white;
             font-weight: bold;
             float: right;
-            font-size: 22px;
+            font-size: 30px;
             line-height: 20px;
             cursor: pointer;
             transition: 0.3s;
@@ -211,8 +211,8 @@ include 'splitfile/headerfile.php' ?>
                 elseif (isset($_POST['notsold'])) {
                     echo " 
                     <div class='alert'>
-                    <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span> 
-                    <strong>Info!</strong> Listed item not sold from last 30 days.
+                    <span class='closebtn ' onclick='this.parentElement.style.display='none';'>&times;</span> 
+                    <strong class = 'h4'>Info!</strong> <span class = 'h5'>Listed item not sold from last 30 days.</span>
                   </div>
                     ";
 
@@ -261,7 +261,6 @@ include 'splitfile/headerfile.php' ?>
             //sub cate name
             $squery = $source->Query("SELECT * FROM `product_categories` where id =  $product->sub_category");
             $sub_cate = $source->SingleRow();
-            $sub_catename = $sub_cate->categories;
 
                 if (in_array($product->id, $proid) && !in_array($product->id, $checkone)) {
                     $query = $source->Query("SELECT pname,min(DATEDIFF(CURDATE(),date)) as dayy from `order` where pid = ?",[$product->id]);
@@ -277,7 +276,7 @@ include 'splitfile/headerfile.php' ?>
                         <td class='col-1 border-right bg-primary text-white'>" . $product->qty . "</td>
                         <td class='col-1 border-right'>" . $product->price . "</td>
                         <td class='col-1 border-right'>" . $catename . "</td>
-                        <td class='col-1 border-right'>" . $sub_catename . "</td>";
+                        <td class='col-1 border-right'>" . $sub_cate->categories . "</td>";
                 if (!empty($_SESSION['admin_log'])) {
                     if ($_SESSION['admin_log'] == '1') {
                         echo "<td class='col-1 border-right'><a href='#?approval=" . $product->id . "' class='btn btn-outline-info m-auto'> Edit</a> </td>";

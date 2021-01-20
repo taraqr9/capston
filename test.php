@@ -179,10 +179,12 @@ include 'init.php';
                         $query = $source->Query("SELECT * FROM `product_categories` where id =  $product->category");
                         $cate = $source->SingleRow();
                         $catename = $cate->categories;
+
+
                         //sub cate name
-                        $squery = $source->Query("SELECT * FROM `product_categories` where id =  $product->sub_category");
+                        $squery = $source->Query("SELECT * FROM `product_categories` where id =  ?",[$product->sub_category]);
                         $sub_cate = $source->SingleRow();
-                        $sub_catename = $sub_cate->categories;
+                        
 
                             if (in_array($product->id, $proid) && !in_array($product->id, $checkone)) {
                                 $query = $source->Query("SELECT pname,min(DATEDIFF(CURDATE(),date)) as dayy from `order` where pid = ?",[$product->id]);
@@ -198,7 +200,7 @@ include 'init.php';
                                     <td class='col-1 border-right bg-primary text-white'>" . $product->qty . "</td>
                                     <td class='col-1 border-right'>" . $product->price . "</td>
                                     <td class='col-1 border-right'>" . $catename . "</td>
-                                    <td class='col-1 border-right'>" . $sub_catename . "</td>";
+                                    <td class='col-1 border-right'>" . $sub_cate->categories . "</td>";
                             if (!empty($_SESSION['admin_log'])) {
                                 if ($_SESSION['admin_log'] == '1') {
                                     echo "<td class='col-1 border-right'><a href='#?approval=" . $product->id . "' class='btn btn-outline-info m-auto'> Edit</a> </td>";
