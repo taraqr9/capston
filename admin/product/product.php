@@ -63,9 +63,9 @@ if (isset($_POST['addadmin'])) {
 
                         <!-- category product Dropdownlist -->
                         <div class="row">
-                        <div class="mr-2">
+                            <div class="mr-2">
                                 <a href="#" class="btn btn-outline-info col-12">All</a>
-                                
+
                             </div>
                             <!-- men -->
                             <div class="mr-2">
@@ -160,15 +160,15 @@ if (isset($_POST['addadmin'])) {
                     </div>
 
                     <!-- Search Bar -->
-                        <div class="row col-lg-12 col-xl-4 ml-lg-auto">
-                            <input type="text" class="form-control col-6 m-2 " placeholder="Search..." name="search">
-                            <input type="submit" name="searchbtn" value="Search" class="btn btn-outline-info col-3 m-2 " />
-                        </div>
+                    <div class="row col-lg-12 col-xl-4 ml-lg-auto">
+                        <input type="text" class="form-control col-6 m-2 " placeholder="Search..." name="search">
+                        <input type="submit" name="searchbtn" value="Search" class="btn btn-outline-info col-3 m-2 " />
+                    </div>
                 </div>
             </div>
         </form>
     </div>
-    
+
     <!-- Add product button -->
     <?php
     if (!empty($_SESSION['admin_log'])) {
@@ -196,29 +196,34 @@ if (isset($_POST['addadmin'])) {
                         <th class="col-1 border-right">Qty</th>
                         <th class="col-1 border-right">Category</th>
                         <th class="col-1 border-right">Sub Category</th>
-                        <th class="col-1 border-right"></th>
+                        <?php
+                        if (!empty($_SESSION['admin_log'])) {
+                            if ($_SESSION['admin_log'] == '1') {
+                                echo "<th class='col-1 border-right'></th>";
+                            }
+                        }
+                        ?>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
 
-                    if(isset($_POST['searchbtn']) && !empty($_POST['search'])){
-                        $query = $source->Query("SELECT * FROM products WHERE name like '%" . $_POST['search'] ."%'");
-                    }else if(!empty($_SESSION['category'])){
+                    if (isset($_POST['searchbtn']) && !empty($_POST['search'])) {
+                        $query = $source->Query("SELECT * FROM products WHERE name like '%" . $_POST['search'] . "%'");
+                    } else if (!empty($_SESSION['category'])) {
                         $cate = $_SESSION['category'];
-                        $query = $source->Query("SELECT * FROM products where sub_category=?",[$cate]);
+                        $query = $source->Query("SELECT * FROM products where sub_category=?", [$cate]);
                         $_SESSION['category'] = "";
-                    }else if(!empty($_SESSION['mcategory'])){
+                    } else if (!empty($_SESSION['mcategory'])) {
 
                         $cate = $_SESSION['mcategory'];
-                        $query = $source->Query("SELECT * FROM products where category=?",[$cate]);
+                        $query = $source->Query("SELECT * FROM products where category=?", [$cate]);
                         $_SESSION['mcategory'] = "";
-                    }else if(!empty($_SESSION['all'])){
+                    } else if (!empty($_SESSION['all'])) {
                         $query = $source->Query("SELECT * FROM products");
                         $_SESSION['all'] = "";
-                    }else{
+                    } else {
                         $query = $source->Query("SELECT * FROM products");
-                        
                     }
                     $details = $source->FetchAll();
                     $numrow = $source->CountRows();
@@ -228,21 +233,21 @@ if (isset($_POST['addadmin'])) {
 
                             echo "
                 <tr>
-                <td class='col-1 border-left border-right'> <img class='rounded m-1' style='height:60px;' src='../../assets/productsimg/".$row->image."' alt='Sample'></td>
+                <td class='col-1 border-left border-right'> <img class='rounded m-1' style='height:60px;' src='../../assets/productsimg/" . $row->image . "' alt='Sample'></td>
                 <td class='col-1 border-right'>" . $row->id . "</td>
                 <td class='col-1 border-right'>" . $row->name . "</td>
                 <td class='col-1 border-right'>" . $row->price . "</td>
                 <td class='col-1 border-right'>" . $row->qty . "</td>
                 <td class='col-1 border-right'>" . $row->category . "</td>
                 <td class='col-1 border-right'>" . $row->sub_category . "</td>";
-                if (!empty($_SESSION['admin_log'])) {
-                    if ($_SESSION['admin_log'] == '1') {
-                        echo "<td class='col-1 border-right'><a href='edit.php?approval=".$row->id."' class='btn btn-outline-info m-auto'> Edit</a>
+                            if (!empty($_SESSION['admin_log'])) {
+                                if ($_SESSION['admin_log'] == '1') {
+                                    echo "<td class='col-1 border-right'><a href='edit.php?approval=" . $row->id . "' class='btn btn-outline-info m-auto'> Edit</a>
                         </td>";
-                    }
-                }
+                                }
+                            }
 
-                echo "
+                            echo "
                 </tr>";
 
                         endforeach;
