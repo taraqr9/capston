@@ -2,7 +2,8 @@
 include("../init.php");
 
 $approval = "Approved";
-$query = $source->Query("UPDATE `order` SET status=? where oid=?",[$approval,$_GET['approval']]);
+
+$query = $source->Query("UPDATE `order` SET status=?,approvedby=? where oid=?",[$approval,$_SESSION['admin_log'],$_GET['approval']]);
 if($query){
     $_SESSION['approve_user'] = "User Approved Successfully";
     header("location:approved.php");

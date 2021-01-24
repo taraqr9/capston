@@ -35,19 +35,21 @@ include "headerfile.php";
     <div class="container">
       <table class="table table-hover">
         <thead>
-          <tr>
-          
-          <th class="col-1">Order Id</th>
-            <th class="col-1">Product Id</th>
-            <th class="col-1">User Id</th>
-            <th class="col-1">QTY</th>
-            <th class="col-1">Size</th>
-            <th class="col-1">Price</th>
-            <th class="col-1">Name</th>
-            <th class="col-1">Address</th>
-            <th class="col-1">Phone</th>
-            <th class="col-1">Email</th>
-            <th class="col-1">Approval</th>
+          <tr class='col-1 border-left border-right'>
+
+          <th class="col-1 border"></th>
+          <th class="col-1 border">Order Id</th>
+            <th class="col-1 border">Product Id</th>
+            <th class="col-1 border">User Id</th>
+            <th class="col-1 border">QTY</th>
+            <th class="col-1 border">Size</th>
+            <th class="col-1 border">Price</th>
+            <th class="col-1 border">Name</th>
+            <th class="col-1 border">Address</th>
+            <th class="col-1 border">Phone</th>
+            <th class="col-1 border">Email</th>
+            <th class="col-1 border">Approval</th>
+            <th class="col-1 border"></th>
           </tr>
         </thead>
         <tbody>
@@ -60,23 +62,23 @@ include "headerfile.php";
                 
             if($row->status==='Pending'){
               $app = "<a href='delete.php?deleteorder=".$row->oid."' class='btn btn-outline-danger mt-2'> Delete</a>";
-              $approval_text="class = text-warning";
+              $approval_text="class = 'text-warning border'";
             }elseif($row->status==='Canceled'){
-                $approval_text="class = text-danger";
+                $approval_text="class = 'text-danger border'";
             }else{
               $app = "";
-              $approval_text="class = text-success text-uppercase";
+              $approval_text="class = 'text-success border'";
             }
 
 
 
                 echo "
-                <tr>
-                
-                <td class='border-right'>".$row->oid."</td>
-                <td>".$row->pid."</td>
-                <td>".$row->uid."</td>
-                <td>".$row->qty."</td>";
+                <tr class='col-1 border-left border-right'>
+                <td class='col-1 border'> <img class='rounded m-1' style='height:60px;' src='../assets/productsimg/" . $row->pid . ".jpg' alt='Sample'></td>
+                <td class='col-1 border'>".$row->oid."</td>
+                <td class='col-1 border'>".$row->pid."</td>
+                <td class='col-1 border'>".$row->uid."</td>
+                <td class='col-1 border'>".$row->qty."</td>";
                 if(!empty($row->size)){
                   echo "<td>".$row->size."</td>";
                 }else{
@@ -84,13 +86,13 @@ include "headerfile.php";
                   '>Null</td>";
                 }
                 echo "
-                <td>".$row->price."</td>
-                <td>".$row->name."</td>
-                <td>".$row->address."</td>
-                <td>".$row->phone."</td>
-                <td>".$row->email."</td>
+                <td class='col-1 border'>".$row->price."</td>
+                <td class='col-1 border'>".$row->name."</td>
+                <td class='col-1 border'>".$row->address."</td>
+                <td class='col-1 border'>".$row->phone."</td>
+                <td class='col-1 border'>".$row->email."</td>
                 <td ".$approval_text.">".$row->status."</td>
-                <td>"."<a href='approvedsql.php?approval=".$row->oid."' class='btn btn-outline-success mt-2'> Approve</a>".$app." </td>
+                <td class='col-1 border'>"."<a href='approvedsql.php?approval=".$row->oid."' class='btn btn-outline-success mt-2'> Approve</a>".$app." </td>
                 </tr>";
 
               endforeach;

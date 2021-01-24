@@ -36,23 +36,24 @@ include "headerfile.php";
     ?>
   </div>
   <!-- View Pending Events -->
-  <div class="container-fluid">
+  <div class="container-fluid mt-4">
     <div class="container">
       <table class="table table-hover border">
         <thead>
           <tr>
-            <th class="col-1 border-right"></th>
-            <th class="col-1 border-right">Order Id</th>
-            <th class="col-1 border-right">Product Id</th>
-            <th class="col-1 border-right">User Id</th>
-            <th class="col-1 border-right">QTY</th>
-            <th class="col-1 border-right">Size</th>
-            <th class="col-1 border-right">Price</th>
-            <th class="col-1 border-right">Name</th>
-            <th class="col-1 border-right">Address</th>
-            <th class="col-1 border-right">Phone</th>
-            <th class="col-1 border-right">Email</th>
-            <th class="col-1 border-right">Approval</th>
+            <th class="col-1 border"></th>
+            <th class="col-1 border">Order Id</th>
+            <th class="col-1 border">Product Id</th>
+            <th class="col-1 border">User Id</th>
+            <th class="col-1 border">QTY</th>
+            <th class="col-1 border">Size</th>
+            <th class="col-1 border">Price</th>
+            <th class="col-1 border">Name</th>
+            <th class="col-1 border">Address</th>
+            <th class="col-1 border">Phone</th>
+            <th class="col-1 border">Email</th>
+            <th class="col-1 border">Approval</th>
+            <th class="col-1 border"></th>
           </tr>
         </thead>
         <tbody>
