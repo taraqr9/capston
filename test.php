@@ -58,7 +58,7 @@ include 'init.php';
 
 
                     if (isset($_POST['notsold'])) {
-                        //Taking product id from product table and product id from order table , if match then find last sold date , if not a quantity sold in last 30 day then show it.
+                        //NOTE  Taking product id from product table and product id from order table , if match then find last sold date , if not a quantity sold in last 30 day then show it.
                         echo "
                                 <thead>
                                 <tr>
