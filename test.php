@@ -49,23 +49,66 @@ include "admin/product/splitfile/headerfile.php";
           </tr>
         </thead>
         <tbody>
+
           <?php
-          $query = $source->Query("SELECT * FROM `products` where season = '2'");
-          $details = $source->FetchAll();
+          // NOTE Current season 
+          $date = date('M');
+          $month =  date('m', strtotime($date));
+          $mon = $source->Query("SELECT * FROM `month` where `id` = $month");
+          $row = $source->SingleRow();
+          $currentSeason = $row->season;
+          $currentMonth = $row->id;
+
+
+
+
+          $query = $source->Query("SELECT * FROM `products` where season = $currentSeason and qty <= '15'");
+          $lowqty = $source->FetchAll();
           $numrow = $source->CountRows();
+          $allpid = [];
           if ($numrow > 0) {
-            foreach ($details as $row) :
-              echo "
-                <tr>
-                <td class='border-right'>" . $row->id . "</td>
-                <td class='border-right'>" . $row->name . "</td>
-                <td class='border-right'>" . $row->qty . "</td>
-                <td class='border-right'>" . $row->price . "</td>";
-                echo"
-                </tr>";
+
+
+
+
+            foreach ($lowqty as $row) :
+              // NOTE Next season
+              if ($currentMonth != `12`) {
+                $nextMonth  = $currentMonth + 1;
+              } else {
+                $nextMonth = 1;
+              }
+              $mon = $source->Query("SELECT * FROM `month` where `id` = $nextMonth");
+              $nextS = $source->SingleRow();
+              $nextSeason = $nextS->season;
+
+              
+              // NOTE CURRENT SEASON  == NEXT SEASON then product will come 60% of total order qty.
+              // else 20% of the total order of the product id
+              if ($currentSeason == $nextSeason && !in_array($check, $allpid)) {
+                
+                // FIXME Product er qty sum kore print korte hobe
+                // FIXME jodi print hoy then oitake 60% korte hobe total sell qty er.
+                
+                // $query = $source->Query("SELECT pid,oid,uid,date,pname,sum(qty) as qtyy,price,category,sub_category  FROM `order` where pid = $row->id");
+                // $featchRow = $source->SingleRow();
+                
+                // echo "
+                // <tr>
+                // <td class='border-right'>" . $featchRow->pid . "</td>
+                // <td class='border-right'>" . $featchRow->pname . "</td>
+                // <td class='border-right'>" . $featchRow->qqty . "</td>
+                // <td class='border-right'>" . $featchRow->oid . "</td>";
+                // echo "
+                // </tr>";
+              } else {
+              }
+
+            $allpid[] = $check;
 
             endforeach;
           }
+
           ?>
         </tbody>
       </table>

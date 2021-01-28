@@ -96,7 +96,6 @@ include 'splitfile/headerfile.php' ?>
                         $numrow = $source->CountRows();
                         $i = 1;
                         if ($numrow > 0) {
-                            $b = "";
                             foreach ($details as $row) :
                                 $query = $source->Query("SELECT pid,oid,uid,date,pname,sum(qty) as qtyy,price,category,sub_category  FROM `order` where pid = ?", [$row->pid]);
 
