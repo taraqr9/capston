@@ -20,8 +20,7 @@ include "admin/product/splitfile/headerfile.php";
 </head>
 
 <body>
-    <!-- navbar -->
-
+    
     <!-- View Pending Events -->
     <div class="container-fluid">
         <div class="container">
@@ -35,6 +34,7 @@ include "admin/product/splitfile/headerfile.php";
                         <th class="col-1 border-right">Price</th>
                         <th class="col-1 border-right">Category</th>
                         <th class="col-1 border-right">Sub Category</th>
+                        <th class="col-1 border-right">Reason</th>
                     </tr>
                 </thead>
 
@@ -47,13 +47,13 @@ include "admin/product/splitfile/headerfile.php";
                 $currentSeason = $row->season;
                 $currentMonth = $row->id;
 
-                //NOTE Getting product from product table where qty lower than 15
-                $query = $source->Query("SELECT * FROM `products` where season = $currentSeason and qty <= '15' and day(current_date)<=30");
+                //NOTE Getting product from product table where qty lower than 15 and  date <=20
+                // FIXME change day(current_date)<=30 to 20;
+                $query = $source->Query("SELECT * FROM `products` where season = $currentSeason and qty <= '15' and day(current_date)<=30 ");
                 $lowqty = $source->FetchAll();
                 $numrow = $source->CountRows();
-                echo $numrow;
                 foreach ($lowqty as $row) :
-                    echo "<tbody>";
+
                     // NOTE Next Month
                     if ($currentMonth != `12`) {
                         $nextMonth  = $currentMonth + 1;
@@ -64,7 +64,7 @@ include "admin/product/splitfile/headerfile.php";
                     $mon = $source->Query("SELECT * FROM `month` where `id` = $nextMonth");
                     $nextS = $source->SingleRow();
                     $nextSeason = $nextS->season;
-
+                    echo "<tbody>";
                     $productid = $row->id;
 
                     // NOTE CURRENT SEASON  == NEXT SEASON then product will come 60% of total order qty.
@@ -85,7 +85,8 @@ include "admin/product/splitfile/headerfile.php";
                 <td class='border-right'>" . $parcent . "</td>
                 <td class='border-right'>" . $featchRow->price . "</td>
                 <td class='border-right'>" . $featchRow->category . "</td>
-                <td class='border-right'>" . $featchRow->sub_category . "</td>";
+                <td class='border-right'>" . $featchRow->sub_category . "</td>
+                <td class='border-right col-1 bg-danger'></td>";
                         echo "
                 </tr>";
                     } else {
@@ -103,12 +104,11 @@ include "admin/product/splitfile/headerfile.php";
                 <td class='border-right'>" . $featchRow->category . "</td>
                 <td class='border-right'>" . $featchRow->sub_category . "</td>";
                         echo "
-                </tr></tbody>";
+                </tr>";
                     }
-                    echo $row->id . "<br>";
                 endforeach;
                 ?>
-
+                </tbody>
             </table>
         </div>
     </div>
