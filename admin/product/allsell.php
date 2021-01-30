@@ -1,6 +1,10 @@
 <?php
 include '../../init.php';
-include 'splitfile/headerfile.php' ?>
+include 'splitfile/headerfile.php' ;
+if(isset($_POST['nextmonth'])){
+    header("location:nextmonth.php");
+}
+?>
 
 
 <html>
@@ -64,7 +68,7 @@ include 'splitfile/headerfile.php' ?>
                                 <input type="submit" value="Low Quintaty" name="lowquintaty" class="btn btn-outline-info">
                             </div>
                             <div class="mr-2">
-                                <input type="submit" value="Next Month Need" name="nmneed" class="btn btn-outline-info">
+                                <input type="submit" value="Next Month Need" name="nextmonth" class="btn btn-outline-info">
                             </div>
                             <div class="mr-2">
                                 <input type="submit" value="Not Sold" name="notsold" class="btn btn-outline-info">
@@ -78,6 +82,8 @@ include 'splitfile/headerfile.php' ?>
             </div>
 
     </div>
+
+    
 
     <!-- show Products -->
     <div class="container-fluid">
@@ -435,8 +441,6 @@ include 'splitfile/headerfile.php' ?>
                             endforeach;
                         }
                     }
-
-
                     ?>
                 </tbody>
             </table>

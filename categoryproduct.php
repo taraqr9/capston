@@ -53,18 +53,18 @@ $parent_cate = $_GET['category'];
                     </li>
                     <li class="nav-item mr-3">
                         <button class="btn nav-link bg-primary mt-2 text-light" data-toggle="collapse" data-target="#demo"><?php
-                                            echo $_SESSION['login_success']; ?>
-                                            </button>
+                                                                                                                            echo $_SESSION['login_success']; ?>
+                        </button>
                         <div id="demo" class="collapse mt-1">
-                            
-                        <ul>
-                            <li><a href="profile.php" class="h5 text-light link-unstyled">Profile</a></li>
-                            <li><a href="cart.php" class="h5 text-light link-unstyled">Cart</a></li>
-                            <li><a href="logout.php" class="h5 text-light text-decoration-none">Logout</a></li>
-                        </ul>
-                        
 
-                            
+                            <ul>
+                                <li><a href="profile.php" class="h5 text-light link-unstyled">Profile</a></li>
+                                <li><a href="cart.php" class="h5 text-light link-unstyled">Cart</a></li>
+                                <li><a href="logout.php" class="h5 text-light text-decoration-none">Logout</a></li>
+                            </ul>
+
+
+
                         </div>
                     </li>
                 </ul>
@@ -74,7 +74,7 @@ $parent_cate = $_GET['category'];
 
     <div class='row container-fluid mt-2 m-auto'>
         <?php
-        $query = $source->Query("SELECT * FROM `products` where category=?",[$parent_cate]);
+        $query = $source->Query("SELECT * FROM `products` where category=?", [$parent_cate]);
         $products = $source->FetchAll();
         $row = $source->CountRows();
         if ($row > 0) {

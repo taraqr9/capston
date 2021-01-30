@@ -1,47 +1,82 @@
 <?php
-include "init.php";
-include "admin/product/splitfile/headerfile.php";
-
+include '../../init.php';
+include 'splitfile/headerfile.php'; 
+if(isset($_POST['back'])){
+    header("location:allsell.php");
+}
 ?>
-<!-- Testing Purpuse -->
 
 
 <html>
 
 <head>
-    <title>Home</title>
+    <title>Products</title>
     <meta name="viewpost" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+    
 </head>
 
 <body>
-    <!-- NOTE details about the color -->
+<!-- navbar -->
+<?php include 'splitfile/navbar.php' ?>
 
-    <!-- View Pending Events -->
-    <div class="container-fluid">
-        <div class="container">
-            <table class="table table-hover border">
-                <thead>
-                    <tr>
-                        <th class="col-1 border-right">Product Id</th>
-                        <th class="col-1 border-right">Name</th>
-                        <th class="col-1 border-right">QTY LEFT</th>
-                        <th class="col-1 border-right">QTY ORDERED</th>
-                        <th class="col-1 border-right">NEED QTY</th>
-                        <th class="col-1 border-right">Price</th>
-                        <th class="col-1 border-right">Category</th>
-                        <th class="col-1 border-right">Sub Category</th>
-                        <th class="col-1 border-right">Reason</th>
-                    </tr>
-                </thead>
+<!-- All Sell lists -->
+<div class="container">
+    <form action="" method="POST">
+        <div class="container-fluid">
+            <div class="row bg-light">
+                <div class="m-2 container ml-lg-auto">
+                    <!-- category Dropdownlist -->
+                    <div class="row">
+                        <div class="mr-2">
+                            <input type="submit" value="BacK" name="back" class="btn btn-outline-danger">
+                        </div>
+                        <!-- men -->
+                        <div class="mr-2">
+                            <input type="submit" value="Before 20" name="before20" class="btn btn-outline-info">
+                        </div>
+                        <div class="mr-2">
+                            <input type="submit" value="On 25 TO 28" name="on25" class="btn btn-outline-info">
+                        </div>
+                        <div class="mr-2">
+                            <input type="submit" value="FOR NEW SEASON" name="nextseason" class="btn btn-outline-info">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</div>
+
+<div class="container-fluid">
+        <div class="container ">
+            <table class="table table-hover ">
                 <tbody>
-                    <?php
-//NOTE Low qty before 20th of this month
+
+
+<?php
+if(isset($_POST['before20'])){
+    //NOTE Low qty before 20th of this month
+
+    echo "<thead>
+                        <tr>
+                            <th class='col-1 border-left border-right'></th>
+                            <th class='col-1 border-right'>PID</th>
+                            <th class='col-1 border-right'>Name</th>
+                            <th class='col-1 border-right'>QTY LEFT</th>
+                            <th class='col-1 border-right'>QTY ORDERED</th>
+                            <th class='col-1 border-right'>QTY NEED</th>
+                            <th class='col-1 border-right'>PRICE</th>
+                            <th class='col-1 border-right'>CATEGORY</th>
+                            <th class='col-1 border-right'>SUB CATEGORY</th>
+                            <th class='col-1 border-right bg-info'>REASON</th>
+                        </tr>
+                    </thead>
+                    ";
                     // NOTE Current season 
                     $date = date('M');
                     $month =  date('m', strtotime($date));
@@ -81,7 +116,7 @@ include "admin/product/splitfile/headerfile.php";
 
                             echo "
                 <tr>
-                
+                <td class='col-1 border-left border-right'> <img class='rounded m-1' style='height:60px;' src='../../assets/productsimg/" . $featchRow->pid . ".jpg' alt='Sample'></td>
                 <td class='border-right'>" . $featchRow->pid . "</td>
                 <td class='border-right'>" . $featchRow->pname . "</td>
                 <td class='border-right'>" . $row->qty . "</td>
@@ -90,7 +125,7 @@ include "admin/product/splitfile/headerfile.php";
                 <td class='border-right'>" . $featchRow->price . "</td>
                 <td class='border-right'>" . $featchRow->category . "</td>
                 <td class='border-right'>" . $featchRow->sub_category . "</td>
-                <td class='border-right col-1 bg-info'>Finished Before 20th</td>";
+                <td class='border-right col-1 bg-info text-white'>Finished Before 20th</td>";
                             echo "
                 </tr>";
                         } else {
@@ -114,9 +149,38 @@ include "admin/product/splitfile/headerfile.php";
 
                     endforeach;
  //NOTE End of low qty before 20th of this month
+}
 
 
-//NOTE Getting product from product table where  date >=25
+if(isset($_POST['on25'])){
+    //NOTE Low qty before 20th of this month
+
+    echo "<thead>
+                        <tr>
+                            <th class='col-1 border-left border-right'></th>
+                            <th class='col-1 border-right'>PID</th>
+                            <th class='col-1 border-right'>Name</th>
+                            <th class='col-1 border-right'>QTY LEFT</th>
+                            <th class='col-1 border-right'>QTY ORDERED</th>
+                            <th class='col-1 border-right'>QTY NEED</th>
+                            <th class='col-1 border-right'>PRICE</th>
+                            <th class='col-1 border-right'>CATEGORY</th>
+                            <th class='col-1 border-right'>SUB CATEGORY</th>
+                            <th class='col-1 border-right bg-secondary'>REASON</th>
+                        </tr>
+                    </thead>
+                    ";
+
+                    $date = date('M');
+                    $month =  date('m', strtotime($date));
+                    $mon = $source->Query("SELECT * FROM `month` where `id` = $month");
+                    $row = $source->SingleRow();
+                    $currentSeason = $row->season;
+                    $currentMonth = $row->id;
+                    $allproductid = [];
+
+                    
+                    //NOTE Getting product from product table where  date >=25
                     // FIXME change day 25;
                     $query = $source->Query("SELECT * FROM `products` where season = $currentSeason and day(current_date)>='25' ");
                     $season = $source->FetchAll();
@@ -150,7 +214,7 @@ include "admin/product/splitfile/headerfile.php";
                                     $addqty = $parcent60 - $productqty;
                                     echo "
                                     <tr>
-                                    
+                                    <td class='col-1 border-left border-right'> <img class='rounded m-1' style='height:60px;' src='../../assets/productsimg/" . $featchRow->pid . ".jpg' alt='Sample'></td>
                                     <td class='border-right'>" . $featchRow->pid . "</td>
                                     <td class='border-right'>" . $featchRow->pname . "</td>
                                     <td class='border-right'>" . $row->qty . "</td>
@@ -166,14 +230,39 @@ include "admin/product/splitfile/headerfile.php";
                             }
                         }
                     }
-// End of currentSeason == NextSeason
+}
 
+if(isset($_POST['nextseason'])){
+    //NOTE Low qty before 20th of this month
 
-                    //NOTE  currentseason != Next season  Then Select next season product from database
+    echo "<thead>
+                        <tr>
+                            <th class='col-1 border-left border-right'></th>
+                            <th class='col-1 border-right'>PID</th>
+                            <th class='col-1 border-right'>Name</th>
+                            <th class='col-1 border-right'>QTY LEFT</th>
+                            <th class='col-1 border-right'>QTY ORDERED</th>
+                            <th class='col-1 border-right'>QTY NEED</th>
+                            <th class='col-1 border-right'>PRICE</th>
+                            <th class='col-1 border-right'>CATEGORY</th>
+                            <th class='col-1 border-right'>SUB CATEGORY</th>
+                            <th class='col-1 border-right'>SEASON</th>
+                            <th class='col-1 border-right bg-info'>REASON</th>
+                        </tr>
+                    </thead>
+                    ";
+
+                    $date = date('M');
+                    $month =  date('m', strtotime($date));
+                    $mon = $source->Query("SELECT * FROM `month` where `id` = $month");
+                    $row = $source->SingleRow();
+                    $currentSeason = $row->season;
+                    $currentMonth = $row->id;
+                    $allproductid = [];
+    //NOTE  currentseason != Next season  Then Select next season product from database
                     // NOTE Next Month
                     if ($currentMonth != `12`) {
                         $nextMonth  = $currentMonth + 1;
-                        echo $nextMonth;
                     } else {
                         $nextMonth = 1;
                     }
@@ -195,7 +284,7 @@ include "admin/product/splitfile/headerfile.php";
                                 $qtyNeed = 100-$pro->qty;
                                 echo "
                                 <tr>
-                                
+                                <td class='col-1 border-left border-right'> <img class='rounded m-1' style='height:60px;' src='../../assets/productsimg/" . $pro->id . ".jpg' alt='Sample'></td>
                                 <td class='border-right'>" . $pro->id . "</td>
                                 <td class='border-right'>" . $pro->name . "</td>
                                 <td class='border-right'>" . $pro->qty . "</td>
@@ -215,17 +304,9 @@ include "admin/product/splitfile/headerfile.php";
                     
                     //NOTE End of CurrentSeason != NextSeason 
 
-                    ?>
-
-                </tbody>
-
-            </table>
-        </div>
-    </div>
-
-
+}
+?>
 
 
 </body>
-
 </html>
