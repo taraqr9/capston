@@ -15,4 +15,6 @@
 
 
 //NOTE All SEason product gula jodi 20 tarikher age ses hoye jay taile oi month ar total sell ar  60% anbe. jodi 60% <=15 tahole addition hobe 20 
+
+//FIXME 
 ?>

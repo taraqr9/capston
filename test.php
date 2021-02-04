@@ -28,6 +28,7 @@ include "admin/product/splitfile/headerfile.php";
             <table class="table table-hover border">
                 <thead>
                     <tr>
+                    <th class="col-1 border-right"></th>
                         <th class="col-1 border-right">Product Id</th>
                         <th class="col-1 border-right">Name</th>
                         <th class="col-1 border-right">QTY LEFT</th>
@@ -80,35 +81,41 @@ include "admin/product/splitfile/headerfile.php";
                             $parcent = (int)(($featchRow->qtyy * 60) / 100);
 
                             echo "
-                <tr>
-                
-                <td class='border-right'>" . $featchRow->pid . "</td>
-                <td class='border-right'>" . $featchRow->pname . "</td>
-                <td class='border-right'>" . $row->qty . "</td>
-                <td class='border-right'>" . $featchRow->qtyy . "</td>
-                <td class='border-right'>" . $parcent . "</td>
-                <td class='border-right'>" . $featchRow->price . "</td>
-                <td class='border-right'>" . $featchRow->category . "</td>
-                <td class='border-right'>" . $featchRow->sub_category . "</td>
-                <td class='border-right col-1 bg-info'>Finished Before 20th</td>";
+                                    <tr>
+                                    <td class='col-1 border-left border-right'> <img class='rounded m-1' style='height:60px;' src='assets/productsimg/" . $featchRow->pid . ".jpg' alt='Sample'></td>
+                                    <td class='border-right'>" . $featchRow->pid . "</td>
+                                    <td class='border-right'>" . $featchRow->pname . "</td>
+                                    <td class='border-right'>" . $row->qty . "</td>
+                                    <td class='border-right'>" . $featchRow->qtyy . "</td>
+                                    <td class='border-right'>" . $parcent . "</td>
+                                    <td class='border-right'>" . $row->price . "</td>
+                                    <td class='border-right'>" . $featchRow->category . "</td>
+                                    <td class='border-right'>" . $featchRow->sub_category . "</td>
+                                    <td class='border-right col-1 bg-info'>Finished Before 20th</td>";
                             echo "
-                </tr>";
+                                    </tr>";
                         } else {
                             $query = $source->Query("SELECT pid,pname,sum(qty) as qtyy,price,category,sub_category  FROM `order` where pid = $row->id and month(date) = month(CURRENT_DATE) and year(date) = year(CURRENT_DATE)");
                             $featchRow = $source->SingleRow();
+                            $nummm = $source->CountRows();
+                            echo $nummm;
+                            echo $featchRow->pid;
                             //NOTE 20% qty for product
                             $parcent = (int)(($featchRow->qtyy * 20) / 100);
                             echo "
-                <tr>
-                <td class='border-right'>" . $featchRow->pid . "</td>
-                <td class='border-right'>" . $featchRow->pname . "</td>
-                <td class='border-right'>" . $featchRow->qtyy . "</td>
-                <td class='border-right'>" . $parcent . "</td>
-                <td class='border-right'>" . $featchRow->price . "</td>
-                <td class='border-right'>" . $featchRow->category . "</td>
-                <td class='border-right'>" . $featchRow->sub_category . "</td>";
+                                    <tr>
+                                    <td class='col-1 border-left border-right'> <img class='rounded m-1' style='height:60px;' src='assets/productsimg/" . $featchRow->pid . ".jpg' alt='Sample'></td>
+                                    <td class='border-right'>" . $featchRow->pid . "</td>
+                                    <td class='border-right'>" . $featchRow->pname . "</td>
+                                    <td class='border-right'>" . $row->qty . "</td>
+                                    <td class='border-right'>" . $featchRow->qtyy . "</td>
+                                    <td class='border-right'>" . $parcent . "</td>
+                                    <td class='border-right'>" . $row->price . "</td>
+                                    <td class='border-right'>" . $featchRow->category . "</td>
+                                    <td class='border-right'>" . $featchRow->sub_category . "</td>
+                                    <td class='border-right col-1 bg-info'>Finished Before 20th</td>";
                             echo "
-                </tr>";
+                                    </tr>";
                         }
                         $allproductid[] = $row->id;
 

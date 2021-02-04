@@ -86,6 +86,7 @@ $parent_cate = $_GET['category'];
                             <span class='card-title '>" . $product->name . "</span>
                             <hr>
                             <p class='card-text h5'>" . $product->price . " Tk</p>
+                            <p class='card-text h5'>" . $product->id . " Tk</p>
                             <a href='productdetails.php?clicked=" . $product->id . "' class='btn btn-outline-success mr-auto'>See Details</a>
                         </div>
 		            </div>
