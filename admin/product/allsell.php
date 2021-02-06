@@ -68,7 +68,7 @@ if(isset($_POST['nextmonth'])){
                                 <input type="submit" value="Low Quintaty" name="lowquintaty" class="btn btn-outline-info">
                             </div>
                             <div class="mr-2">
-                                <input type="submit" value="Next Month Need" name="nextmonth" class="btn btn-outline-info">
+                                <input type="submit" value="Next Month Need" name="nextmonth" class="btn btn-outline-danger">
                             </div>
                             <div class="mr-2">
                                 <input type="submit" value="Not Sold" name="notsold" class="btn btn-outline-info">
@@ -357,7 +357,7 @@ if(isset($_POST['nextmonth'])){
                         $query = $source->Query("SELECT * FROM  `order` WHERE MONTH( DATE ) = MONTH( DATE_SUB(CURDATE(),INTERVAL 1 MONTH ))");
                         $details = $source->FetchAll();
                         $numrow = $source->CountRows();
-
+                        $allpid = [];
                         foreach ($details as $row) {
 
                             //cate name

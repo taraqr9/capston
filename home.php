@@ -56,19 +56,14 @@ if (isset($_POST['profile'])) {
                         <a href="order.php" class="nav-link text-light">Order</a>
                     </li>
                     <li class="nav-item mr-3">
-                        <button class="btn nav-link bg-primary mt-2 text-light" data-toggle="collapse" data-target="#demo"><?php
-                                                                                                                            echo $_SESSION['login_success']; ?>
+                        <button class="btn nav-link bg-primary mt-2 text-light" data-toggle="collapse" data-target="#demo"><?php echo $_SESSION['login_success']; ?>
                         </button>
                         <div id="demo" class="collapse mt-1">
-
                             <ul>
                                 <li><a href="profile.php" class="h5 text-light link-unstyled">Profile</a></li>
                                 <li><a href="cart.php" class="h5 text-light link-unstyled">Cart</a></li>
                                 <li><a href="logout.php" class="h5 text-light text-decoration-none">Logout</a></li>
                             </ul>
-
-
-
                         </div>
                     </li>
                 </ul>
@@ -86,7 +81,7 @@ if (isset($_POST['profile'])) {
         if ($row > 0) {
             foreach ($products as $product) {
                 echo   "<div class='mainbody col-sm-5 col-md-5 col-lg-2'>
-                   <div class='card bg-light'>
+                <div class='card bg-light'>
                         <img class='card-img-top ' src='assets/productsimg/" . $product->image . "'>
                         <div class='card-body'>
                             <span class='card-title '>" . $product->name . "</span>

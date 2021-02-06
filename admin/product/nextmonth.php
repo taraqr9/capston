@@ -43,7 +43,7 @@ if(isset($_POST['back'])){
                             <input type="submit" value="On 25 TO 28" name="on25" class="btn btn-outline-info">
                         </div>
                         <div class="mr-2">
-                            <input type="submit" value="FOR NEW SEASON" name="nextseason" class="btn btn-outline-info">
+                            <input type="submit" value="NEXT SEASON" name="nextseason" class="btn btn-outline-info">
                         </div>
                         <div class="mr-2">
                             <input type="submit" value="ALL SEASON" name="allseason" class="btn btn-outline-info">
@@ -76,7 +76,7 @@ if(isset($_POST['before20'])){
                             <th class='col-1 border-right'>PRICE</th>
                             <th class='col-1 border-right'>CATEGORY</th>
                             <th class='col-1 border-right'>SUB CATEGORY</th>
-                            <th class='col-1 border-right bg-info'>REASON</th>
+                            <th class='col-1 border-right bg-info text-white'>REASON</th>
                         </tr>
                     </thead>
                     ";
@@ -175,7 +175,7 @@ elseif(isset($_POST['on25'])){
                             <th class='col-1 border'>PRICE</th>
                             <th class='col-1 border'>CATEGORY</th>
                             <th class='col-1 border'>SUB CATEGORY</th>
-                            <th class='col-1 border bg-secondary'>REASON</th>
+                            <th class='col-1 border bg-info text-white'>REASON</th>
                         </tr>
                     </thead>
                     ";
@@ -259,7 +259,7 @@ elseif(isset($_POST['nextseason'])){
                             <th class='col-1 border'>CATEGORY</th>
                             <th class='col-1 border'>SUB CATEGORY</th>
                             <th class='col-1 border'>SEASON</th>
-                            <th class='col-1 border bg-info'>REASON</th>
+                            <th class='col-1 border bg-info text-white'>REASON</th>
                         </tr>
                     </thead>
                     ";
@@ -435,7 +435,7 @@ elseif(isset($_POST['allseason'])){
                     }
         }
 else{
-    
+    //FIXME  When people will come from previous page they should see all button details.
 }
 
 ?>

@@ -1,0 +1,219 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+.headerSection{
+    background-color: #53d2c1;
+    padding: 15px 0px;
+    @media (max-width:1199px) {
+        padding: 10px 0px;
+    }
+    @media (max-width:991px) {
+        padding: 8px 0px;
+    }
+    h2{
+        color: #000;
+        color: #fff;
+        font-size: 46px;
+        text-shadow: -5px 6px 2px #515151;
+        @media (max-width:1199px) {
+            font-size: 36px;
+        }
+        @media (max-width:991px) {
+            font-size: 30px;
+        }
+        @media (max-width:767px) {
+            font-size: 22px;
+        }
+        @media (max-width:575px) {
+            font-size: 16px;
+        }
+    }
+    .searchTextField{
+        position: relative;
+        .form-control {
+            padding: 12px .75rem;
+            @media (max-width:1199px) {
+                padding: 10px .75rem;
+            }
+            @media (max-width:767px) {
+                padding: 8px .75rem;
+            }
+            @media (max-width:575px) {
+                padding: 5px 10px;
+            }
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #838588;
+            border-radius: 33px !important;
+        }
+        .searchIcon{
+            position: absolute;
+            top: 8px;
+            right: 22px;
+            @media (max-width:767px) {
+                top: 6px;
+            }
+            @media (max-width:575px) {
+                top: 2px;
+                right: 12px;
+            }
+            .fa-search{
+                color: #53d2c1 ;
+            }
+        }
+    }
+    a{
+        padding-left: 46px;
+        @media (max-width:991px) {
+            padding-left: 10px;
+        }
+        @media (max-width:575px) {
+            padding-left: 0px;
+        }
+        img{
+            width: 48px;
+            @media (max-width:575px) {
+                width: 24px;
+            }
+        }
+    }
+    .profile{
+        text-align: right;
+        @media (max-width:575px) {
+            text-align: left;
+        }
+        img{
+            width: 48px;
+            @media (max-width:575px) {
+                width: 24px;
+            }
+        }
+        span{
+            color: #fff;
+            padding-left: 9px;
+            font-weight: lighter;
+            @media (max-width:991px) {
+                font-size: 10px;
+                padding-left: 9px;
+            }
+            @media (max-width:575px) {
+                font-size: 6px;
+                padding-left: 0px;
+            }
+        }
+    }
+}
+.bannerSection{
+    padding: 20px 0px;
+    .catagory{
+        border: 3px solid #53d2c1;
+        border-radius: 33px;
+        padding: 10px 10px 160px 10px;
+        position: fixed;
+        @media (max-width:1199px) {
+            padding: 0px 0px 20px;
+        }
+        @media (max-width:991px) {
+            position: relative;
+            padding: 0px 0px 20px;
+        }
+        @media (max-width:767px) {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        @media (max-width:575px) {
+            position: relative;
+            z-index: 10;
+            background-color: #fff;
+            border-radius: 22px;
+        }
+        .accordion-button {
+            color:  #53d2c1 ;
+            border: none;
+            border-radius: 0 !important;
+            overflow-anchor: none;
+            transition:none !important;
+            @media (max-width:1199px) {
+                font-size: 14px;
+            }
+            @media (max-width:991px) {
+                font-size: 12px;
+                text-align: left;
+            }
+            img{
+                margin-right: 20px;
+                @media (max-width:1199px) {
+                    margin-right: 4px;
+                }
+                @media (max-width:991px) {
+                    margin-right: 4px;
+                }
+            }
+            &:hover{
+                color: red;
+            }
+            @media (max-width:575px) {
+                padding: 8px 0px;
+                text-align: center;
+            }
+        }
+        .accordion-button::after {
+            background-image: none !important;
+            transition: none !important;
+            @media (max-width:991px) {
+                width: 0.25rem !important;
+                height: 0.25rem !important;
+            }
+        }
+        ul{
+            list-style-type: none;
+            font-weight: lighter;
+            padding: 0px 2px;
+            padding: 0px 54px;
+            a{
+                color: #53d2c1;
+                text-decoration: none;
+                @media (max-width:767px) {
+                    font-size: 12px;
+                }
+                &:hover{
+                    color: red;
+                }
+            }
+        }
+    }
+    .product{
+        font-size: 14px;
+        @media (max-width:1199px) {
+            font-size: 12px;
+        }
+        @media (max-width:767px) {
+            font-size: 10px;
+        }
+        .card{
+            margin-bottom: 20px;
+            @media (max-width:575px) {
+                text-align: center;
+            }
+            strong{
+                font-weight: initial;
+                font-size: 24px !important; 
+                color: #df500a;
+            }
+            ul{
+                list-style-type: none;
+                padding-left: 0px !important;
+                li{
+                    display: inline;
+                    .fa-star{
+                        color: #fcc45f;
+                    }
+                }
+            }
+            &:hover{
+                box-shadow: 3px 3px 10px #888888;
+            }
+        }
+    }
+}

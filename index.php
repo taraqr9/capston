@@ -93,7 +93,10 @@ if(isset($_POST['login'])){
                     </div>
                 </div>
                 <p class="signup"><a href="signup.php">Don't have account? Signup here</a></p>
+
+                <p class="signup"><a href="admin/admin.php" >Goto Admin Panel</a></p>
             </div>
+
         </form>
     </div>
 </body>
