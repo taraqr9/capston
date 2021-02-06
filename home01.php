@@ -44,13 +44,15 @@ if (isset($_POST['profile'])) {
         <!-- search box column -->
         <div class="col-5 col-sm-4 col-xsm-3">
           <div class="searchTextField">
-            <form class="d-flex">
-              <input class="form-control me-2" type="search" aria-label="Search">
-            </form>
+            <form class="d-flex" method="POST">
+              <input class="form-control me-2" type="search" name="search">
             <div class="searchIcon">
-              <i class="fas fa-search fa-2x"></i>
+            <a href="home01.php?sbtn = 00"><i class="fas fa-search fa-2x"></i></a>
+              
             </div>
+            </form>
           </div>
+          
         </div>
         <div class="col-1 col-sm-1 col-xsm-1">
           <a href="#"><img src="assets/img/shopping.png" alt=""></a>
@@ -168,8 +170,9 @@ if (isset($_POST['profile'])) {
 
             <div class="row">
               <?php
-              if (isset($_GET['category'])  && isset($_GET['sub_category'])) {
-                $query = $source->Query("SELECT * FROM `products` where category = ? and sub_category = ? ", [$_GET['category'], $_GET['sub_category']]);
+              //FIXME  search er ta thik korte hobe.
+              if(isset($_GET['sbtn']) && !empty($_POST['search'])){
+                $query = $source->Query("SELECT * FROM products WHERE name like '%" . $_POST['search'] . "%'");
                 $products = $source->FetchAll();
                 $totalRow = $source->CountRows();
 
@@ -201,9 +204,43 @@ if (isset($_POST['profile'])) {
                   ";
 
                 endforeach;
+              }
+              elseif (isset($_GET['category'])  && isset($_GET['sub_category'])) {
+                $query = $source->Query("SELECT * FROM `products` where category = ? and sub_category = ? ", [$_GET['category'], $_GET['sub_category']]);
+                $products = $source->FetchAll();
+                $totalRow = $source->CountRows();
+
+                foreach ($products as $product) :
+                  $price = $product->price * .10;
+                  $offerprice = $product->price - $price;
+                  echo "
+                  
+                  <div class='col-sm-3'>
+                      <div class='card' >
+                        <img src='assets/productsimg/" . $product->id . ".jpg' class='card-img-top' style='height:200px;' alt=''>
+                        <div class='card-body'>
+                          <p class='card-text ' style='height:30px;'>" . $product->name . "</p>
+                          <strong>" . intval($offerprice) . " TK</strong><br>
+                          <del><strong class = 'text-secondary'>" . $product->price . " TK</strong></del><br>
+                          
+                          <ul>
+                            <li><i class='fas fa-star'></i></li>
+                            <li><i class='fas fa-star'></i></li>
+                            <li><i class='fas fa-star'></i></li>
+                            <li><i class='fas fa-star'></i></li>
+                            <li><i class='fas fa-star'></i></li>
+                          </ul>
+                        </div>
+                        <a href='productdetails.php?clicked=" . $product->id . "' class='btn btn-outline-info p-2'>See Details</a>
+                      </div>
+                    </div>
+                  
+                  ";
+
+                endforeach;
               } else {
                 $i = 0;
-                for ($i = 0; $i <= 20; $i++) {
+                for ($i = 0; $i <= 23; $i++) {
                   $randomNumber = [];
                   $randNum = rand(2, 400);
                   if (!in_array($randNum, $randomNumber)) {
@@ -211,13 +248,12 @@ if (isset($_POST['profile'])) {
                     $product = $source->SingleRow();
 
                       $price = $product->price * .10;
-                      $offerprice = $product->price - $price;
+                      $offerprice = $product->price - intval($price);
                       echo "
                       
                       <div class='col-sm-3'>
                           <div class='card' >
                             <img src='assets/productsimg/" . $product->id . ".jpg' class='card-img-top' style='height:200px;' alt=''>
-                            <a href='productdetails.php?clicked=" . $product->id . "' class = 'nav-link'>
                             <div class='card-body'>
                               <p class='card-text ' style='height:30px;'>" . $product->name . "</p>
                               <strong>" . intval($offerprice) . " TK</strong><br>
@@ -230,8 +266,9 @@ if (isset($_POST['profile'])) {
                                 <li><i class='fas fa-star'></i></li>
                                 <li><i class='fas fa-star'></i></li>
                               </ul>
+                              
                             </div>
-                            </a>
+                            <a href='productdetails.php?clicked=" . $product->id . "' class='btn btn-outline-info p-2'>See Details</a>
                           </div>
                         </div>
                       
@@ -241,8 +278,6 @@ if (isset($_POST['profile'])) {
                     $i--;
                   }
                 }
-
-                $_GET['category'] = '';
               }
               ?>
 
