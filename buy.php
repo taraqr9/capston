@@ -78,57 +78,17 @@ if (isset($_POST['proceed'])) {
 <html>
 
 <head>
-    <meta name="viewpost" content="width=device-width, initial-scale=1.0">
-    <link href="assets/css/home.css?v=<?php echo time(); ?>" rel="stylesheet" type="text/css">
-    <link href="assets/css/buy.css?v=<?php echo time(); ?>" rel="stylesheet" type="text/css">
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+    <?php include 'assets/splitfile/linkfiles.html'; ?>
+    <style>
+        .stars {
+            color: #fcc45f;
+        }
+    </style>
 </head>
 
 <body>
     <!-- Top Bar -->
-    <nav class=" navbar navbar-expand-md navbar-light sticky-top">
-        <div class="container">
-            <h1 class="display-4 text-light"><a href="home.php" style="text-decoration: none; color: white;">DailyBazar</a></h1>
-
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item mr-3 active">
-                        <a href="#" class="nav-link text-light">Home</a>
-                    </li>
-                    <li class="nav-item mr-3">
-                        <a href="#" class="nav-link text-light">Man</a>
-                    </li>
-                    <li class="nav-item mr-3">
-                        <a href="#" class="nav-link text-light">Women</a>
-                    </li>
-                    <li class="nav-item mr-3">
-                        <a href="#" class="nav-link text-light">Food</a>
-                    </li>
-                    <li class="nav-item mr-3">
-                        <a href="order.php" class="nav-link text-light">Order</a>
-                    </li>
-                    <li class="nav-item mr-3">
-                        <button class="btn nav-link bg-primary mt-2 text-light" data-toggle="collapse" data-target="#demo"><?php
-                                                                                                                            echo $_SESSION['login_success'];
-                                                                                                                            ?></button>
-                        <div id="demo" class="collapse mt-1">
-                            <a href="profile.php" class="h5 text-light link-unstyled">Profile</a>
-
-                            <a href="logout.php" class="h5 text-light text-decoration-none">Logout</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php include "assets/splitfile/header.php" ?>
 
     <!-- Notification Bar -->
         <?php
@@ -150,14 +110,12 @@ if (isset($_POST['proceed'])) {
     ?>
     <!-- show product -->
     <form action="" method="POST">
-
-
-        <div class="container-fluid">
+        <div class="container">
             <div class="container-fluid bg-light m-auto row mb-4">
                 <div class="col-md-5 col-lg-2 col-xl-2">
                     <div class="mb-3 mb-md-0">
 
-                        <img class="rounded w-50 m-1" src="assets/productsimg/<?php echo $_GET['clicked']; ?>.jpg" alt="Sample">
+                        <img class="rounded w-75 m-1" src="assets/productsimg/<?php echo $_GET['clicked']; ?>.jpg" alt="Sample">
                     </div>
                 </div>
 
@@ -217,8 +175,8 @@ if (isset($_POST['proceed'])) {
         </div>
 
         <div class="container mt-5 text-left">
-            <a href="#" style="text-decoration:none; color: black; margin-left:90px;">
-                <input type="submit" name="proceed" value="Proceed To Buy" class="btn btn-outline-success col-3">
+            <a href="#" style="text-decoration:none; color: black; margin-left:205px;">
+                <input type="submit" name="proceed" value="Proceed To Buy" class="btn btn-outline-success col-2">
             </a>
         </div>
 

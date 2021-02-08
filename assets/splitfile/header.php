@@ -29,7 +29,7 @@
                             </button>
                             <div class="ddr dropdown-menu rounded" style="margin-left:200px;" aria-labelledby="dropdownMenu2">
                                 <a href="profile.php" class=" h5 rounded-pill dropdown-item">Profile</a>
-                                <a href="cart.php" class="h5 rounded-pill dropdown-item ">Cart</a>
+                                <a href="order.php" class="h5 rounded-pill dropdown-item ">Order</a>
                                 <a href="logout.php" class="h5 rounded-pill dropdown-item">Logout</a>
                             </div>
                         </div>

@@ -17,6 +17,11 @@
 //NOTE All SEason product gula jodi 20 tarikher age ses hoye jay taile oi month ar total sell ar  60% anbe. jodi 60% <=15 tahole addition hobe 20 
 
 //FIXME 
-    1. Buynow .php 
-    2. cart.php
+DATABASE
+    season fixing
+    some product add similer of season 
+    fix image name 
+
+IN SOFTWARE
+    1. Product edit, delete, approved, cancel,pending checking and fixing.
 ?>

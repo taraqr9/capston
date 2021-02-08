@@ -1,13 +1,8 @@
-<!-- //Some changes will happen -->
-
 <?php include "init.php";
 if (isset($_POST['profile'])) {
     header('location:prfile.php');
 }
 
-?>
-
-<?php
 // Query for product details
 
 if (!empty($_GET['clicked'])) {
@@ -51,7 +46,6 @@ if (isset($_POST['s'])) {
 }
 
 //special offer 10%
-
 $price = $product->price * .10;
 $offerprice = $product->price - $price;
 ?>
@@ -76,44 +70,7 @@ $offerprice = $product->price - $price;
     <!-- nav bar -->
     <?php include "assets/splitfile/header.php" ?>
 
-    <!-- <nav class=" navbar navbar-expand-md navbar-light sticky-top">
-        <div class="container">
-            <h1 class="display-4 text-light"><a href="home.php" style="text-decoration: none; color: white;">DailyBazar</a></h1>
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item mr-3 active">
-                        <a href="#" class="nav-link text-light">Home</a>
-                    </li>
-                    <li class="nav-item mr-3">
-                        <a href="#" class="nav-link text-light">Man</a>
-                    </li>
-                    <li class="nav-item mr-3">
-                        <a href="#" class="nav-link text-light">Women</a>
-                    </li>
-                    <li class="nav-item mr-3">
-                        <a href="#" class="nav-link text-light">Food</a>
-                    </li>
-                    <li class="nav-item mr-3">
-                        <a href="order.php" class="nav-link text-light">Order</a>
-                    </li>
-                    <li class="nav-item mr-3">
-                        <button class="btn nav-link bg-primary mt-2 text-light" data-toggle="collapse" data-target="#demo"><?php
-                                                                                                                            echo $_SESSION['login_success'];
-                                                                                                                            ?></button>
-                        <div id="demo" class="collapse mt-1">
-                            <a href="profile.php" class="h5 text-light link-unstyled">Profile</a>
-
-                            <a href="logout.php" class="h5 text-light text-decoration-none">Logout</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav> -->
     <!-- After bought product msg -->
     <div class="text-success bg-light h3">
         <?php
@@ -130,8 +87,6 @@ $offerprice = $product->price - $price;
     </div>
     <!-- Product -->
     <form action="" method="POST">
-
-
         <section class="bannerSection">
             <div class="container-fluid">
                 <div class="row">
@@ -205,9 +160,9 @@ $offerprice = $product->price - $price;
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <!-- NOTE Product Details END -->
+
                 <!-- NOTE Suggested product Start -->
                 <?php
                 $query = $source->Query("SELECT max(id) as id FROM `products` WHERE category=? and sub_category=?", [$category, $sub_cate]);

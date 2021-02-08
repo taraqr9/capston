@@ -6,31 +6,22 @@ if (!isset($_SESSION['id'])) {
 if (isset($_POST['profile'])) {
     header('location:prfile.php');
 }
-?>
-
-
-<?php
-
-
 // checking user details
 if (isset($_POST['proceed'])) {
-
-
-
     // get check list value-------------------------
 
     if (!empty($_POST['check_list'])) {
         $count = 0;
         foreach ($_POST['check_list'] as $check) :
-            
+
 
             //size
             $size0 = $source->Query("SELECT * FROM cart WHERE pid LIKE ? and uid like ?", [$check, $_SESSION['id']]);
             $size1 = $source->SingleRow();
-            
-            if(!empty($size1->oid)){
+
+            if (!empty($size1->oid)) {
                 $oid = $size1->oid;
-            }else{
+            } else {
                 $oid = "";
             }
             if (!empty($size1->size)) {
@@ -39,7 +30,7 @@ if (isset($_POST['proceed'])) {
                 $size = "";
             }
 
-            $qty = $_POST['qty'] ;
+            $qty = $_POST['qty'];
 
             //details for cart to order table
             $db = $source->Query("SELECT * FROM products WHERE id=?", [$check]);
@@ -60,19 +51,19 @@ if (isset($_POST['proceed'])) {
             //special offer 10%
             $price0 = $price * .10;
             $offerprice = $price - $price0;
-            $price1 = intval($offerprice)*$qty[$count];
-            if($qty[$count] != 0 || !empty($qty[$count])){
-                if ($source->Query("INSERT INTO `order` SET pid=?,uid=?,pname=?,qty=?,size=?,category=?,sub_category=?,price=?, name =?, email = ?, phone=?,address=?, status=?", [$check, $_SESSION['id'], $pname,$qty[$count], $size, $category, $sub_category,$price1, $data['name'], $data['email'], $data['phone'], $data['address'], $status])) {
-                    if ($source->Query("DELETE FROM cart WHERE oid =?", [$oid ])) {
+            $price1 = intval($offerprice) * $qty[$count];
+            if ($qty[$count] != 0 || !empty($qty[$count])) {
+                if ($source->Query("INSERT INTO `order` SET pid=?,uid=?,pname=?,qty=?,size=?,category=?,sub_category=?,price=?, name =?, email = ?, phone=?,address=?, status=?", [$check, $_SESSION['id'], $pname, $qty[$count], $size, $category, $sub_category, $price1, $data['name'], $data['email'], $data['phone'], $data['address'], $status])) {
+                    if ($source->Query("DELETE FROM cart WHERE oid =?", [$oid])) {
                         $success = "Added On your ordered list. Please check on order  page";
                     }
                 } else {
                     $success = "Something went wrong";
                 }
             }
-            
 
-            
+
+
             $count++;
         endforeach;
     }
@@ -81,57 +72,18 @@ if (isset($_POST['proceed'])) {
 <html>
 
 <head>
-    <meta name="viewpost" content="width=device-width, initial-scale=1.0">
-    <link href="assets/css/home.css?v=<?php echo time(); ?>" rel="stylesheet" type="text/css">
-    <link href="assets/css/buy.css?v=<?php echo time(); ?>" rel="stylesheet" type="text/css">
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+    <?php include 'assets/splitfile/linkfiles.html'; ?>
+    <style>
+        .stars {
+            color: #fcc45f;
+        }
+    </style>
 </head>
 
 <body>
     <!-- Top Bar -->
-    <nav class=" navbar navbar-expand-md navbar-light sticky-top">
-        <div class="container">
-            <h1 class="display-4 text-light"><a href="home.php" style="text-decoration: none; color: white;">DailyBazar</a></h1>
+    <?php include "assets/splitfile/header.php" ?>
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item mr-3 active">
-                        <a href="#" class="nav-link text-light">Home</a>
-                    </li>
-                    <li class="nav-item mr-3">
-                        <a href="#" class="nav-link text-light">Man</a>
-                    </li>
-                    <li class="nav-item mr-3">
-                        <a href="#" class="nav-link text-light">Women</a>
-                    </li>
-                    <li class="nav-item mr-3">
-                        <a href="#" class="nav-link text-light">Food</a>
-                    </li>
-                    <li class="nav-item mr-3">
-                        <a href="order.php" class="nav-link text-light">Order</a>
-                    </li>
-                    <li class="nav-item mr-3">
-                        <button class="btn nav-link bg-primary mt-2 text-light" data-toggle="collapse" data-target="#demo"><?php
-                                                                                                                            echo $_SESSION['login_success'];
-                                                                                                                            ?></button>
-                        <div id="demo" class="collapse mt-1">
-                            <a href="profile.php" class="h5 text-light link-unstyled">Profile</a>
-
-                            <a href="logout.php" class="h5 text-light text-decoration-none">Logout</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
     <!-- test part -->
     <div class="text-success">
@@ -186,7 +138,7 @@ if (isset($_POST['proceed'])) {
 
                         if (!empty($carts->size)) {
                             echo "<p class='mb-3 text-muted text-uppercase small'> Size : ";
-                            echo $carts->size."</p>";
+                            echo $carts->size . "</p>";
                         }
                     }
                     echo "
@@ -210,12 +162,11 @@ if (isset($_POST['proceed'])) {
                             <th>TK. 10%</th>
                             <th>TK. " . intval($price) . "</th>
                         </tr>
-                       </table>
+                    </table>
                         
                     </div>
-                    <a href='php/delete.php?remove=" . $carts->oid . "' class='btn btn-outline-danger m-auto h-25'>Remove</a>
-                      
-                  </div>
+                    <a href='php/delete.php?remove=" . $carts->oid . "' class='btn btn-outline-danger m-auto h-25 col-2'>Remove</a>
+                    </div>
             </div>
             
             
@@ -240,14 +191,14 @@ if (isset($_POST['proceed'])) {
                 </div>
                 <hr class="bg-success">
             </div>
-            <div class="mt-5 w-25">
-            <a href="#" style="text-decoration:none; color: black; margin-left:10px;">
-                <input type="submit" name="proceed" value="Proceed" class="btn btn-outline-success col-s-3">
-            </a>
-        </div>
+            <div class="mt-5 w-25 mb-5">
+                <a href="#" style="text-decoration:none; color: black; margin-left:10px;">
+                    <input type="submit" name="proceed" value="Proceed" class="btn btn-outline-success col-s-3">
+                </a>
+            </div>
         </div>
 
-        
+
 
     </form>
 
