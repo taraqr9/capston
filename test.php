@@ -1,234 +1,348 @@
 <?php
 include "init.php";
-include "admin/product/splitfile/headerfile.php";
+if (!isset($_SESSION['id'])) {
+    header('location:index.php');
+}
+if (isset($_POST['profile'])) {
+    header('location:prfile.php');
+}
 
 ?>
-<!-- Testing Purpuse -->
 
-
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
-    <title>Home</title>
-    <meta name="viewpost" content="width=device-width, initial-scale=1.0" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewpost" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+    <!-- style CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <meta name="viewpost" content="width=device-width, initial-scale=1.0">
+    <title>Daily Bazar|Home</title>
+    <link rel="icon" href="assets/img/Logo2.png">
+
+    <!-- font awsome link -->
+    <link rel="stylesheet" href="assets/css/all.css">
+
 </head>
 
 <body>
-    <!-- NOTE details about the color -->
-
-    <!-- View Pending Events -->
-    <div class="container-fluid">
+    <!-- ***** header-section start***** -->
+    <section class="headerSection sticky-top">
         <div class="container">
-            <table class="table table-hover border">
-                <thead>
-                    <tr>
-                    <th class="col-1 border-right"></th>
-                        <th class="col-1 border-right">Product Id</th>
-                        <th class="col-1 border-right">Name</th>
-                        <th class="col-1 border-right">QTY LEFT</th>
-                        <th class="col-1 border-right">QTY ORDERED</th>
-                        <th class="col-1 border-right">NEED QTY</th>
-                        <th class="col-1 border-right">Price</th>
-                        <th class="col-1 border-right">Category</th>
-                        <th class="col-1 border-right">Sub Category</th>
-                        <th class="col-1 border-right">Reason</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-//NOTE Low qty before 20th of this month
-                    // NOTE Current season 
-                    $date = date('M');
-                    $month =  date('m', strtotime($date));
-                    $mon = $source->Query("SELECT * FROM `month` where `id` = $month");
-                    $row = $source->SingleRow();
-                    $currentSeason = $row->season;
-                    $currentMonth = $row->id;
-                    $allproductid = [];
+            <div class="row" style="align-items: center;">
+                <!-- logo-column -->
+                <div class="col-3 col-sm-3 col-xsm-2">
+                    <h2><a href="home.php" style="text-decoration: none; color: white;">DailyBazar</a></h2>
+                </div>
+                <!-- search box column -->
+                <div class="col-5 col-sm-4 col-xsm-3">
+                    <div class="searchTextField">
+                        <form class="d-flex" method="POST">
+                            <input class="form-control me-2" type="text" name="search" required>
+                            <input type="submit" name="searchBtn" value="SEARCH" class="btn btn-outline-light rounded-pill">
+                        </form>
+                    </div>
 
-                    //NOTE Getting product from product table where qty lower than 15 and  date <=20
-                    // FIXME change day(current_date)<=30 to 20;
-                    $query = $source->Query("SELECT * FROM `products` where season = $currentSeason and qty <= '15' and day(current_date)<=30 ");
-                    $lowqty = $source->FetchAll();
-                    $numrow = $source->CountRows();
-                    foreach ($lowqty as $row) :
+                </div>
+                <div class="col-1 col-sm-1 col-xsm-1">
+                    <a href="cart.php"><img src="assets/img/shopping.png" alt=""></a>
+                </div>
+                <div class="col-3 col-sm-4 col-xsm-6">
+                    <div class="row">
+                        <div class="profile">
+                            <div class="profileDrop dropdown">
+                                <button class="btn shadow-none dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="assets/img/profile.svg" style="width: 40px; margin-bottom:10px">
+                                    <span class="h3"><?php echo $_SESSION['login_success']; ?></span>
+                                </button>
+                                <div class="ddr dropdown-menu rounded" style="margin-left:200px;" aria-labelledby="dropdownMenu2">
+                                    <a href="profile.php" class=" h5 rounded-pill dropdown-item">Profile</a>
+                                    <a href="cart.php" class="h5 rounded-pill dropdown-item ">Cart</a>
+                                    <a href="logout.php" class="h5 rounded-pill dropdown-item">Logout</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ***** header-section End ***** -->
+    <!-- ***** Banner section start ***** -->
 
-                        // NOTE Next Month
-                        if ($currentMonth != `12`) {
-                            $nextMonth  = $currentMonth + 1;
-                        } else {
-                            $nextMonth = 1;
-                        }
-                        // NOTE next season
-                        $mon = $source->Query("SELECT * FROM `month` where `id` = $nextMonth");
-                        $nextS = $source->SingleRow();
-                        $nextSeason = $nextS->season;
+    <section class="bannerSection">
+        <div class="container">
+            <div class="row">
+                <div class="col-xxl-3 col-xl-3 col-lg-3 col-sm-12">
+                    <div class="catagory">
+                        <div class="accordion accordion-flush" id="accordionFlushExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingOne">
+                                    <button class="accordion-button  collapsed shadow-none" style="background: none;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                        <img src="assets/img/Men.svg" alt="" style="width: 23px;">
+                                        <h3>Men's Fashion</h3>
+                                    </button>
+                                </h2>
+                                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><a href="home.php?category=1&sub_category=2">
+                                                    <h4>T-Shirt</h4>
+                                                </a></li>
+                                            <li><a href="home.php?category=1&sub_category=3">
+                                                    <h4>Panjabi</h4>
+                                                </a></li>
+                                            <li><a href="home.php?category=1&sub_category=4">
+                                                    <h4>Pants</h4>
+                                                </a></li>
+                                            <li><a href="home.php?category=1&sub_category=5">
+                                                    <h4>Shoes</h4>
+                                                </a></li>
+                                            <li><a href="home.php?category=1&sub_category=6">
+                                                    <h4>Accessories</h4>
+                                                </a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingTwo">
+                                    <button class="accordion-button collapsed shadow-none" style="background: none;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                                        <img src="assets/img/women.svg" alt="" style="width: 16px;">
+                                        <h3>Women's Fashion</h3>
+                                    </button>
+                                </h2>
+                                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><a href="home.php?category=7&sub_category=8">
+                                                    <h4>Saree</h4>
+                                                </a></li>
+                                            <li><a href="home.php?category=7&sub_category=9">
+                                                    <h4>Traditional Clothing</h4>
+                                                </a></li>
+                                            <li><a href="home.php?category=7&sub_category=10">
+                                                    <h4>Women Bag</h4>
+                                                </a></li>
+                                            <li><a href="home.php?category=7&sub_category=11">
+                                                    <h4>Shoes</h4>
+                                                </a></li>
+                                            <li><a href="home.php?category=7&sub_category=12">
+                                                    <h4>Accessories</h4>
+                                                </a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingThree">
+                                    <button class="accordion-button collapsed shadow-none" style="background: none;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                                        <img src="assets/img/helth.svg" alt="" style="width: 16px;">
+                                        <h3>Health and Beauty</h3>
+                                    </button>
+                                </h2>
+                                <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><a href="home.php?category=13&sub_category=14">
+                                                    <h4>Bath Body</h4>
+                                                </a></li>
+                                            <li><a href="home.php?category=13&sub_category=15">
+                                                    <h4>Beauty Tool</h4>
+                                                </a></li>
+                                            <li><a href="home.php?category=13&sub_category=16">
+                                                    <h4>Hair Care</h4>
+                                                </a></li>
+                                            <li><a href="home.php?category=13&sub_category=17">
+                                                    <h4>Man Care</h4>
+                                                </a></li>
+                                            <li><a href="home.php?category=13&sub_category=18">
+                                                    <h4>Skin Care</h4>
+                                                </a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingFour">
+                                    <button class="accordion-button collapsed shadow-none" style="background: none;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                                        <img src="assets/img/Electronic.svg" alt="" style="width: 16px;">
+                                        <h3>Electronic Devices</h3>
+                                    </button>
+                                </h2>
+                                <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><a href="home.php?category=19&sub_category=20">
+                                                    <h4>Mobile</h4>
+                                                </a></li>
+                                            <li><a href="home.php?category=19&sub_category=21">
+                                                    <h4>Tablet</h4>
+                                                </a></li>
+                                            <li><a href="home.php?category=19&sub_category=22">
+                                                    <h4>Laptop</h4>
+                                                </a></li>
+                                            <li><a href="home.php?category=19&sub_category=23">
+                                                    <h4>Camera</h4>
+                                                </a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingFive">
+                                    <button class="accordion-button collapsed shadow-none" style="background: none;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
+                                        <img src="assets/img/food.svg" alt="" style="width: 16px;">
+                                        <h3>Food</h3>
+                                    </button>
+                                </h2>
+                                <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><a href="home.php?category=24&sub_category=25">
+                                                    <h4>Fruit</h4>
+                                                </a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- //NOTE Main Section  -->
+                <div class="col-xxl-9 col-xl-9 col-lg-9 col-sm-12">
+                    <div class="product">
 
+                        <div class="row">
+                            <?php
+                            if (isset($_POST['searchBtn']) && !empty($_POST['search'])) {
+                                $query = $source->Query("SELECT * FROM products WHERE name like '%" . $_POST['search'] . "%'");
+                                $products = $source->FetchAll();
+                                $totalRow = $source->CountRows();
 
-                        // NOTE CURRENT SEASON  == NEXT SEASON then product will come 60% of total order qty.
-                        // else 20% of the total order of the product id
-                        if ($currentSeason == $nextSeason) {
-                            $query = $source->Query("SELECT pid,pname,sum(qty) as qtyy,price,category,sub_category  FROM `order` where pid = $row->id and month(date) = month(CURRENT_DATE) and year(date) = year(CURRENT_DATE)");
-                            $featchRow = $source->SingleRow();
+                                foreach ($products as $product) :
+                                    $price = $product->price * .10;
+                                    $offerprice = $product->price - $price;
+                                    echo "
+                  
+                  <div class='col-sm-3'>
+                      <div class='card' >
+                        <img src='assets/productsimg/" . $product->id . ".jpg' class='card-img-top' style='height:200px;' alt=''>
+                        <div class='card-body'>
+                          <p class='card-text ' style='height:30px;'>" . $product->name . "</p>
+                          <strong>" . intval($offerprice) . " TK</strong><br>
+                          <del><strong class = 'text-secondary'>" . $product->price . " TK</strong></del><br>
+                          
+                          <ul>
+                            <li><i class='fas fa-star'></i></li>
+                            <li><i class='fas fa-star'></i></li>
+                            <li><i class='fas fa-star'></i></li>
+                            <li><i class='fas fa-star'></i></li>
+                            <li><i class='fas fa-star'></i></li>
+                          </ul>
+                          <a href='productdetails.php?clicked=" . $product->id . "' class='btn btn-outline-info text-dark'>See Details</a>
+                        </div>
+                      </div>
+                    </div>
+                  
+                  ";
 
-                            //NOTE 60% qty for product
-                            $parcent = (int)(($featchRow->qtyy * 60) / 100);
+                                endforeach;
+                            } elseif (isset($_GET['category'])  && isset($_GET['sub_category'])) {
+                                $query = $source->Query("SELECT * FROM `products` where category = ? and sub_category = ? ", [$_GET['category'], $_GET['sub_category']]);
+                                $products = $source->FetchAll();
+                                $totalRow = $source->CountRows();
 
-                            echo "
-                                    <tr>
-                                    <td class='col-1 border-left border-right'> <img class='rounded m-1' style='height:60px;' src='assets/productsimg/" . $featchRow->pid . ".jpg' alt='Sample'></td>
-                                    <td class='border-right'>" . $featchRow->pid . "</td>
-                                    <td class='border-right'>" . $featchRow->pname . "</td>
-                                    <td class='border-right'>" . $row->qty . "</td>
-                                    <td class='border-right'>" . $featchRow->qtyy . "</td>
-                                    <td class='border-right'>" . $parcent . "</td>
-                                    <td class='border-right'>" . $row->price . "</td>
-                                    <td class='border-right'>" . $featchRow->category . "</td>
-                                    <td class='border-right'>" . $featchRow->sub_category . "</td>
-                                    <td class='border-right col-1 bg-info'>Finished Before 20th</td>";
-                            echo "
-                                    </tr>";
-                        } else {
-                            $query = $source->Query("SELECT pid,pname,sum(qty) as qtyy,price,category,sub_category  FROM `order` where pid = $row->id and month(date) = month(CURRENT_DATE) and year(date) = year(CURRENT_DATE)");
-                            $featchRow = $source->SingleRow();
-                            $nummm = $source->CountRows();
-                            echo $nummm;
-                            echo $featchRow->pid;
-                            //NOTE 20% qty for product
-                            $parcent = (int)(($featchRow->qtyy * 20) / 100);
-                            echo "
-                                    <tr>
-                                    <td class='col-1 border-left border-right'> <img class='rounded m-1' style='height:60px;' src='assets/productsimg/" . $featchRow->pid . ".jpg' alt='Sample'></td>
-                                    <td class='border-right'>" . $featchRow->pid . "</td>
-                                    <td class='border-right'>" . $featchRow->pname . "</td>
-                                    <td class='border-right'>" . $row->qty . "</td>
-                                    <td class='border-right'>" . $featchRow->qtyy . "</td>
-                                    <td class='border-right'>" . $parcent . "</td>
-                                    <td class='border-right'>" . $row->price . "</td>
-                                    <td class='border-right'>" . $featchRow->category . "</td>
-                                    <td class='border-right'>" . $featchRow->sub_category . "</td>
-                                    <td class='border-right col-1 bg-info'>Finished Before 20th</td>";
-                            echo "
-                                    </tr>";
-                        }
-                        $allproductid[] = $row->id;
+                                foreach ($products as $product) :
+                                    $price = $product->price * .10;
+                                    $offerprice = $product->price - $price;
+                                    echo "
+                  
+                  <div class='col-sm-3'>
+                      <div class='card' >
+                        <img src='assets/productsimg/" . $product->id . ".jpg' class='card-img-top' style='height:200px;' alt=''>
+                        <div class='card-body'>
+                          <p class='card-text ' style='height:30px;'>" . $product->name . "</p>
+                          <strong>" . intval($offerprice) . " TK</strong><br>
+                          <del><strong class = 'text-secondary'>" . $product->price . " TK</strong></del><br>
+                          
+                          <ul>
+                            <li><i class='fas fa-star'></i></li>
+                            <li><i class='fas fa-star'></i></li>
+                            <li><i class='fas fa-star'></i></li>
+                            <li><i class='fas fa-star'></i></li>
+                            <li><i class='fas fa-star'></i></li>
+                          </ul>
+                        </div>
+                        <a href='productdetails.php?clicked=" . $product->id . "' class='btn btn-outline-info text-dark p-2'>See Details</a>
+                      </div>
+                    </div>
+                  
+                  ";
 
-                    endforeach;
- //NOTE End of low qty before 20th of this month
-
-
-//NOTE Getting product from product table where  date >=25
-                    // FIXME change day 25;
-                    $query = $source->Query("SELECT * FROM `products` where season = $currentSeason and day(current_date)>='25' ");
-                    $season = $source->FetchAll();
-                    $numrow = $source->CountRows();
-                    foreach ($season as $row) {
-                        if (!in_array($row->id, $allproductid)) {
-                            // NOTE Next Month
-                            if ($currentMonth != `12`) {
-                                $nextMonth  = $currentMonth + 1;
+                                endforeach;
                             } else {
-                                $nextMonth = 1;
-                            }
-                            // NOTE next season
-                            $mon = $source->Query("SELECT * FROM `month` where `id` = $nextMonth");
-                            $nextS = $source->SingleRow();
-                            $nextSeason = $nextS->season;
+                                $i = 0;
+                                for ($i = 0; $i <= 23; $i++) {
+                                    $randomNumber = [];
+                                    $randNum = rand(2, 400);
+                                    if (!in_array($randNum, $randomNumber)) {
+                                        $query = $source->Query("SELECT * FROM `products` where id = ?", [$randNum]);
+                                        $product = $source->SingleRow();
 
-                            //NOTE product table ar product ar qty
-                            $productid = $source->Query("SELECT * FROM `products` where `id` = $row->id");
-                            $pqty = $source->SingleRow();
-                            $productqty = $pqty->qty;
-                            // FIXME 
-                            if ($currentSeason == $nextSeason) {
-                                $query = $source->Query("SELECT pid,pname,sum(qty) as qtyy,price,category,sub_category  FROM `order` where pid = $row->id and month(date) = month(CURRENT_DATE) and year(date) = year(CURRENT_DATE)");
-                                $featchRow = $source->SingleRow();
-
-                                //NOTE 60% qty for product
-                                $parcent60 = (int)(($featchRow->qtyy * 60) / 100);
-
-                                if ($productqty <= $parcent60) {
-                                    $addqty = $parcent60 - $productqty;
-                                    echo "
-                                    <tr>
-                                    
-                                    <td class='border-right'>" . $featchRow->pid . "</td>
-                                    <td class='border-right'>" . $featchRow->pname . "</td>
-                                    <td class='border-right'>" . $row->qty . "</td>
-                                    <td class='border-right'>" . $featchRow->qtyy . "</td>
-                                    <td class='border-right'>" . $addqty . "</td>
-                                    <td class='border-right'>" . $featchRow->price . "</td>
-                                    <td class='border-right'>" . $featchRow->category . "</td>
-                                    <td class='border-right'>" . $featchRow->sub_category . "</td>
-                                    <td class='border-right col-1 bg-dark text-white'>After 25</td>";
-                                    echo "
-                                    </tr>";
+                                        $price = intval($product->price) * .10;
+                                        $offerprice = $product->price - intval($price);
+                                        echo "
+                      
+                      <div class='col-sm-3'>
+                          <div class='card' >
+                            <img src='assets/productsimg/" . $product->id . ".jpg' class='card-img-top' style='height:200px;' alt=''>
+                            <div class='card-body'>
+                              <p class='card-text ' style='height:30px;'>" . $product->name . "</p>
+                              <strong>" . intval($offerprice) . " TK</strong><br>
+                              <del><strong class = 'text-secondary'>" . $product->price . "</strong></del><br>
+                              
+                              <ul>
+                                <li><i class='fas fa-star'></i></li>
+                                <li><i class='fas fa-star'></i></li>
+                                <li><i class='fas fa-star'></i></li>
+                                <li><i class='fas fa-star'></i></li>
+                                <li><i class='fas fa-star'></i></li>
+                              </ul>
+                              
+                            </div>
+                            <a href='productdetails.php?clicked=" . $product->id . "' class='btn btn-outline-info p-2'>See Details</a>
+                          </div>
+                        </div>
+                      
+                      ";
+                                        $randomNumber[] = $randNum;
+                                    } else {
+                                        $i--;
+                                    }
                                 }
                             }
-                        }
-                    }
-// End of currentSeason == NextSeason
+                            ?>
 
-
-                    //NOTE  currentseason != Next season  Then Select next season product from database
-                    // NOTE Next Month
-                    if ($currentMonth != `12`) {
-                        $nextMonth  = $currentMonth + 1;
-                        echo $nextMonth;
-                    } else {
-                        $nextMonth = 1;
-                    }
-                    // NOTE next season
-                    $mon = $source->Query("SELECT * FROM `month` where `id` = $nextMonth");
-                    $nextS = $source->SingleRow();
-                    $nextSeason = $nextS->season;
-                    // NOTE next season NAME
-                    $mon = $source->Query("SELECT * FROM `season` where `id` = $nextMonth");
-                    $nextS = $source->SingleRow();
-                    $nextSeasonName = $nextS->season_name;
-                    //FIXME $currentSeason == $nextSeason change to $currentSeason != $nextSeason
-                    if($currentSeason == $nextSeason){
-                        $query = $source->Query("SELECT * FROM `PRODUCTS` WHERE SEASON = $nextSeason");
-                        $prodetails = $source->fetchAll();
-    
-                        foreach($prodetails as $pro):
-                            if($pro->qty <100){
-                                $qtyNeed = 100-$pro->qty;
-                                echo "
-                                <tr>
-                                
-                                <td class='border-right'>" . $pro->id . "</td>
-                                <td class='border-right'>" . $pro->name . "</td>
-                                <td class='border-right'>" . $pro->qty . "</td>
-                                <td class='border-right bg-secondary text-white'>No Order Will Show Now</td>
-                                <td class='border-right'>" . $qtyNeed . "</td>
-                                <td class='border-right'>" . $pro->price . "</td>
-                                <td class='border-right'>" . $pro->category . "</td>
-                                <td class='border-right'>" . $pro->sub_category . "</td>
-                                <td class='border-right'>" . $nextSeasonName . "</td>
-                                <td class='border-right col-1 bg-secondary text-white'>After 25</td>";
-                                echo "
-                                </tr>";
-                            }
-                            
-                        endforeach;
-                    }
-                    
-                    //NOTE End of CurrentSeason != NextSeason 
-
-                    ?>
-
-                </tbody>
-
-            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+
+
 
 
 
@@ -236,3 +350,10 @@ include "admin/product/splitfile/headerfile.php";
 </body>
 
 </html>
+
+
+
+<!-- // $media-lg:1199px;
+// $media-md:991px;
+// $media-sm:767px;
+// $media-xs:575px; -->

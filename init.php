@@ -1,5 +1,8 @@
 <?php
-session_start();
+if(!isset($_SESSION)) 
+{ 
+    session_start(); 
+} 
 
 spl_autoload_register(function($class_name){
     include "classes/$class_name.php";

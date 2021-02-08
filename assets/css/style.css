@@ -7,6 +7,9 @@
   background-color: #53d2c1;
   padding: 15px 0px;
 }
+.ddr{
+  background-color: #67d7c8;
+}
 
 @media (max-width: 1199px) {
   .headerSection {
@@ -129,7 +132,6 @@
     width: 24px;
   }
 }
-
 .headerSection .profile {
   text-align: right;
 }
@@ -179,6 +181,7 @@
   border-radius: 33px;
   padding: 10px 10px 160px 10px;
   position: fixed;
+  margin-left: -180px;
 }
 
 @media (max-width: 1199px) {
@@ -249,7 +252,7 @@
 }
 
 .bannerSection .catagory .accordion-button:hover {
-  color: red;
+  color: rgb(61, 245, 245);
 }
 
 @media (max-width: 575px) {
@@ -291,7 +294,7 @@
 }
 
 .bannerSection .catagory ul a:hover {
-  color: red;
+  color: rgb(61, 245, 245);
 }
 
 .bannerSection .product {

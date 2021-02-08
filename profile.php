@@ -151,35 +151,15 @@ echo $filename = $_FILES['image']['name'];
 
 <head>
     <link href="assets/css/profile.css?v=<?php echo time(); ?>" rel="stylesheet" type="text/css">
+    <?php include 'assets/splitfile/linkfiles.html'; ?>
 </head>
 
 <body>
 
+    
+    <?php include "assets/splitfile/header.php" ?>
     <form action="profile.php" method="post" enctype="multipart/form-data">
         <div class="topbar">
-
-            <h1 class="dbtitle"><a href="home.php">Daily Bazar</a></h1>
-            <div class="search">
-                <input type="search" name="searchinput">
-                <img src="assets/img/search.svg">
-            </div>
-            <div class="wishlist">
-                <img class="heart" src="assets/img/heart2.png">
-                <h3>Wishlist</h3>
-                <img class="shopping" src="assets/img/shopping.png">
-            </div>
-            <div class="profile">
-                <img src="assets/img/profile.svg" alt="">
-                <h4 id="profname" onclick="show_hideprof()"><?php
-                                                            echo $_SESSION['login_success'];
-                                                            ?></h4>
-                <div class="subprof" style="display:none;" id="subprof">
-                    <li> <a href="profile.php">Profile</a> </li>
-                    <li> Orders </li>
-                    <li> <a href="logout.php">Logout</a> </li>
-                </div>
-            </div>
-
             <!-- -------------------------------------------------------------Profile Edit ------------------------------------------------------------->
             <div class="profpic">
                 <?php

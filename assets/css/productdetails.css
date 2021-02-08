@@ -1,16 +1,18 @@
-.navbar{
-    background-color: #00BFA6;
+.container-fluid .row{
+    margin-left: 250px;
 }
-.navbar-nav li{
-    font-size: 1.6rem;
+
+.product img{
+    width: 300px;
 }
-.productpicture img{
-    width: 50%;
+.suggPro{
+    width: 100px;
+    display: inline-block;
+    
 }
-.size input{
-    width: 50px;
-}
-.sizetitle{
-    font-size: 30px;
-    color: black;
+.suggPro .card{
+    width: 220px;
+    margin-top: 100px;
+    margin-left: 530px;
+
 }
