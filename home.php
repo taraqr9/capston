@@ -212,7 +212,40 @@ if (isset($_POST['profile'])) {
                     <ul>
                       <li><a href="home.php?category=24&sub_category=25">
                           <h4>Fruit</h4>
-                        </a></li>
+                        </a>
+                      </li>
+                      <li><a href="home.php?category=24&sub_category=26">
+                          <h4>Cooking Essential</h4>
+                        </a>
+                      </li>
+                      <li><a href="home.php?category=24&sub_category=27">
+                          <h4>Vegetables</h4>
+                        </a>
+                      </li>
+                      <li><a href="home.php?category=24&sub_category=28">
+                          <h4>Meat</h4>
+                        </a>
+                      </li>
+                      <li><a href="home.php?category=24&sub_category=29">
+                          <h4>Fish</h4>
+                        </a>
+                      </li>
+                      <li><a href="home.php?category=24&sub_category=30">
+                          <h4>Chocolate and Candies</h4>
+                        </a>
+                      </li>
+                      <li><a href="home.php?category=24&sub_category=31">
+                          <h4>Baby food & Care</h4>
+                        </a>
+                      </li>
+                      <li><a href="home.php?category=24&sub_category=32">
+                          <h4>Bread,Biscuits & Cake</h4>
+                        </a>
+                      </li>
+                      <li><a href="home.php?category=24&sub_category=33">
+                          <h4>Drinks</h4>
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -302,7 +335,7 @@ if (isset($_POST['profile'])) {
                     $product = $source->SingleRow();
 
                     $price = intval($product->price) * .10;
-                    $offerprice = $product->price - intval($price);
+                    $offerprice = intval($product->price - $price);
                     echo "
                       
                       <div class='col-sm-3'>
