@@ -286,15 +286,15 @@ elseif(isset($_POST['nextseason'])){
                     $mon = $source->Query("SELECT * FROM `season` where `id` = $nextMonth");
                     $nextS = $source->SingleRow();
                     $nextSeasonName = $nextS->season_name;
-                    //FIXME $currentSeason == $nextSeason change to $currentSeason != $nextSeason
+                    //FIXME $currentSeason == $nextSeason change to $currentSeason != $nextSeason (FIXED)
                     if($currentSeason != $nextSeason){
                         $query = $source->Query("SELECT * FROM `PRODUCTS` WHERE SEASON = $nextSeason");
                         $prodetails = $source->fetchAll();
-    
+
                         foreach($prodetails as $pro):
-                            //FIXME $pro->qty <100 to $pro->qty <50
-                            if($pro->qty <50){
-                                $qtyNeed = 50-$pro->qty;
+                            
+                            if($pro->qty <25){
+                                $qtyNeed = 25-$pro->qty;
                                 echo "
                                 <tr>
                                 <td class='col-1 border'> <img class='rounded m-1' style='height:60px;' src='../../assets/productsimg/" . $pro->id . ".jpg' alt='Sample'></td>
@@ -380,7 +380,7 @@ elseif(isset($_POST['allseason'])){
 
 
                     //NOTE data will show only 25,26,27,28
-                    if(date('d') == 25 || date('d') == 26 || date('d') == 27 || date('d') == 28 ){
+                    if(date('d') == 13 || date('d') == 25 || date('d') == 26 || date('d') == 27 || date('d') == 28 ){
                         $query = $source->Query("SELECT * FROM `products` where season = '1'");
                         $allseason = $source->FetchAll();
 
@@ -425,7 +425,7 @@ elseif(isset($_POST['allseason'])){
                                         <td class='border'>" . $cateName . "</td>
                                         <td class='border'>" . $subCateName . "</td>
                                         <td class='border'>All Season</td>
-                                        <td class='border col-1 bg-danger text-white'>Next Month</td>";
+                                        <td class='border col-1 bg-info text-white'>Next Month</td>";
                                     echo "
                                         </tr>";
                             }
