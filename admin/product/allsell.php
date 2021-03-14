@@ -313,12 +313,12 @@ if(isset($_POST['nextmonth'])){
                                 }
                             }
 
-                            //Product table last 10 days not sold items
+                            //NOTE Product table last 10 days not sold items
                             if (!in_array($product->id, $proid)) {
                                 $query = $source->Query("SELECT name,min(DATEDIFF(CURDATE(),date)) as dayy from `products` where id = ?", [$product->id]);
                                 $date = $source->SingleRow();
 
-                                //Number of day you want show from product table - 10days
+                                //NOTE Number of day you want show from product table - 10days
                                 if ($date->dayy >= 10) {
                                     echo "
                                 <tr class='col-1 border-left border-right border-bottom'>

@@ -17,6 +17,30 @@ if(isset($_POST['back'])){
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <!-- Style for not sold page alert info -->
+    <style>
+        .alert {
+            padding: 20px;
+            background-color: #47A8F5;
+            color: white;
+        }
+
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 30px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .closebtn:hover {
+            color: black;
+        }
+    </style>
     
 </head>
 
@@ -67,16 +91,16 @@ if(isset($_POST['before20'])){
 
     echo "<thead>
                         <tr>
-                            <th class='col-1 border-left border-right'></th>
-                            <th class='col-1 border-right'>PID</th>
-                            <th class='col-1 border-right'>Name</th>
-                            <th class='col-1 border-right'>QTY LEFT</th>
-                            <th class='col-1 border-right'>QTY ORDERED</th>
-                            <th class='col-1 border-right'>QTY NEED</th>
-                            <th class='col-1 border-right'>PRICE</th>
-                            <th class='col-1 border-right'>CATEGORY</th>
-                            <th class='col-1 border-right'>SUB CATEGORY</th>
-                            <th class='col-1 border-right bg-info text-white'>REASON</th>
+                            <th class='col-1 border-left border'></th>
+                            <th class='col-1 border'>PID</th>
+                            <th class='col-1 border'>Name</th>
+                            <th class='col-1 border'>QTY LEFT</th>
+                            <th class='col-1 border'>QTY ORDERED</th>
+                            <th class='col-1 border'>QTY NEED</th>
+                            <th class='col-1 border'>PRICE</th>
+                            <th class='col-1 border'>CATEGORY</th>
+                            <th class='col-1 border'>SUB CATEGORY</th>
+                            <th class='col-1 border bg-info text-white'>REASON</th>
                         </tr>
                     </thead>
                     ";
@@ -120,16 +144,16 @@ if(isset($_POST['before20'])){
 
                             echo "
                 <tr>
-                <td class='col-1 border-left border-right'> <img class='rounded m-1' style='height:60px;' src='../../assets/productsimg/" . $featchRow->pid . ".jpg' alt='Sample'></td>
-                <td class='border-right'>" . $featchRow->pid . "</td>
-                <td class='border-right'>" . $featchRow->pname . "</td>
-                <td class='border-right'>" . $row->qty . "</td>
-                <td class='border-right'>" . $featchRow->qtyy . "</td>
-                <td class='border-right'>" . $parcent . "</td>
-                <td class='border-right'>" . $row->price . "</td>
-                <td class='border-right'>" . $featchRow->category . "</td>
-                <td class='border-right'>" . $featchRow->sub_category . "</td>
-                <td class='border-right col-1 bg-info text-white'>Finished Before 20th</td>";
+                <td class='col-1 border-left border'> <img class='rounded m-1' style='height:60px;' src='../../assets/productsimg/" . $featchRow->pid . ".jpg' alt='Sample'></td>
+                <td class='border'>" . $featchRow->pid . "</td>
+                <td class='border'>" . $featchRow->pname . "</td>
+                <td class='border bg-warning'>" . $row->qty . "</td>
+                <td class='border'>" . $featchRow->qtyy . "</td>
+                <td class='border bg-info'>" . $parcent . "</td>
+                <td class='border'>" . $row->price . "</td>
+                <td class='border'>" . $featchRow->category . "</td>
+                <td class='border'>" . $featchRow->sub_category . "</td>
+                <td class='border col-1 bg-info text-white'>Finished Before 20th</td>";
                             echo "
                 </tr>";
                         } 
@@ -146,9 +170,9 @@ if(isset($_POST['before20'])){
                                 <td class='col-1 border-left border'> <img class='rounded m-1' style='height:60px;' src='../../assets/productsimg/" . $featchRow->pid . ".jpg' alt='Sample'></td>
                                 <td class='border'>" . $featchRow->pid . "</td>
                                 <td class='border'>" . $featchRow->pname . "</td>
-                                <td class='border'>" . $row->qty . "</td>
+                                <td class='border bg-warning'>" . $row->qty . "</td>
                                 <td class='border'>" . $featchRow->qtyy . "</td>
-                                <td class='border'>" . $parcent . "</td>
+                                <td class='border bg-info'>" . $parcent . "</td>
                                 <td class='border'>" . $row->price . "</td>
                                 <td class='border'>" . $featchRow->category . "</td>
                                 <td class='border'>" . $featchRow->sub_category . "</td>
@@ -180,7 +204,7 @@ elseif(isset($_POST['on25'])){
                     </thead>
                     ";
                     //NOTE data will show only 25,26,27,28
-                    if(date('d') == 25 || date('d') == 26 || date('d') == 27 || date('d') == 28 ){
+                    if(date('d') == 25 || date('d') == 26 || date('d') == 27 || date('d') == 28){
                     $date = date('M');
                     $month =  date('m', strtotime($date));
                     $mon = $source->Query("SELECT * FROM `month` where `id` = $month");
@@ -286,7 +310,7 @@ elseif(isset($_POST['nextseason'])){
                     $mon = $source->Query("SELECT * FROM `season` where `id` = $nextMonth");
                     $nextS = $source->SingleRow();
                     $nextSeasonName = $nextS->season_name;
-                    //FIXME $currentSeason == $nextSeason change to $currentSeason != $nextSeason (FIXED)
+                    
                     if($currentSeason != $nextSeason){
                         $query = $source->Query("SELECT * FROM `PRODUCTS` WHERE SEASON = $nextSeason");
                         $prodetails = $source->fetchAll();
@@ -319,6 +343,7 @@ elseif(isset($_POST['nextseason'])){
 
 }
 
+//NOTE  All season
 elseif(isset($_POST['allseason'])){
     echo "<thead>
                         <tr>
@@ -345,9 +370,12 @@ elseif(isset($_POST['allseason'])){
                         $query = $source->Query("SELECT pid,pname,sum(qty) as qtyy,price,category,sub_category  FROM `order` where pid = $row->id and month(date) = month(CURRENT_DATE) and year(date) = year(CURRENT_DATE)");
                         $featchRow = $source->SingleRow();
 
+                        //NOTE checking product sold on this month or not 
                         $testid = $source->Query("SELECT *  FROM `order` where pid = $row->id and month(date) = month(CURRENT_DATE) and year(date) = year(CURRENT_DATE)");
                         $getRow = $source->SingleRow();
                         $rownumm = $source->CountRows();
+
+                        //NOTE if sold then
                         if($rownumm>0 && !in_array($row->id,$allproductid)){
                             $category = $source->Query("SELECT * FROM `product_categories` where id = $row->category");
                             $cate = $source->SingleRow();
@@ -365,7 +393,7 @@ elseif(isset($_POST['allseason'])){
                                     <td class='border'>" . $featchRow->pname . "</td>
                                     <td class='border'>" . $row->qty . "</td>
                                     <td class='border'>" . $featchRow->qtyy . "</td>
-                                    <td class='border'>" . $qtyneed . "</td>
+                                    <td class='border bg-info'>" . $qtyneed . "</td>
                                     <td class='border'>" . $row->price . "</td>
                                     <td class='border'>" . $cateName . "</td>
                                     <td class='border'>" . $subCateName . "</td>
@@ -376,11 +404,11 @@ elseif(isset($_POST['allseason'])){
                         }
                         $allproductid[] = $row->id;
                     }
-//NOTE END OF THE MOTNH
+//NOTE END OF LOW QTY
 
 
                     //NOTE data will show only 25,26,27,28
-                    if(date('d') == 13 || date('d') == 25 || date('d') == 26 || date('d') == 27 || date('d') == 28 ){
+                    if(date('d') == 25 || date('d') == 26 || date('d') == 27 || date('d') == 28 ){
                         $query = $source->Query("SELECT * FROM `products` where season = '1'");
                         $allseason = $source->FetchAll();
 
@@ -402,7 +430,8 @@ elseif(isset($_POST['allseason'])){
                                 $category1 = $source->Query("SELECT * FROM `product_categories` where id = $row->sub_category");
                                 $cate1 = $source->SingleRow();
                                 $subCateName = $cate1->categories;
-        
+                                
+                                //NOTE if sell low then demand qty low
                                 if($featchRow->qtyy >=70){
                                     $qtyneed = 60;
                                 }elseif($featchRow->qtyy >=50){
@@ -420,7 +449,7 @@ elseif(isset($_POST['allseason'])){
                                         <td class='border'>" . $featchRow->pname . "</td>
                                         <td class='border'>" . $row->qty . "</td>
                                         <td class='border'>" . $featchRow->qtyy . "</td>
-                                        <td class='border'>" . $qtyneed . "</td>
+                                        <td class='border bg-info'>" . $qtyneed . "</td>
                                         <td class='border'>" . $row->price . "</td>
                                         <td class='border'>" . $cateName . "</td>
                                         <td class='border'>" . $subCateName . "</td>
@@ -432,7 +461,12 @@ elseif(isset($_POST['allseason'])){
                             }
                         }
                     }else{
-                        echo "Other data will show after 25th Of the month";
+                        echo " 
+                    <div class='alert'>
+                        <span class='closebtn ' onclick='this.parentElement.style.display='none';'>&times;</span> 
+                        <strong class = 'h4'>Info!</strong> <span class = 'h5'>Other item will show on 25 to 28 of this month.</span>
+                    </div>
+                    ";
                     }
         }
 else{
@@ -441,16 +475,16 @@ else{
 
     echo "<thead>
                         <tr>
-                            <th class='col-1 border-left border-right'></th>
-                            <th class='col-1 border-right'>PID</th>
-                            <th class='col-1 border-right'>Name</th>
-                            <th class='col-1 border-right'>QTY LEFT</th>
-                            <th class='col-1 border-right'>QTY ORDERED</th>
-                            <th class='col-1 border-right'>QTY NEED</th>
-                            <th class='col-1 border-right'>PRICE</th>
-                            <th class='col-1 border-right'>CATEGORY</th>
-                            <th class='col-1 border-right'>SUB CATEGORY</th>
-                            <th class='col-1 border-right bg-info text-white'>REASON</th>
+                            <th class='col-1 border-left border'></th>
+                            <th class='col-1 border'>PID</th>
+                            <th class='col-1 border'>Name</th>
+                            <th class='col-1 border'>QTY LEFT</th>
+                            <th class='col-1 border'>QTY ORDERED</th>
+                            <th class='col-1 border'>QTY NEED</th>
+                            <th class='col-1 border'>PRICE</th>
+                            <th class='col-1 border'>CATEGORY</th>
+                            <th class='col-1 border'>SUB CATEGORY</th>
+                            <th class='col-1 border bg-info text-white'>REASON</th>
                         </tr>
                     </thead>
                     ";
@@ -494,16 +528,16 @@ else{
 
                             echo "
                 <tr>
-                <td class='col-1 border-left border-right'> <img class='rounded m-1' style='height:60px;' src='../../assets/productsimg/" . $featchRow->pid . ".jpg' alt='Sample'></td>
-                <td class='border-right'>" . $featchRow->pid . "</td>
-                <td class='border-right'>" . $featchRow->pname . "</td>
-                <td class='border-right'>" . $row->qty . "</td>
-                <td class='border-right'>" . $featchRow->qtyy . "</td>
-                <td class='border-right'>" . $parcent . "</td>
-                <td class='border-right'>" . $row->price . "</td>
-                <td class='border-right'>" . $featchRow->category . "</td>
-                <td class='border-right'>" . $featchRow->sub_category . "</td>
-                <td class='border-right col-1 bg-info text-white'>Finished Before 20th</td>";
+                <td class='col-1 border-left border'> <img class='rounded m-1' style='height:60px;' src='../../assets/productsimg/" . $featchRow->pid . ".jpg' alt='Sample'></td>
+                <td class='border'>" . $featchRow->pid . "</td>
+                <td class='border'>" . $featchRow->pname . "</td>
+                <td class='border'>" . $row->qty . "</td>
+                <td class='border'>" . $featchRow->qtyy . "</td>
+                <td class='border'>" . $parcent . "</td>
+                <td class='border'>" . $row->price . "</td>
+                <td class='border'>" . $featchRow->category . "</td>
+                <td class='border'>" . $featchRow->sub_category . "</td>
+                <td class='border col-1 bg-info text-white'>Finished Before 20th</td>";
                             echo "
                 </tr>";
                         } 

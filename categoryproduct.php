@@ -62,9 +62,6 @@ $parent_cate = $_GET['category'];
                                 <li><a href="cart.php" class="h5 text-light link-unstyled">Cart</a></li>
                                 <li><a href="logout.php" class="h5 text-light text-decoration-none">Logout</a></li>
                             </ul>
-
-
-
                         </div>
                     </li>
                 </ul>
@@ -80,17 +77,17 @@ $parent_cate = $_GET['category'];
         if ($row > 0) {
             foreach ($products as $product) {
                 echo   "<div class='mainbody col-sm-5 col-md-5 col-lg-2'>
-                   <div class='card bg-light'>
-                        <img class='card-img-top ' src='assets/productsimg/" . $product->image . "'>
-                        <div class='card-body'>
-                            <span class='card-title '>" . $product->name . "</span>
-                            <hr>
-                            <p class='card-text h5'>" . $product->price . " Tk</p>
-                            <p class='card-text h5'>" . $product->id . " Tk</p>
-                            <a href='productdetails.php?clicked=" . $product->id . "' class='btn btn-outline-success mr-auto'>See Details</a>
-                        </div>
-		            </div>
-	            </div>";
+                            <div class='card bg-light'>
+                                <img class='card-img-top ' src='assets/productsimg/" . $product->image . "'>
+                                <div class='card-body'>
+                                    <span class='card-title '>" . $product->name . "</span>
+                                    <hr>
+                                    <p class='card-text h5'>" . $product->price . " Tk</p>
+                                    <p class='card-text h5'>" . $product->id . " Tk</p>
+                                    <a href='productdetails.php?clicked=" . $product->id . "' class='btn btn-outline-success mr-auto'>See Details</a>
+                                </div>
+                            </div>
+                        </div>";
             }
         }
         ?>
