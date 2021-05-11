@@ -5,6 +5,8 @@ if (!isset($_SESSION['id'])) {
 }
 if (isset($_POST['profile'])) {
   header('location:prfile.php');
+
+  // FIXME search result unknow
 }
 
 ?>
@@ -260,7 +262,7 @@ if (isset($_POST['profile'])) {
             <div class="row">
               <?php
               if (isset($_POST['searchBtn']) && !empty($_POST['search'])) {
-                $query = $source->Query("SELECT * FROM products WHERE name like '%%'");
+                $query = $source->Query("SELECT * FROM products WHERE name LIKE '%".$_POST['search']."%'");
                 $products = $source->FetchAll();
                 $totalRow = $source->CountRows();
 

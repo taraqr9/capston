@@ -12,7 +12,6 @@ if (!empty($_GET['clicked'])) {
     $qty = $product->qty;;
     $sub_cate = $product->sub_category;
     $category = $product->category;
-    $productIn = [];
     $productIn[] = $_GET['clicked'];
 } else if (!empty($_SESSION['pid'])) {
     $query = $source->Query("SELECT * FROM products WHERE id=?", [$_SESSION['pid']]);
@@ -63,6 +62,7 @@ $offerprice = $product->price - $price;
             color: #fcc45f;
         }
     </style>
+    <link href="assets/css/successAlart.css?v=<?php echo time(); ?>" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -175,39 +175,42 @@ $offerprice = $product->price - $price;
 
                 for ($i = 1; $i <= 8; $i++) {
                     $randomId = rand($minId, $maxId);
-                    if (!in_array($randomId, $productIn)) {
-                        $query = $source->Query("SELECT * FROM products WHERE id=?", [$randomId]);
-                        $product = $source->SingleRow();
-                        echo "
-                        
-                        <div class='suggPro  col-2'>
-                            <div class='card' >
-                                <img src='assets/productsimg/" . $product->id . ".jpg' class='card-img-top m-auto' style='height:200px; width:200px;' alt=''>
-                                <div class='card-body'>
-                                    <p class='card-text' style='height:20px;'>" . $product->name . "</p>
-                                    <strong>" . intval($offerprice) . " TK</strong><br>
-                                    <del><strong class = 'text-secondary'>" . $product->price . "</strong></del><br>
-                                    
-                                    <div class='stars'>
-                                        <span><i class='fas fa-star'></i></span>
-                                        <span><i class='fas fa-star'></i></span>
-                                        <span><i class='fas fa-star'></i></span>
-                                        <span><i class='fas fa-star'></i></span>
-                                        <span><i class='fas fa-star'></i></span>
+                    if(!empty($productIn)){
+                        if (!in_array($randomId, $productIn)) {
+                            $query = $source->Query("SELECT * FROM products WHERE id=?", [$randomId]);
+                            $product = $source->SingleRow();
+                            echo "
+                            
+                            <div class='suggPro  col-2'>
+                                <div class='card' >
+                                    <img src='assets/productsimg/" . $product->id . ".jpg' class='card-img-top m-auto' style='height:200px; width:200px;' alt=''>
+                                    <div class='card-body'>
+                                        <p class='card-text' style='height:20px;'>" . $product->name . "</p>
+                                        <strong>" . intval($offerprice) . " TK</strong><br>
+                                        <del><strong class = 'text-secondary'>" . $product->price . "</strong></del><br>
+                                        
+                                        <div class='stars'>
+                                            <span><i class='fas fa-star'></i></span>
+                                            <span><i class='fas fa-star'></i></span>
+                                            <span><i class='fas fa-star'></i></span>
+                                            <span><i class='fas fa-star'></i></span>
+                                            <span><i class='fas fa-star'></i></span>
+                                        </div>
                                     </div>
+                                    <a href='productdetails.php?clicked=" . $product->id . "' class='btn btn-outline-info p-2'>See Details</a>
                                 </div>
-                                <a href='productdetails.php?clicked=" . $product->id . "' class='btn btn-outline-info p-2'>See Details</a>
-                            </div>
-                        </div>";
-
-                        $productIn[] = $product->id;
-                    } else {
-                        $i--;
+                            </div>";
+    
+                            $productIn[] = $product->id;
+                        } else {
+                            $i--;
+                        }
+                        $br = $i % 4;
+                        if ($br == 0) {
+                            echo "<br>";
+                        }
                     }
-                    $br = $i % 4;
-                    if ($br == 0) {
-                        echo "<br>";
-                    }
+                    
                 }
 
                 ?>

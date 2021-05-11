@@ -15,7 +15,11 @@ if(!empty($_SESSION['size'])){
 if($row>0){
     header('location:../productdetails.php');
             $_SESSION['pid'] = $_GET['addtocart'];
-            $_SESSION['addtocart'] = "Already Added on your cart";
+            $_SESSION['addtocart'] = "
+            <div class='alert'>
+                    <span class='closebtn ' onclick='this.parentElement.style.display='none';'>&times;</span><span class = 'h5'>Already Added on your cart</span>
+                </div>
+                ";
 }
 else{
     if(!empty($_GET['addtocart'])){
@@ -33,13 +37,21 @@ else{
                 $_SESSION['size'] = "";
                 header('location:../productdetails.php');
                 $_SESSION['pid'] = $_GET['addtocart'];
-                $_SESSION['addtocart'] = "Product added successfully";
+                $_SESSION['addtocart'] = "
+                <div class='alert'>
+                    <span class='closebtn ' onclick='this.parentElement.style.display='none';'>&times;</span><span class = 'h5'>Already Added on your cart</span>
+                </div>
+                ";
             }
         }else{
             if ($source->Query("INSERT INTO `cart` (`pid`, `uid`,`pname`,`category`,`sub_category`,`price`) VALUES (?,?,?,?,?,?)", [$_GET['addtocart'],$_SESSION['id'],$pname,$category,$sub_cate,$price])){
                 header('location:../productdetails.php');
                 $_SESSION['pid'] = $_GET['addtocart'];
-                $_SESSION['addtocart'] = "Product added successfully";
+                $_SESSION['addtocart'] = "
+                <div class='alert'>
+                    <span class='closebtn ' onclick='this.parentElement.style.display='none';'>&times;</span><span class = 'h5'>Product added successfully</span>
+                </div>
+                ";
             }
         }
 }

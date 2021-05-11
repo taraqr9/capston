@@ -66,7 +66,10 @@ if (isset($_POST['proceed'])) {
 
                     $source->Query("UPDATE `products` set qty = ? where id = ?", [$uqty, $_GET['clicked']]);
 
-                    $_SESSION['shoping'] = "<div class='text-success'>Thank you for your shopping</div>";
+                    $_SESSION['shoping'] = "<div class='alert'>
+                    <span class='closebtn ' onclick='this.parentElement.style.display='none';'>&times;</span><span class = 'h5'>Thank you for your shopping</span>
+                </div>
+                ";
                 } else {
                     $_SESSION['shoping'] = "<div class='text-danger'>Something Went Wrong</div>".error_reporting(E_ALL);
                 }
@@ -82,6 +85,26 @@ if (isset($_POST['proceed'])) {
     <style>
         .stars {
             color: #fcc45f;
+        }
+        .alert {
+            padding: 20px;
+            background-color: #07AF0E;
+            color: white;
+        }
+
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 30px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .closebtn:hover {
+            color: black;
         }
     </style>
 </head>
