@@ -90,7 +90,6 @@
 }
 .navbar ul{
     display: flex;
-    
     margin-top: 30px;
     margin-left: 50px;
 }
@@ -163,7 +162,9 @@
 }
 
  */
- .navbar{
+
+
+.navbar{
     background-color: #00BFA6;
 }
 .navbar-nav li{

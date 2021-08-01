@@ -56,12 +56,12 @@ if(isset($_POST['back'])){
                 <div class="m-2 container ml-lg-auto">
                     <!-- category Dropdownlist -->
                     <div class="row">
+
                         <div class="mr-2">
                             <input type="submit" value="BacK" name="back" class="btn btn-outline-danger">
                         </div>
-                        <!-- men -->
                         <div class="mr-2">
-                            <input type="submit" value="Before 20" name="before20" class="btn btn-outline-info">
+                            <input type="submit" value="Before 20" name="before20" class="btn btn-outline-info" >
                         </div>
                         <div class="mr-2">
                             <input type="submit" value="On 25 TO 28" name="on25" class="btn btn-outline-info">
@@ -72,6 +72,7 @@ if(isset($_POST['back'])){
                         <div class="mr-2">
                             <input type="submit" value="ALL SEASON" name="allseason" class="btn btn-outline-info">
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -89,6 +90,11 @@ if(isset($_POST['back'])){
 if(isset($_POST['before20'])){
     //NOTE Low qty before 20th of this month
 
+    echo "
+    <div class='alert'>
+        <span class='closebtn ' onclick='this.parentElement.style.display='none';'>&times;</span><span class = 'h5'>Products that have expired before the 20th of this month </span>
+    </div>
+    ";
     echo "<thead>
                         <tr>
                             <th class='col-1 border-left border'></th>
@@ -120,7 +126,7 @@ if(isset($_POST['before20'])){
                     $numrow = $source->CountRows();
                     foreach ($lowqty as $row) :
                         // NOTE Next Month
-                        if ($currentMonth != `12`) {
+                        if ($currentMonth == `12`) {
                             $nextMonth  = $currentMonth + 1;
                         } else {
                             $nextMonth = 1;
@@ -188,6 +194,11 @@ if(isset($_POST['before20'])){
 
 //NOTE Getting product from product table where  date >=25
 elseif(isset($_POST['on25'])){
+    echo "
+    <div class='alert'>
+        <span class='closebtn ' onclick='this.parentElement.style.display='none';'>&times;</span><span class = 'h5'>Those product need on next month</span>
+    </div>
+    ";
     echo "<thead>
                         <tr>
                             <th class='col-1 border'></th>
@@ -204,7 +215,7 @@ elseif(isset($_POST['on25'])){
                     </thead>
                     ";
                     //NOTE data will show only 25,26,27,28
-                    if(date('d') == 25 || date('d') == 26 || date('d') == 27 || date('d') == 28){
+                    if(date('d') == 25 || date('d') == 26 || date('d') == 27 || date('d') == 28 || date('d') == 31){
                     $date = date('M');
                     $month =  date('m', strtotime($date));
                     $mon = $source->Query("SELECT * FROM `month` where `id` = $month");
@@ -222,7 +233,7 @@ elseif(isset($_POST['on25'])){
                     foreach ($season as $row) {
                         if (!in_array($row->id, $allproductid)) {
                             // NOTE Next Month
-                            if ($currentMonth != `12`) {
+                            if ($currentMonth == `12`) {
                                 $nextMonth  = $currentMonth + 1;
                             } else {
                                 $nextMonth = 1;
@@ -271,6 +282,11 @@ elseif(isset($_POST['on25'])){
 
 //NOTE  currentseason != Next season  Then Select next season product from database
 elseif(isset($_POST['nextseason'])){
+    echo "
+    <div class='alert'>
+        <span class='closebtn ' onclick='this.parentElement.style.display='none';'>&times;</span><span class = 'h5'>Products that need on next season</span>
+    </div>
+    ";
     echo "<thead>
                         <tr>
                             <th class='col-1 border'></th>
@@ -295,9 +311,12 @@ elseif(isset($_POST['nextseason'])){
                     $currentSeason = $row->season;
                     $currentMonth = $row->id;
                     $allproductid = [];
+                    
+                    $nextSeason = "";
+
                     //NOTE  currentseason != Next season  Then Select next season product from database
                     // NOTE Next Month
-                    if ($currentMonth != `12`) {
+                    if ($currentMonth == `12`) {
                         $nextMonth  = $currentMonth + 1;
                     } else {
                         $nextMonth = 1;
@@ -306,13 +325,15 @@ elseif(isset($_POST['nextseason'])){
                     $mon = $source->Query("SELECT * FROM `month` where `id` = $nextMonth");
                     $nextS = $source->SingleRow();
                     $nextSeason = $nextS->season;
+                    
                     // NOTE next season NAME
-                    $mon = $source->Query("SELECT * FROM `season` where `id` = $nextMonth");
+                    
+                    $mon = $source->Query("SELECT * FROM `season` where `id` = $nextSeason");
                     $nextS = $source->SingleRow();
                     $nextSeasonName = $nextS->season_name;
                     
                     if($currentSeason != $nextSeason){
-                        $query = $source->Query("SELECT * FROM `PRODUCTS` WHERE SEASON = $nextSeason");
+                        $query = $source->Query("SELECT * FROM `PRODUCTS` WHERE `SEASON` = $nextSeason");
                         $prodetails = $source->fetchAll();
 
                         foreach($prodetails as $pro):
@@ -345,6 +366,11 @@ elseif(isset($_POST['nextseason'])){
 
 //NOTE  All season
 elseif(isset($_POST['allseason'])){
+    echo "
+    <div class='alert'>
+        <span class='closebtn ' onclick='this.parentElement.style.display='none';'>&times;</span><span class = 'h5'>All season prodcuts </span>
+    </div>
+    ";
     echo "<thead>
                         <tr>
                             <th class='col-1 border'></th>
@@ -504,7 +530,7 @@ else{
                     $numrow = $source->CountRows();
                     foreach ($lowqty as $row) :
                         // NOTE Next Month
-                        if ($currentMonth != `12`) {
+                        if ($currentMonth == `12`) {
                             $nextMonth  = $currentMonth + 1;
                         } else {
                             $nextMonth = 1;

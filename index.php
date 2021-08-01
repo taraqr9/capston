@@ -87,7 +87,7 @@ if(isset($_POST['login'])){
                     <div class="error">
                         <?php if(!empty($data['password_error'])){ echo $data['password_error'];} ?>
                     </div>
-                    <p class="forgotpass">Forgot your password ?</p>
+                    
                     <div class="loginbtn">
                         <input type="submit" name="login" value="Login">
                     </div>

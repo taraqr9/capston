@@ -4,7 +4,7 @@ include("../init.php");
 $approval = "Pending";
 $query = $source->Query("UPDATE `order` SET status=? where oid=?",[$approval,$_GET['pending']]);
 if($query){
-    $_SESSION['pending_user'] = "User Pending Successfully";
+    $_SESSION['pending_user'] = "Product Pending Successfully";
     header("location:pending.php");
 }else{
     $_SESSION['pending_user'] = "Failed To Pending";
